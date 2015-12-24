@@ -11,9 +11,9 @@ var BookList = React.createClass({
 		return (
 			<ul className="ace-thumbnails clearfix">
 			{
-				books.map(book => {
+				books.map((book, j) => {
 					return (
-						<li>
+						<li key={j} >
 							<a href={book.alt} title={book.title} data-rel="colorbox" className="cboxElement">
 								<img height="300" alt={book.title} src={book.images.large} />
 							</a>
@@ -22,7 +22,7 @@ var BookList = React.createClass({
 								book.tags.map((tag, i) => {
 									if(i >= 4) return;
 									return (
-										<span className="label-holder">
+										<span className="label-holder" key={i}>
 											<span className={'label ' + labels[i]}>{tag.name}</span>
 										</span>
 									);
