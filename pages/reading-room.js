@@ -5,9 +5,9 @@ import BookList from '../components/Jkef/ReadingRoom/BookList';
 var ReadingRoom = React.createClass({
 	getInitialState: function() {
 		return {
-			getBookStartIndex: 0,
-			totalBooks: 1000,
-			books: []
+			getBookStartIndex: 0,		// 下一次搜索的起始位置
+			totalBooks: 1000,			// 图书总数
+			books: []					// 图书数据
 		};
 	},
 	moreBooks: function () {
@@ -15,6 +15,7 @@ var ReadingRoom = React.createClass({
 			tag: 'ngv_电子阅览室',
 			start: this.state.getBookStartIndex
 		}, (result => {
+			// 为下一次获取数据更新参数
 			this.setState({
 				books: this.state.books.concat(result.books),
 				getBookStartIndex: this.state.getBookStartIndex + result.count,
@@ -26,8 +27,11 @@ var ReadingRoom = React.createClass({
 		this.moreBooks();
 	},
 	render: function() {
+
+		// 设置一个标志，勇于标示是否需要显示MoreButton
 		var displayMoreButton = true;
-		if(this.state.totalBooks <= this.state.getBookStartIndex) displayMoreButton = false;
+		if(this.state.totalBooks <= this.state.getBookStartIndex)
+			displayMoreButton = false;
 
 		return (
 			<div className="main-content-inner">
