@@ -3,49 +3,64 @@
 */
 
 
-import React, { Component } from 'react';
 import SideBarShortcuts from './SideBarShortcuts';
 import SideBarNavList from './SideBarNavList';
 import Settings from './Settings';
 import Footer from './Footer';
 import Breadcrumbs from './Breadcrumbs';
+import {enableBreadcrumbs, enableSettings} from '../../config';
 
-class MainContainer extends Component {
-  render() {
-    return (
-        <div className="main-container" id="main-container">
-            <div id="sidebar" className="sidebar responsive">
-                
-                <SideBarShortcuts />
-                <SideBarNavList />
+var React = require('react');
 
-                <div className="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
-                    <i className="ace-icon fa fa-angle-double-left" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
+var MainContainer = React.createClass({
+    getInitialState: function() {
+        return {
+            enableBreadcrumbs: enableBreadcrumbs,
+            enableSettings: enableSettings 
+        };
+    },
+    render: function() {
+        var breadcrumbs = null;
+        if(this.state.enableBreadcrumbs) breadcrumbs = <Breadcrumbs {...this.props} />;
+
+        var settings = null;
+        if(this.state.enableSettings) settings = <Settings />;
+
+        return (
+            <div className="main-container" id="main-container">
+                <div id="sidebar" className="sidebar responsive">
+                    
+                    <SideBarShortcuts />
+                    <SideBarNavList />
+
+                    <div className="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
+                        <i className="ace-icon fa fa-angle-double-left" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
+                    </div>
                 </div>
-            </div>
 
-            <div className="main-content">
-                <div className="main-content-inner">
-                    <Breadcrumbs />
+                {this.props.children}
+                
+                <div className="main-content">
+                    <div className="main-content-inner">
+                        {breadcrumbs}
+                        <div className="page-content">
+                            {settings}
 
-                    <div className="page-content">
-                        <Settings />
-
-                        <div className="row">
-                            <div className="col-xs-12">
-                                {this.props.children}
+                            <div className="row">
+                                <div className="col-xs-12">
+                                    
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                <Footer />
+
             </div>
+        );
+    }
 
-            <Footer />
+});
 
-        </div>
-    );
-  }
-
-}
-
-export default MainContainer;
+module.exports = MainContainer;

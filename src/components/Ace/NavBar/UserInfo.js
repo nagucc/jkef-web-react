@@ -2,9 +2,9 @@
   使用Ace Admin Template的导航条组件
 */
 
-var React = require('react');
-import Ajax from 'react-ajax';
+import $ from 'jquery';
 
+var React = require('react');
 var UserInfo = React.createClass({
 
     getInitialState: function() {
@@ -15,16 +15,12 @@ var UserInfo = React.createClass({
     },
     componentDidMount: function() {
         $.ajax({
-            url: 'http://api.jkef.nagu.cc/auth/me',
-            xhrFields: {
-              withCredentials: true
-           }
-       }).always(function (result) {
-            console.log(result);
+            url: '/api/auth/wx-ent/me'
+       }).always(result => {
             this.setState({
                 me: result.data
             });
-       }.bind(this));
+       });
     },
 
     render: function() {

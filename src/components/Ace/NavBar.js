@@ -7,39 +7,41 @@ import React, { Component, PropTypes } from 'react';
 import UserInfo from './NavBar/UserInfo';
 import { title, description } from '../../config';
 
-class NavBar extends Component {
+var NavBar = React.createClass({
+    getDefaultProps: function() {
+        return {
+            enableUserInfo: true
+        };
+    },
+    render: function() {
+        var userInfo = null;
+        if(this.props.enableUserInfo) userInfo = <UserInfo {...this.props}/>;
+        
+        return (
+<div id="navbar" className="navbar navbar-default">
+    <button type="button" className="navbar-toggle menu-toggler pull-left" id="menu-toggler" data-target="#sidebar">
+        <span className="sr-only">Toggle sidebar</span>
 
-  static propTypes = {
-    title: PropTypes.string
-  };
+        <span className="icon-bar"></span>
 
-  render() {
-    return (
-        <div id="navbar" className="navbar navbar-default">
-            <button type="button" className="navbar-toggle menu-toggler pull-left" id="menu-toggler" data-target="#sidebar">
-                <span className="sr-only">Toggle sidebar</span>
+        <span className="icon-bar"></span>
 
-                <span className="icon-bar"></span>
+        <span className="icon-bar"></span>
+    </button>
 
-                <span className="icon-bar"></span>
+    <div className="navbar-header pull-left">
+        <a href="#" className="navbar-brand">
+            <small>
+                <i className="fa fa-leaf"></i>
+                {title}
+            </small>
+        </a>
+    </div>
+    {userInfo}
+</div>
+        );
+    }
 
-                <span className="icon-bar"></span>
-            </button>
+});
 
-            <div className="navbar-header pull-left">
-                <a href="#" className="navbar-brand">
-                    <small>
-                        <i className="fa fa-leaf"></i>
-                        {title}
-                    </small>
-                </a>
-            </div>
-
-            <UserInfo />
-        </div>
-    );
-  }
-
-}
-
-export default NavBar;
+module.exports = NavBar;

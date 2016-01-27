@@ -54,11 +54,12 @@ class App extends Component {
     this.removeCss();
   }
 
+
   render() {
     return !this.props.error ? (
       <div>
-        <NavBar />
-        <MainContainer>
+        <NavBar {...this.props}/>
+        <MainContainer {...this.props} >
           {this.props.children}
         </MainContainer>
       </div>

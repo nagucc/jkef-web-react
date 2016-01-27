@@ -15,7 +15,13 @@ import ReactDOM from 'react-dom/server';
 import Router from './routes';
 import Html from './components/Html';
 import assets from './assets';
-import { port } from './config';
+import { port, title, redisConfig } from './config';
+import cookieParser from 'cookie-parser';
+import session from 'express-session';
+import bodyParser from 'body-parser';
+
+var RedisStore = require('connect-redis')(session);
+
 
 const server = global.server = express();
 
@@ -23,11 +29,32 @@ const server = global.server = express();
 // Register Node.js middleware
 // -----------------------------------------------------------------------------
 server.use(express.static(path.join(__dirname, 'public')));
-
+server.use(cookieParser('jkef.nagu.cc cookie key'));
+server.use(session({
+  store: new RedisStore({
+    host: redisConfig.host,
+    port: redisConfig.port
+  }),
+  secret: 'jkef.nagu.cc session key',
+  resave: true,
+  saveUninitialized: false,
+  cookie: {
+    path    : '/',
+    httpOnly: false,
+    maxAge  : 24*60*60*1000
+  },
+}));
+server.use(bodyParser.json());
+server.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+  extended: true
+})); 
 //
 // Register API middleware
 // -----------------------------------------------------------------------------
 server.use('/api/content', require('./api/content'));
+server.use('/api/auth/wx-ent', require('./api/auth/wx-ent'));
+server.use('/api/jkef/acceptors', require('./api/jkef/acceptors'));
+server.use('/api/wx-ent/signup', require('./api/wx-ent/signup'));
 
 //
 // Register server-side rendering middleware
@@ -35,7 +62,7 @@ server.use('/api/content', require('./api/content'));
 server.get('*', async (req, res, next) => {
   try {
     let statusCode = 200;
-    const data = { title: '', description: '', css: '', body: '', entry: assets.main.js };
+    const data = { title: title, description: '', css: '', body: '', entry: assets.main.js };
     const css = [];
     const context = {
       insertCss: styles => css.push(styles._getCss()),

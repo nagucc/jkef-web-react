@@ -57,10 +57,12 @@ const config = {
 
   plugins: [
     new webpack.optimize.OccurenceOrderPlugin(),
+
   ],
 
   resolve: {
     extensions: ['', '.webpack.js', '.web.js', '.js', '.jsx', '.json'],
+    
   },
 
   module: {
@@ -69,6 +71,7 @@ const config = {
         test: /\.jsx?$/,
         include: [
           path.resolve(__dirname, '../node_modules/react-routing/src'),
+          path.resolve(__dirname, '../node_modules/nagu-react-components'),
           path.resolve(__dirname, '../src'),
         ],
         loader: 'babel-loader',
@@ -136,7 +139,13 @@ const clientConfig = merge({}, config, {
       }),
       new webpack.optimize.AggressiveMergingPlugin(),
     ] : []),
+    new webpack.ResolverPlugin(
+        new webpack.ResolverPlugin.DirectoryDescriptionFilePlugin(".bower.json", ["main"])
+    )
   ],
+  resolve: {
+    root: [path.join(__dirname, "bower_components")]
+  }
 });
 
 //
