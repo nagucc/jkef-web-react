@@ -10,7 +10,7 @@
 export const port = process.env.PORT || 5000;
 export const host = process.env.WEBSITE_HOSTNAME || `localhost:${port}`;
 export const googleAnalyticsId = 'UA-XXXXX-X';
-export const title = process.env.SiteName || '纳谷';
+export const title = process.env.SiteName || '纳谷社区';
 export const enableBreadcrumbs = false;
 export const enableSettings = false;
 
