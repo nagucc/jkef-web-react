@@ -106,7 +106,7 @@ class AcceptorManager {
     list(projections, cb, skip = 0, limit = 20) {
         Acceptor.find({}, projections, cb).skip(skip).limit(limit);
     }
-z
+
     upsert(acceptor, cb) {
         if(acceptor instanceof Acceptor){
             if(acceptor._id) {                  // _id已存在，更新文档
@@ -124,7 +124,70 @@ z
         Acceptor.findById(id, cb);
     }
 
+    /*
+    按年度进行统计
+    */
     statByYear(cb) {
+        Acceptor.mapReduce({
+            map: function () {
+                if(this.records){
+                    this.records.forEach(function (record) {
+                        emit(record.date.getYear() + 1900, {
+                            amount: record.amount / 1000,
+                            count: 1
+                        });
+                    });
+                }
+            },
+            reduce: function (key, values) {
+                var amount = 0, count = 0;
+                values.forEach((val)=>{
+                    amount += val.amount;
+                    count += val.count;
+                });
+                return {
+                    amount: amount,
+                    count: count
+                };
+            }
+        }, cb);
+    }
+
+    /*
+    按项目分组进行统计
+
+    */
+    statByProject(cb) {
+        Acceptor.mapReduce({
+            map: function () {
+                if(this.records){
+                    this.records.forEach(function (record) {
+                        emit(record.project, {
+                            amount: record.amount / 1000,
+                            count: 1
+                        });
+                    });
+                }
+            },
+            reduce: function (key, values) {
+                var amount = 0, count = 0;
+                values.forEach((val)=>{
+                    amount += val.amount;
+                    count += val.count;
+                });
+                return {
+                    amount: amount,
+                    count: count
+                };
+            }
+        }, cb);
+    }
+
+    /*
+    按年度和项目分组进行统计
+
+    */
+    statByYearAndProject(cb) {
         Acceptor.mapReduce({
             map: function () {
                 if(this.records){
@@ -133,20 +196,27 @@ z
                             project: record.project,
                             year: record.date.getYear() + 1900
                         }, {
-                            amount: record.amount,
+                            amount: record.amount / 1000,
                             count: 1
                         });
                     });
                 }
             },
             reduce: function (key, values) {
+                var amount = 0, count = 0;
+                values.forEach((val)=>{
+                    amount += val.amount;
+                    count += val.count;
+                });
                 return {
-                    amount: Array.sum(values),
-                    count: values.length
+                    amount: amount,
+                    count: count
                 };
             }
         }, cb);
     }
+
+
 
     remove(id, cb) {
         Acceptor.findByIdAndRemove(id, cb);
