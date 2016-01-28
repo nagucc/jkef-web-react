@@ -1,13 +1,5 @@
 import { Router } from 'express';
 import AcceptorManager from './model.js';
-import mongoose from 'mongoose';
-import {mongoUrl} from '../../config';
-
-mongoose.connect(mongoUrl);
-var db = mongoose.connection;
-db.on('error', function () {
-  throw new Error('unable to connect to database at ' + mongoUrl);
-});
 
 const router = new Router();
 var AM = new AcceptorManager();
@@ -37,6 +29,8 @@ var getCount = async (req, res, next) => {
 router.get('/count/:text', getCount);
 router.get('/count', getCount);
 
+
+// 必须放在最后匹配
 router.get('/:id', (req, res, next) => {
 	AM.findById(req.params.id, (err, result) => {
 		if(err) res.send({ret: -1, msg: err});
