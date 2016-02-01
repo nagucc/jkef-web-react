@@ -9,6 +9,7 @@
 
 import React from 'react';
 import Router from 'react-routing/src/Router';
+import {siteProfile} from './config';
 import fetch from './core/fetch';
 import App from './components/App';
 import ContentPage from './components/ContentPage';
@@ -25,10 +26,7 @@ var fetchJson = async function (url, options) {
     const res = await fetch(url, options);
     return await res.json();
 };
-
-
-const router = new Router(on => {
-
+const jkefRouter = new Router(on => {
   on('/wx-ent/signup', async (state, next) => {
     var signup = <WxSignup />;
     var props = {
@@ -36,6 +34,14 @@ const router = new Router(on => {
       enableUserInfo: false
     };
     return <App {...props}>{signup}</App>;
+  });
+
+  // 首页
+  on('/', () => {
+    var props = {
+      enableUserInfo: false
+    };
+    return <App {...props}><JkefIndex /></App>;
   });
 
   // 以下所有页面都使用默认App组件进行框架包裹
@@ -49,8 +55,7 @@ const router = new Router(on => {
     return component && <App {...props}>{component}</App>;
   });
 
-  // 首页
-  on('/', async () => <JkefIndex />);
+  // on('/', async () => <JkefIndex />);
 
   // 电子阅览室
   on('/reading-room', async () => <ReadingRoom />);
@@ -74,19 +79,15 @@ const router = new Router(on => {
     return <Edit {...acceptor.data} />;
   });
 
-  
-
-
-  // on('*', async (state) => {
-  //   const response = await fetch(`/api/content?path=${state.path}`);
-  //   const content = await response.json();
-  //   return content && <ContentPage {...content} />;
-  // });
-
   on('error', (state, error) => state.statusCode === 404 ?
     <App context={state.context} error={error}><NotFoundPage /></App> :
     <App context={state.context} error={error}><ErrorPage /></App>
   );
 });
 
-export default router;
+var routers = {
+  'jkef': jkefRouter
+};
+
+
+export default routers[siteProfile];

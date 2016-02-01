@@ -23,7 +23,8 @@ var jkefConfig = {
     icon: 'tachometer'
   }, {
     title: '电子阅览室',
-    target: '/reading-room'
+    target: '/reading-room',
+    icon: 'book'
   }, {
     title: '受赠者',
     target: '/acceptors'
