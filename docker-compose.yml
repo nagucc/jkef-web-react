@@ -1,0 +1,8 @@
+web:
+  image: daocloud.io/na57/jkef-web-react:master-init 
+  restart: always
+  ports:
+  - 40001:5000
+redis:
+  image: redis
+  restart: always
