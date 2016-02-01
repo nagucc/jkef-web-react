@@ -15,7 +15,7 @@ import ContentPage from './components/ContentPage';
 import NotFoundPage from './components/NotFoundPage';
 import ErrorPage from './components/ErrorPage';
 import ReadingRoom from './components/Jkef/ReadingRoom';
-import JkefIndex from './components/Jkef';
+import JkefIndex from './components/Jkef/Index';
 import Acceptors from './components/Jkef/Acceptors';
 import Detail from './components/Jkef/Acceptors/Detail';
 import Edit from './components/Jkef/Acceptors/Edit';
