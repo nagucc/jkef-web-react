@@ -29,6 +29,12 @@ class App extends Component {
     error: PropTypes.object,
   };
 
+  static defaultProps = {
+    context: {
+      insertCss: () => {}
+    }
+  };
+
   static childContextTypes = {
     insertCss: PropTypes.func.isRequired,
     onSetTitle: PropTypes.func.isRequired,
