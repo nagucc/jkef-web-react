@@ -3,7 +3,7 @@ var React = require('react');
 var BookList = React.createClass({
 	render: function() {
 		if (!this.props.books || !this.props.books.length)
-			return <p>no records</p>;
+			return <p>加载中……</p>;
 
 		var books = this.props.books;
 		var labels = ['label-info', 'label-danger', 'label-success', 'label-warning'];
