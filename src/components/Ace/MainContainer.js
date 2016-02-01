@@ -19,6 +19,11 @@ var MainContainer = React.createClass({
             enableSettings: enableSettings 
         };
     },
+    getDefaultProps: function() {
+        return {
+            enableSideBarShortcuts: false
+        };
+    },
     render: function() {
         var breadcrumbs = null;
         if(this.state.enableBreadcrumbs) breadcrumbs = <Breadcrumbs {...this.props} />;
@@ -26,11 +31,14 @@ var MainContainer = React.createClass({
         var settings = null;
         if(this.state.enableSettings) settings = <Settings />;
 
+        var sidebarShortcuts = null;
+        if(this.props.enableSideBarShortcuts) sidebarShortcuts = <SideBarShortcuts />;
+
         return (
             <div className="main-container" id="main-container">
                 <div id="sidebar" className="sidebar responsive">
                     
-                    <SideBarShortcuts />
+                    {sidebarShortcuts}
                     <SideBarNavList />
 
                     <div className="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
@@ -40,21 +48,6 @@ var MainContainer = React.createClass({
 
                 {this.props.children}
                 
-                <div className="main-content">
-                    <div className="main-content-inner">
-                        {breadcrumbs}
-                        <div className="page-content">
-                            {settings}
-
-                            <div className="row">
-                                <div className="col-xs-12">
-                                    
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
                 <Footer />
 
             </div>
