@@ -2,6 +2,7 @@ FROM node
 
 ADD *.js /jkef/
 ADD *.json /jkef/
+ADD .babelrc /jkef/
 ADD src /jkef/src
 ADD static /jkef/static
 ADD tools /jkef/tools
