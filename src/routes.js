@@ -63,6 +63,15 @@ const jkefRouter = new Router(on => {
     return <App {...props}><Project /></App>;
   });
 
+  // 电子阅览室
+  on('/reading-room', async () => {
+    var props = {
+      enableUserInfo: false
+    };
+
+    return <App {...props}><ReadingRoom /></App>;
+  });
+
   // 以下所有页面都使用默认App组件进行框架包裹
   on('*', async (state, next) => {
 
@@ -74,8 +83,7 @@ const jkefRouter = new Router(on => {
     return component && <App {...props}>{component}</App>;
   });
 
-  // 电子阅览室
-  on('/reading-room', async () => <ReadingRoom />);
+  
 
   // 受赠者－首页
   on('/acceptors', async () => {
