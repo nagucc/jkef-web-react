@@ -10,50 +10,78 @@
 export const port = process.env.PORT || 5000;
 export const host = process.env.WEBSITE_HOSTNAME || `localhost:${port}`;
 export const googleAnalyticsId = 'UA-XXXXX-X';
-export const title = process.env.SiteName || '纳谷社区';
+
+export const siteProfile = process.env.SITE_PROFILE || 'jkef'
 export const enableBreadcrumbs = false;
 export const enableSettings = false;
 
-export const sidebarItems = [{
-	title: '首页',
-	target: '/',
-	icon: 'tachometer'
-}, {
-	title: '电子阅览室',
-	target: '/reading-room'
-}, {
-  title: '受赠者',
-  target: '/acceptors'
-}];
 
-export const jkefProjects = [{
-  name: '奖学金',
-  descs: ['为符合条件的中高考优秀者发放奖学金']
-}, {
-  name: '助学金',
-  descs: ['为大学以上的优秀学生发放助学金，并关注他们的成长',
-      '与云南明德志愿服务中心合作']
-}, {
-  name: '电子阅览室',
-  descs: ['基于kindle创建的电子阅览室',
-      '已有超过40台kindle加入',
-      '与纳古志愿者协会合作']
-}, {
-  name: '其他项目',
-  descs: ['幼师成长计划']
-}];
+var jkefConfig = {
+  sidebarItems: [{
+    title: '首页',
+    target: '/',
+    icon: 'tachometer'
+  }, {
+    title: '电子阅览室',
+    target: '/reading-room'
+  }, {
+    title: '受赠者',
+    target: '/acceptors'
+  }],
+  siteName: '家琨教育基金会',
+  projects: [{
+    name: '奖学金',
+    descs: ['为符合条件的中高考优秀者发放奖学金']
+  }, {
+    name: '助学金',
+    descs: ['为大学以上的优秀学生发放助学金，并关注他们的成长',
+        '与云南明德志愿服务中心合作']
+  }, {
+    name: '电子阅览室',
+    descs: ['基于kindle创建的电子阅览室',
+        '已有超过40台kindle加入',
+        '与纳古志愿者协会合作']
+  }, {
+    name: '其他项目',
+    descs: ['幼师成长计划']
+  }]
+};
+
+var naguConfig = {
+  sidebarItems: [{
+    title: '首页',
+    target: '/',
+    icon: 'tachometer'
+  }, {
+    title: '电子阅览室',
+    target: '/reading-room'
+  }, {
+    title: '受赠者',
+    target: '/acceptors'
+  }],
+  siteName: '纳谷社区'
+};
+
+
+var profiles = [];
+profiles['jkef'] = jkefConfig;
+profiles['nagu'] = naguConfig;
+
+var thisProfile = profiles[siteProfile];
+export const title = thisProfile.siteName;
+export const sidebarItems = thisProfile.sidebarItems;
+export const jkefProjects = jkefConfig.projects;
 
 export const wxentConfig = {
   corpId: process.env.WXE_CORPID,
   secret: process.env.WXE_SECRET,
   angetId: process.env.WXE_AGENTID,
-  adminRoleId: process.env.ADMIN_ROLE_ID,
-  newUserDptId: process.env.NEW_USER_DEPARTMENT_ID || 1
+  adminRoleId: process.env.ADMIN_ROLE_ID
 };
 
 // 用于微信企业号自助注册程序的配置信息
 export const wxentSignupConfig = {
-  corpId: process.env.WXE_SIGNUP_CORPID,
+  corpId: wxentConfig.corpId,
   secret: process.env.WXE_SIGNUP_SECRET,
   newUserDptId: process.env.NEW_USER_DEPARTMENT_ID || 1
 }
