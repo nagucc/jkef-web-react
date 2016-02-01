@@ -75,6 +75,7 @@ class Html extends Component {
     <script src="/assets/js/ace/ace.settings-rtl.js"></script>
     <script src="/assets/js/ace/ace.settings-skin.js"></script>
     <script src="/assets/js/ace/ace.widget-on-reload.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
 
     <script src={this.props.entry}></script>
   </body>
