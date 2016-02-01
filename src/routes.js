@@ -17,6 +17,8 @@ import NotFoundPage from './components/NotFoundPage';
 import ErrorPage from './components/ErrorPage';
 import ReadingRoom from './components/Jkef/ReadingRoom';
 import JkefIndex from './components/Jkef/Index';
+import Stat from './components/Jkef/Stat';
+import Project from './components/Jkef/Projects';
 import Acceptors from './components/Jkef/Acceptors';
 import Detail from './components/Jkef/Acceptors/Detail';
 import Edit from './components/Jkef/Acceptors/Edit';
@@ -27,6 +29,7 @@ var fetchJson = async function (url, options) {
     return await res.json();
 };
 const jkefRouter = new Router(on => {
+
   on('/wx-ent/signup', async (state, next) => {
     var signup = <WxSignup />;
     var props = {
@@ -44,6 +47,22 @@ const jkefRouter = new Router(on => {
     return <App {...props}><JkefIndex /></App>;
   });
 
+  on('/stat', () => {
+    var props = {
+      enableUserInfo: false
+    };
+
+    return <App {...props}><Stat /></App>;
+  });
+
+  on('/projects', () => {
+    var props = {
+      enableUserInfo: false
+    };
+
+    return <App {...props}><Project /></App>;
+  });
+
   // 以下所有页面都使用默认App组件进行框架包裹
   on('*', async (state, next) => {
 
@@ -54,8 +73,6 @@ const jkefRouter = new Router(on => {
     };
     return component && <App {...props}>{component}</App>;
   });
-
-  // on('/', async () => <JkefIndex />);
 
   // 电子阅览室
   on('/reading-room', async () => <ReadingRoom />);

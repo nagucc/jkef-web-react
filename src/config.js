@@ -20,11 +20,18 @@ var jkefConfig = {
   sidebarItems: [{
     title: '首页',
     target: '/',
-    icon: 'tachometer'
+    icon: 'home'
   }, {
     title: '电子阅览室',
     target: '/reading-room',
     icon: 'book'
+  }, {
+    title: '项目',
+    target: '/projects'
+  }, {
+    title: '历年统计',
+    target: '/stat',
+    icon: 'tachometer'
   }, {
     title: '受赠者',
     target: '/acceptors'
