@@ -1,5 +1,7 @@
 /*
   使用Ace Admin Template的导航条组件
+  注意：
+  1. 删除navbar-header，以便移动版导航条不回变成两行。
 */
 
 
