@@ -123,6 +123,10 @@ class AcceptorManager {
         }
     }
 
+    update(id, data, cb) {
+        Acceptor.update({_id: id}, data, cb);
+    }
+
     findById(id, cb) {
         Acceptor.findById(id, cb);
     }

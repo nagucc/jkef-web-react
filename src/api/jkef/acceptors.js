@@ -18,6 +18,15 @@ var search = async (req, res, next) => {
 	}, page*size, size);
 };
 
+// 确保传递过来的数据中姓名和
+var checkBodyData = async (req, res, next) => {
+	if(!req.body.name || !req.body.phone){
+		res.send({ret: -1, msg: '姓名和手机号不能为空'});
+		return;
+	}
+	next();
+};
+
 router.get('/search', search);
 router.get('/search/:text', search);
 
@@ -34,10 +43,11 @@ router.get('/count/:text', getCount);
 router.get('/count', getCount);
 
 // 新增受赠人信息
-router.put('/', async (req, res, next) => {
+router.put('/', checkBodyData, async (req, res, next) => {
 	console.log(req.body);
 	if(!req.body.name || !req.body.phone){
 		res.send({ret: -1, msg: '姓名和手机号不能为空'});
+		return;
 	}
 	res.send({ret:0});
 });
@@ -51,9 +61,26 @@ router.get('/:id', (req, res, next) => {
 	});
 });
 
-router.post('/:id', (req, res, next) => {
-	console.log(req.body);
-	res.send({ret: 0});
+// 修改信息
+router.post('/:id', checkBodyData, (req, res, next) => {
+
+	var updateData = {
+		name: req.body.name,
+		homeAddress: req.body.homeAddress,
+		phone: req.body.phone,
+		isRecommander: req.body.isRecommander,
+		isMale: req.body.isMale,
+		nagu_wxent_userId: req.body.nagu_wxent_userId,
+		idCard: req.body.idCard,
+		highSchool: req.body.highSchool,
+		bachelorSchool: req.body.bachelorSchool,
+		masterSchool: req.body.masterSchool,
+		doctorSchool: req.body.doctorSchool
+	};
+	AM.update(req.params.id, updateData, (err, result) => {
+		if(err) res.status(500).send(err);
+		else res.send({ret: 0, data: result});
+	});
 });
 
 export default router;
