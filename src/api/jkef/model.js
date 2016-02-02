@@ -69,6 +69,9 @@ var jkefRecordSchemaObject = {
         userId: String
     }],
 
+    // 此人在纳谷社区微信企业号的Id
+    nagu_wxent_userId: String,
+
     // 记录
     records: [{
         _id: Schema.Types.ObjectId,
