@@ -72,6 +72,43 @@ const jkefRouter = new Router(on => {
     return <App {...props}><ReadingRoom /></App>;
   });
 
+  // 捐赠管理页面中的侧边小图标
+  var shortcuts = [{
+    btnType: 'btn-primary',
+    icon: 'users',
+    link: '/acceptors'
+  }, {
+    btnType: 'btn-success',
+    icon: 'plus',
+    link: '/acceptors/new'
+  }];
+
+  // 受赠者－首页
+  on('/acceptors', async () => {
+    const res = await fetch('/api/jkef/acceptors/search?page=0&size=20');
+    const content = await res.json();
+    var res2 = await fetch('/api/jkef/acceptors/count');
+    var count = await res2.json();
+    var props = {
+      acceptors: content.data,
+      count: count.data,
+      enableSideBarShortcuts: true,
+      shortcuts: shortcuts
+    };
+    return content && <App {...props}><Acceptors  {...props} /></App>;
+  });
+
+  // 捐赠管理 - 受赠者详情
+  on('/acceptors/detail/:id', async(req) => {
+    var acceptor = await fetchJson(`/api/jkef/acceptors/${req.params.id}`);
+
+    var props = {
+      enableSideBarShortcuts: true,
+      shortcuts: shortcuts
+    };
+    return <App {...props}><Detail {...acceptor.data} /></App>;
+  });
+
   // 以下所有页面都使用默认App组件进行框架包裹
   on('*', async (state, next) => {
 
@@ -83,20 +120,8 @@ const jkefRouter = new Router(on => {
     return component && <App {...props}>{component}</App>;
   });
 
-  
-
-  // 受赠者－首页
-  on('/acceptors', async () => {
-    const res = await fetch('/api/jkef/acceptors/search?page=0&size=20');
-    const content = await res.json();
-    var res2 = await fetch('/api/jkef/acceptors/count');
-    var count = await res2.json();
-    return content && <Acceptors acceptors={content.data} count={count.data} />;
-  });
-
-  on('/acceptors/detail/:id', async(req) => {
-    var acceptor = await fetchJson(`/api/jkef/acceptors/${req.params.id}`);
-    return <Detail {...acceptor.data} />;
+  on('/acceptors/new', async(req) => {
+    return <Edit />;
   });
 
   on('/acceptors/edit/:id', async(req) => {

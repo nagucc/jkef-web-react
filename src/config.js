@@ -87,11 +87,23 @@ export const wxentConfig = {
   adminRoleId: process.env.ADMIN_ROLE_ID
 };
 
+// 微信企业号全局管理配置信息
+export const wxentAdminConfig = {
+  corpId: wxentConfig.corpId,
+  secret: process.env.WXE_ADMIN_SECRET
+};
+
 // 用于微信企业号自助注册程序的配置信息
 export const wxentSignupConfig = {
   corpId: wxentConfig.corpId,
   secret: process.env.WXE_SIGNUP_SECRET,
   newUserDptId: process.env.NEW_USER_DEPARTMENT_ID || 1
+}
+
+// 用于页面认证的配置信息
+export const wxentAuthConfig = {
+  corpId: wxentConfig.corpId,
+  secret: process.env.WXE_AUTH_SECRET
 }
 
 export const redisConfig = {
