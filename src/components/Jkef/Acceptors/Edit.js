@@ -1,6 +1,7 @@
 var React = require('react');
 import BaseInfo from './EditBaseInfo';
 import TextBox from './TextBox';
+import $ from 'jquery';
 
 var Edit = React.createClass({
 	getInitialState: function() {
@@ -13,7 +14,11 @@ var Edit = React.createClass({
 			masterSchool: {},
 			doctorSchool: {},
 			company: {},
-			idCard: {}
+			idCard: {
+				category: '身份证'
+			},
+			isRecommander: false,
+			isMale: true
 		};
 	},
 	getFieldHandler: function (name) {
@@ -28,7 +33,7 @@ var Edit = React.createClass({
 	getValueFieldHandler: function (name) {
 		return (e) => {
 			var value = e.target.value;
-			console.log(e);
+			console.log(e.target.value);
 			this.setState((previousState) => {
 				var names = name.split('.');
 				var tmp = previousState;
@@ -37,8 +42,41 @@ var Edit = React.createClass({
 				}
 				tmp[names[names.length-1]] = value;
 				return previousState;
-			})
+			});
 		};
+	},
+
+	getCheckFieldHandler: function (name) {
+		return (e) => {
+			var value = e.target.checked;
+			console.log(value);
+			this.setState((previousState) => {
+				var names = name.split('.');
+				var tmp = previousState;
+				for(var i = 0; i < names.length - 1; i++) {
+					tmp = tmp[names[i]];
+				}
+				tmp[names[names.length-1]] = value;
+				return previousState;
+			});
+		};
+	},
+
+	submit: function () {
+		if(this.props._id) {			// 更新
+			$.post('/api/jkef/acceptors/' + this.props._id, {
+				data: this.state
+			}).done((result)=>{
+			});
+		} else {						// 新增
+			$.ajax('/api/jkef/acceptors',{
+				method: 'put',
+				data: this.state,
+				success: (result) => {
+
+				}
+			});
+		}
 	},
 	render: function() {
 		return (
@@ -56,11 +94,6 @@ var Edit = React.createClass({
 						</small>
 					</h1>
 				</div>
-				<div className="pull-right hidden-sm hidden-xs btn-group">
-				<a className="btn btn-xs btn-warning" href="#/acceptors/list">
-					<i className="ace-icon fa fa-users bigger-120"></i>
-				</a>
-			</div>
 			</div>
 			<div className="row">
 				<div className="col-xs-12 col-sm-4">
@@ -77,7 +110,7 @@ var Edit = React.createClass({
 								<div>
 									<label htmlFor="form-field-8">性别</label>
 
-									<select className="form-control" defalutValue={this.state.isMale}>
+									<select className="form-control" defalutValue={this.state.isMale} onChange={this.getValueFieldHandler('isMale')}>
 										<option value="true">男</option>
 										<option value="false">女</option>
 									</select>
@@ -87,14 +120,14 @@ var Edit = React.createClass({
 								
 								<div>
 									<label htmlFor="form-field-8">证件类型</label>
-									<select className="form-control" defalutValue={this.state.idCard.category}>
-										<option defalutValue="身份证">身份证（个人）</option>
-										<option defalutValue="组织机构代码证">组织机构代码证（机构）</option>
+									<select className="form-control" defalutValue={this.state.idCard.category} onChange={this.getValueFieldHandler('idCard.category')}>
+										<option value="身份证">身份证（个人）</option>
+										<option value="组织机构代码证">组织机构代码证（机构）</option>
 									</select>
 								</div>
 								<TextBox text="证件号码" value={this.state.idCard.number} onChange={this.getValueFieldHandler('idCard.number')}/>
-								<TextBox text="纳古志愿者微信Id" value={this.state.wxent_UserIds[0]} />
-								<TextBox text="助学金推荐人" type="checkbox" value={this.state.isRecommander} onChange={this.getValueFieldHandler('isRecommander')}/>
+								<TextBox text="纳谷社区微信Id" value={this.state.nagu_wxent_userId} onChange={this.getValueFieldHandler('nagu_wxent_userId')} />
+								<TextBox text="助学金推荐人" type="checkbox" value={this.state.isRecommander} onChange={this.getCheckFieldHandler('isRecommander')}/>
 							</div>
 						</div>
 					</div>
@@ -139,10 +172,10 @@ var Edit = React.createClass({
 
 						<div className="widget-body">
 							<div className="widget-main">
-								<TextBox text="学校名称" value={this.state.masterSchool.name} />
-								<TextBox text="学院及专业" value={this.state.masterSchool.major} />
-								<TextBox text="研究方向" value={this.state.masterSchool.subject} />
-								<TextBox text="毕业年份" value={this.state.masterSchool.admissionYear} />
+								<TextBox text="学校名称" value={this.state.masterSchool.name} onChange={this.getValueFieldHandler('masterSchool.name')}/>
+								<TextBox text="学院及专业" value={this.state.masterSchool.major} onChange={this.getValueFieldHandler('masterSchool.major')}/>
+								<TextBox text="研究方向" value={this.state.masterSchool.subject} onChange={this.getValueFieldHandler('masterSchool.subject')}/>
+								<TextBox text="毕业年份" value={this.state.masterSchool.admissionYear} onChange={this.getValueFieldHandler('masterSchool.admissionYear')}/>
 							</div>
 						</div>
 					</div>
@@ -156,10 +189,10 @@ var Edit = React.createClass({
 
 						<div className="widget-body">
 							<div className="widget-main">
-								<TextBox text="学校名称" value={this.state.doctorSchool.name} />
-								<TextBox text="学院及专业" value={this.state.doctorSchool.major} />
-								<TextBox text="研究方向" value={this.state.doctorSchool.subject} />
-								<TextBox text="毕业年份" value={this.state.doctorSchool.admissionYear} />
+								<TextBox text="学校名称" value={this.state.doctorSchool.name} onChange={this.getValueFieldHandler('doctorSchool.name')}/>
+								<TextBox text="学院及专业" value={this.state.doctorSchool.major} onChange={this.getValueFieldHandler('doctorSchool.major')}/>
+								<TextBox text="研究方向" value={this.state.doctorSchool.subject} onChange={this.getValueFieldHandler('doctorSchool.subject')}/>
+								<TextBox text="毕业年份" value={this.state.doctorSchool.admissionYear} onChange={this.getValueFieldHandler('doctorSchool.admissionYear')}/>
 							</div>
 						</div>
 					</div>
@@ -173,8 +206,8 @@ var Edit = React.createClass({
 
 						<div className="widget-body">
 							<div className="widget-main">
-								<TextBox text="单位名称" value={this.state.company.name} />
-								<TextBox text="职称／职务" value={this.state.company.title} />
+								<TextBox text="单位名称" value={this.state.company.name} onChange={this.getValueFieldHandler('company.name')}/>
+								<TextBox text="职称／职务" value={this.state.company.title} onChange={this.getValueFieldHandler('company.title')}/>
 							</div>
 						</div>
 					</div>
@@ -185,7 +218,7 @@ var Edit = React.createClass({
 
 			<div className="clearfix form-actions row">
 				<div className="col-md-offset-3 col-md-9">
-					<button className="btn btn-info" type="button" ng-click="actions.submit(acceptor)">
+					<button className="btn btn-info" type="button" onClick={this.submit}>
 						<i className="ace-icon fa fa-check bigger-110"></i>
 						确定
 					</button>
