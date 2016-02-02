@@ -32,7 +32,7 @@ var MainContainer = React.createClass({
         if(this.state.enableSettings) settings = <Settings />;
 
         var sidebarShortcuts = null;
-        if(this.props.enableSideBarShortcuts) sidebarShortcuts = <SideBarShortcuts />;
+        if(this.props.enableSideBarShortcuts) sidebarShortcuts = <SideBarShortcuts {...this.props} />;
 
         return (
             <div className="main-container" id="main-container">
