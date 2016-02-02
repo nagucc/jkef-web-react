@@ -2,7 +2,7 @@
 使用基于微信企业号的用户认证
 */
 
-import { host, wxentSignupConfig as wxcfg, redisConfig as redis } from '../../config';
+import { wxentSignupConfig as wxcfg, redisConfig as redis } from '../../config';
 import { Router } from 'express';
 import API from 'wxent-api-redis';
 import uuid from 'node-uuid';
