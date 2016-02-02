@@ -74,7 +74,7 @@ var Index = React.createClass({
             <div className="row">
             	<div className="col-sm-8 page-header">
 	            	<h1>
-						家琨教育基金会-捐赠管理
+						捐赠管理
 						<small>
 							<i className="ace-icon fa fa-angle-double-right"></i>
 							受赠者列表
