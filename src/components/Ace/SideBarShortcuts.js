@@ -6,28 +6,25 @@
 import React, { Component } from 'react';
 
 class SideBarShortcuts extends Component {
+  constractor () {
+  }
 
-
+  static defaultProps = {
+    shortcuts: []
+  }
   render() {
     return (
     	<div className="sidebar-shortcuts" id="sidebar-shortcuts">
             <div className="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
-                <button className="btn btn-success">
-                    <i className="ace-icon fa fa-signal"></i>
-                </button>
-
-                <button className="btn btn-info">
-                    <i className="ace-icon fa fa-pencil"></i>
-                </button>
-
-                <button className="btn btn-warning">
-                    <i className="ace-icon fa fa-users"></i>
-                </button>
-
-                <button className="btn btn-danger">
-                    <i className="ace-icon fa fa-cogs"></i>
-                </button>
-
+            {
+              this.props.shortcuts.map((sc, i) => {
+                return (
+                  <a className={`btn ${sc.btnType}`} key={i} href={sc.link}>
+                    <i className={`ace-icon fa fa-${sc.icon}`}></i>
+                  </a>
+                )
+              })
+            }
             </div>
 
             <div className="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
