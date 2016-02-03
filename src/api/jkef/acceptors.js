@@ -2,6 +2,7 @@ import { wxentJkefConfig as wxcfg } from '../../config';
 import { Router } from 'express';
 import AcceptorManager from './model.js';
 import wxapi from '../wx-ent/model';
+import moment from 'moment';
 
 const router = new Router();
 var AM = new AcceptorManager();
@@ -54,13 +55,13 @@ router.put('/',
 	async (req, res, next) => {
 		var acceptor = req.body;
 		acceptor.createBy = req.userId;
-		acceptor.dateCreated = Date.now();
 		try {
 			res.send({ret:0, data: await AM.create(acceptor)});
 		} catch (e) {
 			res.status(500).send(e);
 		}
 	});
+
 
 
 // 必须放在最后匹配
@@ -96,5 +97,91 @@ router.post('/:id',
 			res.status(500).send(err);
 		}
 	});
+
+
+/*
+受赠记录管理
+*/
+
+/*
+对客户端输入对受赠记录数据进行验证
+- project 项目不能为空。
+- date 日期格式不能有错
+- amount 金额
+	1. 金额格式不能出错
+	2. 金额最多精确到小数点后两位
+*/
+var checkRecord = (req, res, next) => {
+	if(!req.body.project){ 
+		res.status(500).send('项目不能为空');
+		return;
+	}
+	try {
+		var date = moment(req.body.date);
+		if(date.isValid()) req.body.date = date.toDate();
+		else {
+			res.status(500).send('错误的日期格式');
+			return;
+		}
+
+		var amount = Math.round(parseFloat(req.body.amount)*100);
+		if(isNaN(amount) || amount !== parseFloat(req.body.amount)*100) {
+			res.status(500).send('错误的金额格式');
+			return;
+		} else
+			req.body.amount = amount * 10;
+	} catch(e) {
+		res.status(500).send(e);
+	}
+	next();
+};
+
+// 添加受赠记录
+router.put('/:acceptorId/records',
+	ensureUserLogged,
+	checkRecord,
+	async (req, res, next) => {
+		var acceptorId = req.params.acceptorId;
+		var record = req.body;
+		record.createBy = req.userId;
+		try {
+			res.send({ret: 0, data: await AM.createRecord(acceptorId, record)});
+		} catch(e) {
+			res.status(500).send(e);
+		}
+	});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 export default router;

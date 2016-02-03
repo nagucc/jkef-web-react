@@ -19,7 +19,7 @@ var Detail = React.createClass({
 
 		var records;
 		if(this.props.records.length)
-			records = <Records records = {this.props.records} />;
+			records = <Records records = {this.props.records} _id={this.props._id} />;
 		return (
 <div className="main-content">
     <div className="main-content-inner">

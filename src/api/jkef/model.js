@@ -89,7 +89,9 @@ var jkefRecordSchemaObject = {
         amount: Number,
         recommander: String,
         remark:String,
-        isDeleted: Boolean
+        isDeleted: Boolean,
+        createBy: String,
+        dateCreated: Date
     }]
 };
 
@@ -137,6 +139,8 @@ class AcceptorManager {
     创建一个受助者
     */
     async create(acceptor) {
+        acceptor.isDeleted = false;
+        acceptor.dateCreated = Date.now();
         return new Promise((resolve, reject) => {
             Acceptor.create(acceptor, (err, result) => {
                 if(err) reject(err);
@@ -148,6 +152,19 @@ class AcceptorManager {
     async update(id, data, cb) {
         return new Promise((resolve, reject) => {
             Acceptor.update({_id: id}, data, (err, result) => {
+                if(err) reject(err);
+                else resolve(result);
+            });
+        });
+    }
+
+    async createRecord(id, record) {
+        record.dateCreated = Date.now();
+        record.isDeleted = false;
+        return new Promise((resolve, reject) => {
+            Acceptor.update({_id: id}, {
+                $push: {records: record}
+            }, (err, result) => {
                 if(err) reject(err);
                 else resolve(result);
             });

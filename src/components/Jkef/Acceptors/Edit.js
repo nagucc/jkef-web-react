@@ -83,7 +83,7 @@ var Edit = React.createClass({
 			  },
 				data: this.state
 			}).done(result => {
-				console.log(result);
+				window.location = '/acceptors/detail/' + result.data._id;
 			}).fail(err => {
 				alert(`创建数据时出现错误：${err.responseText}`);
 			})

@@ -22,6 +22,7 @@ import Project from './components/Jkef/Projects';
 import Acceptors from './components/Jkef/Acceptors';
 import Detail from './components/Jkef/Acceptors/Detail';
 import Edit from './components/Jkef/Acceptors/Edit';
+import AcceptorRecordEdit from './components/Jkef/Acceptors/Record/Edit';
 import WxSignup from './components/Nagu/WxSignup';
 
 var fetchJson = async function (url, options) {
@@ -108,6 +109,19 @@ const jkefRouter = new Router(on => {
     };
     return <App {...props}><Detail {...acceptor.data} /></App>;
   });
+
+  on('/acceptors/:id/records/new', async (req) => {
+    var acceptor = await fetchJson(`/api/jkef/acceptors/${req.params.id}`);
+    var props = {
+      enableSideBarShortcuts: true,
+      shortcuts: shortcuts
+    };
+    return (
+      <App {...props}>
+        <AcceptorRecordEdit acceptorId={acceptor.data._id} name={acceptor.data.name} />
+      </App>
+      );
+  })
 
   // 以下所有页面都使用默认App组件进行框架包裹
   on('*', async (state, next) => {

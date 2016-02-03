@@ -11,7 +11,7 @@ var Records = React.createClass({
 		<i className="fa fa-files-o"></i>
 		奖助记录
 		<div className="btn-group">
-			<a className="btn btn-xs btn-info" href="#/acceptors/edit/{this.state._id}">
+			<a className="btn btn-xs btn-info" href={`/acceptors/${this.props._id}/records/new`} >
 				<i className="ace-icon fa fa-plus bigger-120"></i>
 			</a>
 		</div>
