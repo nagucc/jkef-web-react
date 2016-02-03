@@ -78,6 +78,9 @@ var jkefRecordSchemaObject = {
     // 创建时间
     dateCreated: Date,
 
+    // 标记是否该记录已被删除
+    isDeleted: Boolean,
+
     // 记录
     records: [{
         _id: Schema.Types.ObjectId,
@@ -85,7 +88,8 @@ var jkefRecordSchemaObject = {
         project:String,
         amount: Number,
         recommander: String,
-        remark:String
+        remark:String,
+        isDeleted: Boolean
     }]
 };
 
@@ -113,7 +117,7 @@ class AcceptorManager {
     });
     */
     list(projections, cb, skip = 0, limit = 20) {
-        Acceptor.find({}, projections, cb).sort({name: 1}).skip(skip).limit(limit);
+        Acceptor.find({isDeleted: { $ne: true}}, projections, cb).sort({name: 1}).skip(skip).limit(limit);
     }
 
     upsert(acceptor, cb) {
@@ -159,9 +163,11 @@ class AcceptorManager {
     */
     statByYear(cb) {
         Acceptor.mapReduce({
+            query: {isDeleted: { $ne: true}},
             map: function () {
                 if(this.records){
                     this.records.forEach(function (record) {
+                        if(record.isDeleted) return;
                         emit(record.date.getYear() + 1900, {
                             amount: record.amount / 1000,
                             count: 1
@@ -189,9 +195,11 @@ class AcceptorManager {
     */
     statByProject(cb) {
         Acceptor.mapReduce({
+            query: {isDeleted: { $ne: true}},
             map: function () {
                 if(this.records){
                     this.records.forEach(function (record) {
+                        if(record.isDeleted) return;
                         emit(record.project, {
                             amount: record.amount / 1000,
                             count: 1
@@ -219,9 +227,11 @@ class AcceptorManager {
     */
     statByYearAndProject(cb) {
         Acceptor.mapReduce({
+            query: {isDeleted: { $ne: true}},
             map: function () {
                 if(this.records){
                     this.records.forEach(function (record) {
+                        if(record.isDeleted) return;
                         emit({ 
                             project: record.project,
                             year: record.date.getYear() + 1900
@@ -255,7 +265,8 @@ class AcceptorManager {
     search(text, projections, cb, skip = 0, limit = 20) {
         var reg = new RegExp(text);
         var condition = {
-            $or: [{ name: reg }, {phone: reg}]
+            $or: [{ name: reg }, {phone: reg}],
+            isDeleted: {$ne: true}
         };
         Acceptor.find(condition, projections, cb).skip(skip).limit(limit);
     }
