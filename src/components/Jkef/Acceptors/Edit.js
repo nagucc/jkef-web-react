@@ -34,7 +34,6 @@ var Edit = React.createClass({
 	getValueFieldHandler: function (name) {
 		return (e) => {
 			var value = e.target.value;
-			console.log(e.target.value);
 			this.setState((previousState) => {
 				var names = name.split('.');
 				var tmp = previousState;
@@ -73,6 +72,8 @@ var Edit = React.createClass({
 				data: this.state
 			}).done((result)=>{
 				window.location = '/acceptors/detail/' + this.props._id;
+			}).fail((err) => {
+				alert(`更新失败：${err.responseText}`);
 			});
 		} else {						// 新增
 			$.ajax('/api/jkef/acceptors',{
@@ -80,11 +81,12 @@ var Edit = React.createClass({
 				xhrFields: {
 			  	withCredentials: true
 			  },
-				data: this.state,
-				success: (result) => {
-
-				}
-			});
+				data: this.state
+			}).done(result => {
+				console.log(result);
+			}).fail(err => {
+				alert(`创建数据时出现错误：${err.responseText}`);
+			})
 		}
 	},
 	render: function() {

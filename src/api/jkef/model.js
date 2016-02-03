@@ -72,6 +72,12 @@ var jkefRecordSchemaObject = {
     // 此人在纳谷社区微信企业号的Id
     nagu_wxent_userId: String,
 
+    // 创建者
+    createBy: String,
+
+    // 创建时间
+    dateCreated: Date,
+
     // 记录
     records: [{
         _id: Schema.Types.ObjectId,
@@ -107,7 +113,7 @@ class AcceptorManager {
     });
     */
     list(projections, cb, skip = 0, limit = 20) {
-        Acceptor.find({}, projections, cb).skip(skip).limit(limit);
+        Acceptor.find({}, projections, cb).sort({name: 1}).skip(skip).limit(limit);
     }
 
     upsert(acceptor, cb) {
@@ -123,8 +129,25 @@ class AcceptorManager {
         }
     }
 
-    update(id, data, cb) {
-        Acceptor.update({_id: id}, data, cb);
+    /*
+    创建一个受助者
+    */
+    async create(acceptor) {
+        return new Promise((resolve, reject) => {
+            Acceptor.create(acceptor, (err, result) => {
+                if(err) reject(err);
+                else resolve(result);
+            });
+        });
+    }
+
+    async update(id, data, cb) {
+        return new Promise((resolve, reject) => {
+            Acceptor.update({_id: id}, data, (err, result) => {
+                if(err) reject(err);
+                else resolve(result);
+            });
+        });
     }
 
     findById(id, cb) {
