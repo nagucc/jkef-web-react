@@ -1,4 +1,6 @@
 var React = require('react');
+import FieldItem from './Record/FieldItem';
+import moment from 'moment';
 
 var Records = React.createClass({
 
@@ -15,9 +17,9 @@ var Records = React.createClass({
 		</div>
 	</h4>
 	{
-		this.props.records.map((record, i) => {
+		this.props.records.map((record) => {
 			return (
-<div className="col-xs-6 col-sm-3 pricing-box" key={i}>
+<div className="col-xs-6 col-sm-3 pricing-box" key={record._id}>
 	<div className="widget-box widget-color-blue">
 		<div className="widget-header">
 			<h5 className="widget-title bigger lighter">{record.project}</h5>
@@ -26,20 +28,10 @@ var Records = React.createClass({
 		<div className="widget-body">
 			<div className="widget-main">
 				<ul className="list-unstyled spaced2">
-					<li>
-						<i className="ace-icon fa fa-check green"></i>
-						日期：{record.date}
-					</li>
-
-					<li>
-						<i className="ace-icon fa fa-check green"></i>
-						推荐人：{record.recommander}
-					</li>
-
-					<li>
-						<i className="ace-icon fa fa-check green"></i>
-						备注：{record.remark}
-					</li>
+					<FieldItem title="Id" value={record._id} />
+					<FieldItem title="日期" value={moment(record.date).format('YYYY/M/D')} />
+					<FieldItem title="推荐人" value={record.recommander} />
+					<FieldItem title='备注' value={record.remark} />
 				</ul>
 
 				<hr />
@@ -49,8 +41,14 @@ var Records = React.createClass({
 			</div>
 
 			<div>
-				<a href="#" className="btn btn-block btn-primary">
-					<i className="ace-icon fa fa-shopping-cart bigger-110"></i>
+				<a href="#" className="btn btn-block btn-warning">
+					<i className="ace-icon fa fa-pencil bigger-110"></i>
+					<span>修改</span>
+				</a>
+			</div>
+			<div>
+				<a href="#" className="btn btn-block btn-danger">
+					<i className="ace-icon fa fa-trash bigger-110"></i>
 					<span>删除</span>
 				</a>
 			</div>

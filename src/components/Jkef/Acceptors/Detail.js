@@ -39,7 +39,7 @@ var Detail = React.createClass({
 								<i className="ace-icon fa fa-pencil bigger-130"></i>
 							</a>
 
-							<a className="red" href={`/acceptors/edit/${this.props._id}`}>
+							<a className="red" href="#">
 								<i className="ace-icon fa fa-trash-o bigger-130"></i>
 							</a>
 						</span>
