@@ -95,8 +95,6 @@ export const wxentAdminConfig = {
 
 // 用于微信企业号自助注册程序的配置信息
 export const wxentSignupConfig = {
-  corpId: wxentConfig.corpId,
-  secret: process.env.WXE_SIGNUP_SECRET,
   newUserDptId: process.env.NEW_USER_DEPARTMENT_ID || 1
 }
 
@@ -105,6 +103,11 @@ export const wxentAuthConfig = {
   corpId: wxentConfig.corpId,
   secret: process.env.WXE_AUTH_SECRET
 }
+
+// JKEF微信企业号配置
+export const wxentJkefConfig = {
+  acceptorsDeptId: process.env.JKEF_ACCEPTORS_DEPT_ID || 1
+};
 
 export const redisConfig = {
   host: process.env.HOST_REDIS || 'localhost',
