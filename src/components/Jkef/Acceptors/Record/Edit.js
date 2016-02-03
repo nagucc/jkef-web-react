@@ -42,7 +42,7 @@ export default class Edit extends React.Component {
 			  },
 				data: this.state
 			}).done((result)=>{
-				window.location = ｀/acceptors/detail/${this.props.acceptorId}`;
+				window.location = `/acceptors/detail/${this.props.acceptorId}`;
 			}).fail((err) => {
 				alert(`更新失败：${err.responseText}`);
 			});
