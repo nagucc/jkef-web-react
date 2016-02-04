@@ -26,6 +26,7 @@ var checkBodyData = async (req, res, next) => {
 	next();
 };
 
+
 // 确保用户已登录
 var ensureUserLogged= async (req, res, next) => {
 	req.userId = req.signedCookies.userId;
@@ -62,14 +63,27 @@ router.put('/',
 		}
 	});
 
-
+router.get('/test', async (req, res, next) => {
+	try {
+		res.send({
+			data: await AM.removeRecord(1,2)
+		});
+	} catch(e) {
+		console.log('err777');
+		res.send(e);
+	}
+});
 
 // 必须放在最后匹配
-router.get('/:id', (req, res, next) => {
-	AM.findById(req.params.id, (err, result) => {
-		if(err) res.send({ret: -1, msg: err});
-      	else res.send({ret: 0, data: result});
-	});
+router.get('/:id', async (req, res, next) => {
+	try {
+		res.send({
+			ret: 0,
+			data: await AM.findById(req.params.id)
+		});
+	} catch(e) {
+		res.status(500).send(e);
+	}
 });
 
 // 修改信息
@@ -151,31 +165,22 @@ router.put('/:acceptorId/records',
 		}
 	});
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+router.delete('/:acceptorId/records/:id', 
+	ensureUserLogged,
+	async (req, res, next) => {
+		if(acceptorId == 'undefined') acceptorId = '';
+		var acceptorId = req.params.acceptorId;
+		var recordId = req.params.id;
+		try {
+			res.send({
+				ret: 0,
+				data: await AM.removeRecord(acceptorId, recordId)
+			});
+		} catch(e) {
+			console.log(e);
+			res.status(500).send(e);
+		}
+	});
 
 
 

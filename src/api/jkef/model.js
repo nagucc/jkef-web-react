@@ -161,6 +161,7 @@ class AcceptorManager {
     async createRecord(id, record) {
         record.dateCreated = Date.now();
         record.isDeleted = false;
+        record._id = new mongoose.Types.ObjectId;
         return new Promise((resolve, reject) => {
             Acceptor.update({_id: id}, {
                 $push: {records: record}
@@ -171,8 +172,32 @@ class AcceptorManager {
         });
     }
 
-    findById(id, cb) {
-        Acceptor.findById(id, cb);
+    async removeRecord(acceptorId, recordId) {
+        return new Promise((resolve, reject) => {
+          // reject('stesdf');
+          Acceptor.update({
+            _id: acceptorId, 'records._id': recordId
+          }, {
+            $set: {'records.$.isDeleted': true}
+          }, (err, result) => {
+            if(err) reject(err);
+            else resolve(result);
+          });
+        });
+    }
+
+    async findById(id) {
+        return new Promise((resolve, reject) => {
+            Acceptor.findById(id, (err, result) => {
+                if(result && result.records) {
+                    result.records = result.records.filter(rec => {
+                        return !rec.isDeleted;
+                    });
+                }
+                if(err) reject(err);
+                else resolve(result);
+            });
+        });
     }
 
     /*
