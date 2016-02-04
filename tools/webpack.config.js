@@ -71,7 +71,6 @@ const config = {
         test: /\.jsx?$/,
         include: [
           path.resolve(__dirname, '../node_modules/react-routing/src'),
-          path.resolve(__dirname, '../node_modules/nagu-react-components'),
           path.resolve(__dirname, '../src'),
         ],
         loader: 'babel-loader',
