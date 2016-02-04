@@ -18,7 +18,6 @@ export default class Edit extends React.Component {
   getValueFieldHandler (name) {
 		return (e) => {
 			var value = e.target.value;
-			console.log(value);
 			var states = {};
 			states[name] = value;
 			this.setState(states);
@@ -54,7 +53,7 @@ export default class Edit extends React.Component {
 			  },
 				data: this.state
 			}).done(result => {
-				console.log(result);
+				window.location = `/acceptors/detail/${this.props.acceptorId}`;
 			}).fail(err => {
 				alert(`创建数据时出现错误：${err.responseText}`);
 			})
