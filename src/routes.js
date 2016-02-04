@@ -12,7 +12,6 @@ import Router from 'react-routing/src/Router';
 import {siteProfile} from './config';
 import fetch from './core/fetch';
 import App from './components/App';
-import ContentPage from './components/ContentPage';
 import NotFoundPage from './components/NotFoundPage';
 import ErrorPage from './components/ErrorPage';
 import ReadingRoom from './components/Jkef/ReadingRoom';

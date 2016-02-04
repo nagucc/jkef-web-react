@@ -174,7 +174,6 @@ class AcceptorManager {
 
     async removeRecord(acceptorId, recordId) {
         return new Promise((resolve, reject) => {
-          // reject('stesdf');
           Acceptor.update({
             _id: acceptorId, 'records._id': recordId
           }, {
