@@ -52,7 +52,7 @@ export default class Records extends React.Component {
 	{
 		this.state.records.map((record) => {
 			return (
-				<div className="col-xs-6 col-sm-3 pricing-box" key={record._id}>
+				<div className="col-xs-6 col-sm-4 pricing-box" key={record._id}>
 					<div className="widget-box widget-color-blue">
 						<div className="widget-header">
 							<h5 className="widget-title bigger lighter">{record.project}</h5>
