@@ -2,9 +2,24 @@ var React = require('react');
 import BaseInfo from './BaseInfo';
 import Records from './Records';
 import Education from './Education';
+import $ from 'jquery';
 
 var Detail = React.createClass({
 
+	remove: function () {
+		if(confirm('确定要删除此受赠人吗？')){
+			$.ajax(`/api/jkef/acceptors/${this.props._id}`, {
+				method: 'delete',
+				xhrFields: {
+			  	withCredentials: true
+			  }
+			}).done(result => {
+				window.location = '/acceptors';
+			}).fail(err => {
+				alert(`删除失败：${err}`);
+			});
+		}
+	},
 	render: function() {
 		var genderClass = this.props.isMale ? 'bule' : 'orange';
 		var highSchool, bachelor, master, doctor;
@@ -38,10 +53,6 @@ var Detail = React.createClass({
 							<a className="green" href={`/acceptors/edit/${this.props._id}`}>
 								<i className="ace-icon fa fa-pencil bigger-130"></i>
 							</a>
-
-							<a className="red" href="#">
-								<i className="ace-icon fa fa-trash-o bigger-130"></i>
-							</a>
 						</span>
 					</small>
 				</h1>
@@ -56,7 +67,14 @@ var Detail = React.createClass({
 		    {bachelor}
 		    {master}
 		    {doctor}
-			{records}
+				{records}
+
+				<div className="col-xs-12 col-sm-9 col-sm-offset-2">
+					<button className="btn btn-block btn-danger" onClick={this.remove} >
+						<i className="fa fa-trash"></i>
+						删除此受赠人
+					</button>
+				</div>
 	    </div>
 	  </div>
 	</div>

@@ -11,10 +11,16 @@ var search = async (req, res, next) => {
 	var text = req.params.text || '';
 	var page = req.query.page || 0;
 	var size = req.query.size || 20;
-	AM.search(text, {_id:1, name: 1, isMale: 1, phone: 1, idCard:1}, (err, acceptors) => {
-		if(err) res.send({ret: -1, msg: err});
-      	else res.send({ret: 0, data: acceptors});
-	}, page*size, size);
+	try {
+		res.send({
+			ret: 0,
+			data: await AM.search(text, {
+				_id:1, name: 1, isMale: 1, phone: 1, idCard:1
+			}, page*size, size)
+		});
+	} catch(e) {
+		res.status(500).send(e);
+	}
 };
 
 // 确保传递过来的数据中姓名和电话不为空
@@ -85,6 +91,17 @@ router.get('/:id', async (req, res, next) => {
 		res.status(500).send(e);
 	}
 });
+
+router.delete('/:id', async (req, res, next) =>{
+	try {
+		res.send({
+			ret: 0,
+			data: await AM.remove(req.params.id)
+		});
+	} catch(e) {
+		res.status(500).send(e);
+	}
+})
 
 // 修改信息
 router.post('/:id', 

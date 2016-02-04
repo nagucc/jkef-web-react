@@ -158,6 +158,17 @@ class AcceptorManager {
         });
     }
 
+    async remove(id) {
+      return new Promise((resolve, reject) => {
+        Acceptor.update({_id: id}, {
+          $set: {isDeleted: true}
+        }, (err, result) => {
+          if(err) reject(err);
+          else resolve(result);
+        });
+      });
+    }
+
     async createRecord(id, record) {
         record.dateCreated = Date.now();
         record.isDeleted = false;
@@ -297,19 +308,22 @@ class AcceptorManager {
         }, cb);
     }
 
-
-
-    remove(id, cb) {
-        Acceptor.findByIdAndRemove(id, cb);
-    }
-
-    search(text, projections, cb, skip = 0, limit = 20) {
+    async search(text, projections, skip = 0, limit = 20) {
         var reg = new RegExp(text);
         var condition = {
             $or: [{ name: reg }, {phone: reg}],
             isDeleted: {$ne: true}
         };
-        Acceptor.find(condition, projections, cb).skip(skip).limit(limit);
+        return new Promise((resolve, reject) => {
+          Acceptor.find(condition, projections, {
+            skip: skip,
+            limit: limit
+          }, (err, result) => {
+            if(err) reject(err);
+            else resolve(result);
+          });
+        });
+        
     }
 
     count(text, cb){
@@ -317,7 +331,11 @@ class AcceptorManager {
         if(text){
             var reg = new RegExp(text);
             condition = {
+              $and: [{
                 $or: [{ name: reg }, {phone: reg}]
+              }, {
+                isDeleted: {$ne: true}
+              }]
             }
         }
         Acceptor.count(condition, cb);
