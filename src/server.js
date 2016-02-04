@@ -19,6 +19,7 @@ import { port, title, redisConfig } from './config';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import bodyParser from 'body-parser';
+import morgan from 'morgan';
 
 var RedisStore = require('connect-redis')(session);
 
@@ -48,6 +49,7 @@ server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
 })); 
+server.use(morgan('dev'));
 //
 // Register API middleware
 // -----------------------------------------------------------------------------
