@@ -33,7 +33,7 @@ var jkefConfig = {
     target: '/stat',
     icon: 'tachometer'
   }, {
-    title: '受赠者',
+    title: '捐赠管理',
     target: '/acceptors'
   }],
   siteName: '家琨教育基金会',

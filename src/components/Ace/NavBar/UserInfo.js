@@ -14,9 +14,11 @@ var UserInfo = React.createClass({
         };
     },
     componentDidMount: function() {
-        $.ajax({
-            url: '/api/auth/wx-ent/me'
-       }).always(result => {
+        $.ajax('/api/auth/wx-ent/me', {
+            xhrFields: {
+                withCredentials: true
+              }
+       }).done(result => {
             this.setState({
                 me: result.data
             });
@@ -24,7 +26,7 @@ var UserInfo = React.createClass({
     },
 
     render: function() {
-        return (
+        return this.state.me ? (
             <div className="navbar-buttons navbar-header pull-right" role="navigation">
                 <ul className="nav ace-nav">
                     <li className="light-blue">
@@ -40,7 +42,7 @@ var UserInfo = React.createClass({
                     </li>
                 </ul>
             </div>
-        );
+        ) : null;
     }
 
 });
