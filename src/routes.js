@@ -87,11 +87,9 @@ const jkefRouter = new Router(on => {
   on('/acceptors', async () => {
     const res = await fetch('/api/jkef/acceptors/search?page=0&size=20');
     const content = await res.json();
-    var res2 = await fetch('/api/jkef/acceptors/count');
-    var count = await res2.json();
     var props = {
       acceptors: content.data,
-      count: count.data,
+      count: content.count,
       enableSideBarShortcuts: true,
       shortcuts: shortcuts
     };

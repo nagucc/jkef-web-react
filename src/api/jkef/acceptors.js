@@ -8,6 +8,7 @@ const router = new Router();
 var AM = new AcceptorManager();
 
 var search = async (req, res, next) => {
+	console.log(req.query);
 	var text = req.params.text || '';
 	var page = req.query.page || 0;
 	var size = req.query.size || 20;
@@ -16,7 +17,8 @@ var search = async (req, res, next) => {
 			ret: 0,
 			data: await AM.search(text, {
 				_id:1, name: 1, isMale: 1, phone: 1, idCard:1
-			}, page*size, size)
+			}, page*size, size),
+			count: await AM.count(text)
 		});
 	} catch(e) {
 		res.status(500).send(e);
@@ -44,17 +46,6 @@ router.get('/search', search);
 router.get('/search/:text', search);
 
 
-var getCount = async (req, res, next) => {
-	var text = req.params.text || '';
-	AM.count(text, (err, count) => {
-		if(err) res.send({ret: -1, msg: err});
-      	else res.send({ret: 0, data: count});
-	});
-};
-
-router.get('/count/:text', getCount);
-router.get('/count', getCount);
-
 // 新增受赠人信息
 router.put('/', 
 	ensureUserLogged, 
@@ -75,7 +66,6 @@ router.get('/test', async (req, res, next) => {
 			data: await AM.removeRecord(1,2)
 		});
 	} catch(e) {
-		console.log('err777');
 		res.send(e);
 	}
 });
