@@ -10,50 +10,43 @@ import Footer from './Footer';
 import Breadcrumbs from './Breadcrumbs';
 import {enableBreadcrumbs, enableSettings} from '../../config';
 
-var React = require('react');
+import React from 'react';
 
-var MainContainer = React.createClass({
-    getInitialState: function() {
-        return {
-            enableBreadcrumbs: enableBreadcrumbs,
-            enableSettings: enableSettings 
-        };
-    },
-    getDefaultProps: function() {
-        return {
-            enableSideBarShortcuts: false
-        };
-    },
-    render: function() {
-        var breadcrumbs = null;
-        if(this.state.enableBreadcrumbs) breadcrumbs = <Breadcrumbs {...this.props} />;
+export default class MainContainer extends React.Component {
+  static propTypes = {
+    sidebarShortcuts: React.PropTypes.array,
+  };
 
-        var settings = null;
-        if(this.state.enableSettings) settings = <Settings />;
+  constructor(props) {
+    super(props);
+    this.state = {
+      enableBreadcrumbs: enableBreadcrumbs,
+      enableSettings: enableSettings 
+    };
+  }
 
-        var sidebarShortcuts = null;
-        if(this.props.enableSideBarShortcuts) sidebarShortcuts = <SideBarShortcuts {...this.props} />;
+  render() {
+    var breadcrumbs = null;
+      if(this.state.enableBreadcrumbs) breadcrumbs = <Breadcrumbs {...this.props} />;
+      var settings = null;
+      if(this.state.enableSettings) settings = <Settings />;
 
-        return (
-            <div className="main-container" id="main-container">
-                <div id="sidebar" className="sidebar responsive">
-                    
-                    {sidebarShortcuts}
-                    <SideBarNavList />
+      return (
+          <div className="main-container" id="main-container">
+              <div id="sidebar" className="sidebar responsive">
+                  
+                  <SideBarShortcuts />
+                  <SideBarNavList />
+                  <div className="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
+                      <i className="ace-icon fa fa-angle-double-left" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
+                  </div>
+              </div>
 
-                    <div className="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
-                        <i className="ace-icon fa fa-angle-double-left" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
-                    </div>
-                </div>
+              {this.props.children}
+              
+              <Footer />
 
-                {this.props.children}
-                
-                <Footer />
-
-            </div>
+          </div>
         );
-    }
-
-});
-
-module.exports = MainContainer;
+  }
+}
