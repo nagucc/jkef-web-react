@@ -3,18 +3,19 @@
 */
 
 import $ from 'jquery';
+import React from 'react';
 
-var React = require('react');
-var UserInfo = React.createClass({
+export default class UserInfo extends React.Component {
 
-    getInitialState: function() {
-        return {
-            logged: false,
-            me: {}
-        };
-    },
-    componentDidMount: function() {
-        $.ajax('/api/auth/wx-ent/me', {
+  constructor(props) {
+    super(props);
+    this.state = {
+      me: {}
+    };
+  }
+
+  componentDidMount() {
+    $.ajax('/api/auth/wx-ent/me', {
             xhrFields: {
                 withCredentials: true
               }
@@ -23,28 +24,25 @@ var UserInfo = React.createClass({
                 me: result.data
             });
        });
-    },
+  }
 
-    render: function() {
-        return this.state.me ? (
-            <div className="navbar-buttons navbar-header pull-right" role="navigation">
-                <ul className="nav ace-nav">
-                    <li className="light-blue">
-                        <a data-toggle="dropdown" href="#" className="dropdown-toggle">
-                            <img className="nav-user-photo" src={this.state.me.avatar} />
-                            <span className="user-info">
-                                <small>欢迎你,</small>
-                                {this.state.me.name}
-                            </span>
+  render() {
+    return this.state.me ? (
+      <div className="navbar-buttons navbar-header pull-right" role="navigation">
+          <ul className="nav ace-nav">
+              <li className="light-blue">
+                  <a data-toggle="dropdown" href="#" className="dropdown-toggle">
+                      <img className="nav-user-photo" src={this.state.me.avatar} />
+                      <span className="user-info">
+                          <small>欢迎你,</small>
+                          {this.state.me.name}
+                      </span>
 
-                            <i className="ace-icon fa fa-caret-down"></i>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        ) : null;
-    }
-
-});
-
-module.exports = UserInfo;
+                      <i className="ace-icon fa fa-caret-down"></i>
+                  </a>
+              </li>
+          </ul>
+      </div>
+  ) : null;
+  }
+}
