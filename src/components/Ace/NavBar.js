@@ -6,23 +6,16 @@
 
 
 import UserInfo from './NavBar/UserInfo';
-import { title, description } from '../../config';
 
 import React from 'react';
 
 export default class NavBar extends React.Component {
   static propTypes = {
-    enableUserInfo: React.PropTypes.bool
+    enableUserInfo: React.PropTypes.bool,
+    title: React.PropTypes.string.isRequired
   };
 
-  constructor(props) {
-    super(props);
-  }
-
   render() {
-    var userInfo = null;
-    if(this.props.enableUserInfo) userInfo = <UserInfo {...this.props}/>;
-        
     return (
 <div id="navbar" className="navbar navbar-default">
   <button type="button" className="navbar-toggle menu-toggler pull-left" id="menu-toggler" data-target="#sidebar">
@@ -39,11 +32,11 @@ export default class NavBar extends React.Component {
       <a href="#" className="navbar-brand">
           <small>
               <i className="fa fa-leaf"></i>
-              {title}
+              {this.props.title}
           </small>
       </a>
   </div>
-  {userInfo}
+  {this.props.enableUserInfo ? <UserInfo/> : null}
 </div>
         );
   }

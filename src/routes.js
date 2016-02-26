@@ -11,18 +11,23 @@ import React from 'react';
 import Router from 'react-routing/src/Router';
 import {siteProfile} from './config';
 import fetch from './core/fetch';
-import App from './components/App';
+import JkefApp from './containers/Jkef/App';
 import NotFoundPage from './components/NotFoundPage';
 import ErrorPage from './components/ErrorPage';
 import ReadingRoom from './components/Jkef/ReadingRoom';
 import JkefIndex from './components/Jkef/Index';
+
 import Stat from './components/Jkef/Stat';
-import Project from './components/Jkef/Projects';
+import Projects from './containers/Projects';
 import Acceptors from './components/Jkef/Acceptors';
 import Detail from './components/Jkef/Acceptors/Detail';
 import Edit from './components/Jkef/Acceptors/Edit';
 import AcceptorRecordEdit from './components/Jkef/Acceptors/Record/Edit';
 import WxSignup from './components/Nagu/WxSignup';
+
+import {store} from './redux/store';
+import reducers from './redux/reducers';
+import {showJkefIndex, showJkefReadingRoom, showJkefProjects, showJkefStat} from './redux/actions';
 
 var fetchJson = async function (url, options) {
     const res = await fetch(url, options);
@@ -36,40 +41,30 @@ const jkefRouter = new Router(on => {
       context: state.context,
       enableUserInfo: false
     };
-    return <App {...props}>{signup}</App>;
+    return <App {...props}> {signup} </App>;
   });
 
   // 首页
   on('/', () => {
-    var props = {
-      enableUserInfo: false
-    };
-    return <App {...props}><JkefIndex /></App>;
+    store.dispatch(showJkefIndex());
+    return <JkefApp><JkefIndex /></JkefApp>;
   });
 
   on('/stat', () => {
-    var props = {
-      enableUserInfo: false
-    };
-
-    return <App {...props}><Stat /></App>;
+    store.dispatch(showJkefStat());
+    return <JkefApp><Stat /></JkefApp>;
   });
 
-  on('/projects', () => {
-    var props = {
-      enableUserInfo: false
-    };
-
-    return <App {...props}><Project /></App>;
+  on('/projects', async () => {
+    store.dispatch(showJkefProjects());
+    return <JkefApp><Projects /></JkefApp>;
   });
 
   // 电子阅览室
   on('/reading-room', async () => {
-    var props = {
-      enableUserInfo: false
-    };
+    store.dispatch(showJkefReadingRoom());
 
-    return <App {...props}><ReadingRoom /></App>;
+    return <JkefApp><ReadingRoom /></JkefApp>;
   });
 
   // 捐赠管理页面中的侧边小图标
