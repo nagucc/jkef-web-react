@@ -1,6 +1,6 @@
 import { createStore, applyMiddleware, compose } from 'redux'
 import createLogger from 'redux-logger';
-import thunk from 'redux-thunk';
+import promise from 'redux-promise';
 import reducers from './reducers';
 
 let logger = createLogger();
@@ -8,12 +8,12 @@ let logger = createLogger();
 let finalCreateStore;
 
 if (process.env.NODE_ENV === 'production') {
-  finalCreateStore = applyMiddleware(thunk)(createStore);
+  finalCreateStore = applyMiddleware(promise)(createStore);
 } else {
   finalCreateStore = compose(
     applyMiddleware(
     	logger,
-    	thunk
+    	promise
     ),
     typeof window === 'object' && typeof window.devToolsExtension !== 'undefined' ? window.devToolsExtension() : f => f
   )(createStore);
