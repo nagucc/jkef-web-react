@@ -6,15 +6,16 @@
 import SideBarShortcuts from './SideBarShortcuts';
 import SideBarNavList from './SideBarNavList';
 import Footer from './Footer';
+import Breadcrumbs from './Breadcrumbs';
 
 import React from 'react';
 
 export default class MainContainer extends React.Component {
   static propTypes = {
-    enableBreadcrumbs: React.PropTypes.bool,
     enableSettings: React.PropTypes.bool,
     sidebarShortcuts: React.PropTypes.array,
-    sidebarNavList: React.PropTypes.array
+    sidebarNavList: React.PropTypes.array,
+    breadcrumbs: React.PropTypes.object.isRequired
   };
 
   render() {
@@ -30,7 +31,7 @@ export default class MainContainer extends React.Component {
               </div>
               <div className="main-content">
                 <div className="main-content-inner">
-                  {this.props.enableBreadcrumbs ? <Breadcrumbs /> : null}
+                  {this.props.breadcrumbs.enable ? <Breadcrumbs /> : null}
                   <div className="page-content">
                     {this.props.enableSettings ? <Settings /> : null}
                     {this.props.children}

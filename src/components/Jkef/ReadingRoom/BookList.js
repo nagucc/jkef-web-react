@@ -1,17 +1,24 @@
-var React = require('react');
+import React from 'react';
 
-var BookList = React.createClass({
-	render: function() {
-		if (!this.props.books || !this.props.books.length)
-			return <p>加载中……</p>;
+export default class BookList extends React.Component {
+  static propTypes = {
+    books: React.PropTypes.array.isRequired,
+  };
 
-		var books = this.props.books;
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    // if (this.props.books.ret === 1)
+			// return <p>加载中……</p>;
+
 		var labels = ['label-info', 'label-danger', 'label-success', 'label-warning'];
 
 		return (
 			<ul className="ace-thumbnails clearfix">
 			{
-				books.map((book, j) => {
+				this.props.books.map((book, j) => {
 					return (
 						<li key={j} >
 							<a href={book.alt} title={book.title} data-rel="colorbox" className="cboxElement">
@@ -36,7 +43,4 @@ var BookList = React.createClass({
 			</ul>
 		);
 	}
-
-});
-
-module.exports = BookList;
+}
