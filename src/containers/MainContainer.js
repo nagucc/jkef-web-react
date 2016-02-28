@@ -3,10 +3,10 @@ import MainContainer from '../components/Ace/MainContainer';
 
 const mapStateToProps = (state, ownProps) => {
 	return {
-		sidebarShortcuts: state.sidebarShortcuts,
-		sidebarNavList: state.sidebarNavList,
-		enableBreadcrumbs: state.enableBreadcrumbs,
-		enableSettings: state.enableSettings
+		sidebarShortcuts: state.mainContainer.sidebarShortcuts,
+		sidebarNavList: state.mainContainer.sidebarNavList,
+		enableSettings: state.enableSettings,
+		breadcrumbs: state.mainContainer.breadcrumbs
 	}
 }
 export default connect(mapStateToProps)(MainContainer);

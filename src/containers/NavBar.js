@@ -4,8 +4,8 @@ import NavBar from '../components/Ace/NavBar';
 
 const mapStateToProps = (state, ownProps) => {
 	return {
-		enableUserInfo: state.enableUserInfo,
-		title: state.title
+		enableUserInfo: state.navbar.enableUserInfo,
+		title: state.navbar.title
 	}
 }
 export default connect(mapStateToProps)(NavBar);
