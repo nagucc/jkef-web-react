@@ -1,57 +1,17 @@
 import { combineReducers } from 'redux';
-import { HOME_PAGE, showHome } from './actions';
+import { HOME_PAGE, READING_ROOM, 
+	FETCH_BOOK_LIST,
+	FETCH_STATUS_READY, FETCH_STATUS_SUCCESS, FETCH_STATUS_FAILURE,
+	SET_NGV_BOOKS_TEXT_FILTER } from './actions';
 import { siteProfile as profile } from '../config';
-
-const enableUserInfo = (state = false, action) => {
-	switch(action.type) {
-		case HOME_PAGE:
-		default:
-			return state;
-	}
-}
-
-const sidebarShortcuts = (state = [], action) => {
-	switch(action.type){
-		case HOME_PAGE:
-		default:
-			return state;
-	}
-}
+import { handleActions, handleAction } from 'redux-actions';
+import navbar from './reducers/navbar';
+import mainContainer from './reducers/mainContainer';
 
 const siteProfile = (state = profile, action) => {
 	return state;
 }
 
-const sidebarNavList = (state, action) => {
-	var list = [{
-  title: '首页',
-  target: '/',
-  icon: 'home'
-}];
-	switch(action.type){
-		case HOME_PAGE:
-		default:
-			switch(profile) {
-				case 'jkef':
-				default:
-					return list.concat([{
-				    title: '电子阅览室',
-				    target: '/reading-room',
-				    icon: 'book'
-				  }, {
-				    title: '项目',
-				    target: '/projects'
-				  }, {
-				    title: '历年统计',
-				    target: '/stat',
-				    icon: 'tachometer'
-				  }, {
-				    title: '捐赠管理',
-				    target: '/acceptors'
-				  }]);
-			}
-	}
-}
 
 const projects = (state = [], action) => {
 	switch(profile){
@@ -76,19 +36,45 @@ const projects = (state = [], action) => {
 	}
 }
 
-const title = (state='家琨教育基金会', action) => {
-	switch(profile) {
-		case 'jkef':
+
+
+
+// 此处暂时不能使用handleAction，待redux-actions版本更新后才能使用。
+const ngvBooks = handleActions({
+	'fetch naguv books': {
+		next(state, action) {
+			var oldData = state.data || {count:0, books:[]};
+			return Object.assign({}, action.payload, {
+				data: Object.assign({}, action.payload.data, {
+					count: oldData.count + action.payload.data.count,
+					books: [...oldData.books, ...action.payload.data.books]
+				})
+			});
+		},
+		throw(state, action){
+			var oldData = state.data || {count:0, books:[]};
+			return Object.assign({}, state, {
+				ret: FETCH_STATUS_FAILURE,
+				msg: action.payload
+			});
+		}
+	}
+}, {ret: FETCH_STATUS_READY, msg: 'ready'});
+
+const ngvBooksTextFilter = (state = null, action) => {
+	switch(action.type){
+		case SET_NGV_BOOKS_TEXT_FILTER:
+			return action.text
 		default:
 			return state;
 	}
 }
 
 export default combineReducers({
-	enableUserInfo,
-	sidebarShortcuts,
+	navbar,
+	mainContainer,
 	siteProfile,
-	sidebarNavList,
 	projects,
-	title
+	ngvBooks,
+	ngvBooksTextFilter
 });
