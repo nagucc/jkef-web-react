@@ -67,7 +67,6 @@ const jkefRouter = new Router(on => {
   // 电子阅览室
   on('/reading-room', async () => {
     store.dispatch(showNgvReadingRoom());
-    // store.dispatch(fetchNgvBooks(0));
     return <JkefApp><ReadingRoom /></JkefApp>;
   });
 
@@ -84,16 +83,8 @@ const jkefRouter = new Router(on => {
 
   // 受赠者－首页
   on('/acceptors', async () => {
-    const res = await fetch('/api/jkef/acceptors/search?page=0&size=20');
-    const content = await res.json();
-    var props = {
-      acceptors: content.data,
-      count: content.count,
-      enableSideBarShortcuts: true,
-      shortcuts: shortcuts
-    };
     store.dispatch(showAcceptors());
-    return content && <JkefApp {...props}><Acceptors /></JkefApp>;
+    return <JkefApp><Acceptors /></JkefApp>;
   });
 
   // 捐赠管理 - 受赠者详情
