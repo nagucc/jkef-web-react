@@ -2,7 +2,8 @@ import { combineReducers } from 'redux';
 import { HOME_PAGE, READING_ROOM, 
 	FETCH_BOOK_LIST,
 	FETCH_STATUS_READY, FETCH_STATUS_SUCCESS, FETCH_STATUS_FAILURE,
-	SET_NGV_BOOKS_TEXT_FILTER } from '../actions';
+	SET_NGV_BOOKS_TEXT_FILTER,
+	SHOW_ACCEPTORS } from '../actions';
 import { siteProfile as profile } from '../../config';
 import { handleActions, handleAction } from 'redux-actions';
 
@@ -16,7 +17,16 @@ const breadcrumbs = (state = { enable: false }, action) =>{
 
 const sidebarShortcuts = (state = [], action) => {
 	switch(action.type){
-		case HOME_PAGE:
+		case SHOW_ACCEPTORS: // 捐赠管理页面中的侧边小图标, 
+			return [{
+		    btnType: 'btn-primary',
+		    icon: 'users',
+		    link: '/acceptors'
+		  }, {
+		    btnType: 'btn-success',
+		    icon: 'plus',
+		    link: '/acceptors/new'
+		  }];
 		default:
 			return state;
 	}

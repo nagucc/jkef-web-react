@@ -23,7 +23,7 @@ export default class MainContainer extends React.Component {
           <div className="main-container" id="main-container">
               <div id="sidebar" className="sidebar responsive">
                   
-                  <SideBarShortcuts />
+                  <SideBarShortcuts sidebarShortcuts={this.props.sidebarShortcuts} />
                   <SideBarNavList items={this.props.sidebarNavList}/>
                   <div className="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
                       <i className="ace-icon fa fa-angle-double-left" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
