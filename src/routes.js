@@ -21,7 +21,7 @@ import JkefIndex from './components/Jkef/Index';
 import Stat from './containers/Jkef/Stat';
 import Projects from './containers/Projects';
 import Acceptors from './containers/Acceptors/Index';
-import Detail from './components/Jkef/Acceptors/Detail';
+import Detail from './containers/Acceptors/Detail';
 import Edit from './components/Jkef/Acceptors/Edit';
 import AcceptorRecordEdit from './components/Jkef/Acceptors/Record/Edit';
 import WxSignup from './components/Nagu/WxSignup';
@@ -30,7 +30,7 @@ import {store} from './redux/store';
 import reducers from './redux/reducers';
 import {showIndex, showBookList, fetchNgvBooks, 
   showNgvReadingRoom, showJkefProjects, showStat,
-  showAcceptors } from './redux/actions';
+  showAcceptors, showAcceptorDetail } from './redux/actions';
 
 var fetchJson = async function (url, options) {
     const res = await fetch(url, options);
@@ -78,13 +78,8 @@ const jkefRouter = new Router(on => {
 
   // 捐赠管理 - 受赠者详情
   on('/acceptors/detail/:id', async(req) => {
-    var acceptor = await fetchJson(`/api/jkef/acceptors/${req.params.id}`);
-
-    var props = {
-      enableSideBarShortcuts: true,
-      shortcuts: shortcuts
-    };
-    return <App {...props}><Detail {...acceptor.data} /></App>;
+    store.dispatch(showAcceptorDetail(req.params.id));
+    return <JkefApp><Detail /></JkefApp>;
   });
 
   on('/acceptors/:id/records/new', async (req) => {

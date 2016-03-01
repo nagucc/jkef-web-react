@@ -8,7 +8,10 @@ let realFetch = fetchJsonp;
 export const HOME_PAGE = 'HOME_PAGE';
 export const READING_ROOM = 'READING_ROOM';
 export const JKEF_PROJECTS = 'JKEF_PROJECTS';
+
 export const SHOW_BOOK_LIST = 'SHOW_BOOK_LIST';
+export const SHOW_ACCEPTOR_DETAIL = 'SHOW_ACCEPTOR_DETAIL';
+
 export const FETCH_NGV_BOOKS = 'fetch naguv books';
 export const SHOW_STAT = 'SHOW_STAT';
 export const FETCH_JKEF_STAT = 'FETCH_JKEF_STAT';
@@ -25,6 +28,8 @@ export const SET_NGV_BOOKS_TEXT_FILTER = 'SET_NGV_BOOKS_TEXT_FILTER';
 export const showIndex = createAction(HOME_PAGE);
 
 export const showBookList = createAction(SHOW_BOOK_LIST, start => start);
+
+export const showAcceptorDetail = createAction(SHOW_ACCEPTOR_DETAIL, id => id);
 
 export const fetchNgvBooks = createAction(FETCH_NGV_BOOKS, async (start = 0) => {
 	const res = await realFetch(`https://api.douban.com/v2/book/search?tag=ngv_电子阅览室&start=${start}`);
@@ -170,3 +175,9 @@ export const fetchAcceptorList = createAction(FETCH_ACCEPTOR_LIST, async (size =
 	return payload;
 })
 
+export const FETCH_ACCEPTOR_BY_ID = 'FETCH_ACCEPTOR_BY_ID';
+export const fetchAcceptorById = createAction(FETCH_ACCEPTOR_BY_ID, async id => {
+	let payload;
+	const json = await (await fetch(`/api/jkef/acceptors/${id}`)).json();
+	return json.data;
+});

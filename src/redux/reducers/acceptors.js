@@ -26,3 +26,19 @@ export const acceptorList = handleActions({
 	}),
 	SET_ACCEPTOR_LIST_FILTER: (state, action) => ({...action.payload})
 }, {ret: actions.FETCH_STATUS_READY, pageIndex: -1});
+
+
+export const acceptorDetail = handleActions({
+	FETCH_ACCEPTOR_BY_ID: {
+		next(state, action){
+			return Object.assign({}, action.payload);
+		},
+		throw(state, action){
+			return {
+				ret: actions.FETCH_STATUS_FAILURE, 
+				msg: action.payload
+			}
+		}
+	},
+	SHOW_ACCEPTOR_DETAIL: (state, action) => ({_id: action.payload})
+}, {ret: actions.FETCH_STATUS_READY});

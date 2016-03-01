@@ -7,7 +7,7 @@ import { siteProfile as profile } from '../config';
 import { handleActions, handleAction } from 'redux-actions';
 import navbar from './reducers/navbar';
 import mainContainer from './reducers/mainContainer';
-import {acceptorList} from './reducers/acceptors';
+import {acceptorList, acceptorDetail} from './reducers/acceptors';
 
 const siteProfile = (state = profile, action) => {
 	return state;
@@ -84,5 +84,6 @@ export default combineReducers({
 	ngvBooks,
 	ngvBooksTextFilter,
 	jkefStat,
-	acceptorList
+	acceptorList,
+	acceptorDetail
 });
