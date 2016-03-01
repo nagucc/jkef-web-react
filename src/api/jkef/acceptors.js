@@ -12,13 +12,15 @@ var search = async (req, res, next) => {
 	var text = req.params.text || '';
 	var page = req.query.page || 0;
 	var size = req.query.size || 20;
+	var project = req.query.project;
+	var year = req.query.year;
 	try {
 		res.send({
 			ret: 0,
 			data: await AM.search(text, {
 				_id:1, name: 1, isMale: 1, phone: 1, idCard:1
-			}, page*size, size),
-			count: await AM.count(text)
+			}, page*size, size, project, year),
+			count: await AM.count(text, project, year)
 		});
 	} catch(e) {
 		res.status(500).send(e);

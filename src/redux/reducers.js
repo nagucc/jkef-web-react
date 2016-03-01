@@ -7,6 +7,7 @@ import { siteProfile as profile } from '../config';
 import { handleActions, handleAction } from 'redux-actions';
 import navbar from './reducers/navbar';
 import mainContainer from './reducers/mainContainer';
+import {acceptorList} from './reducers/acceptors';
 
 const siteProfile = (state = profile, action) => {
 	return state;
@@ -59,7 +60,7 @@ const ngvBooks = handleActions({
 			});
 		}
 	}
-}, {ret: FETCH_STATUS_READY, msg: 'ready'});
+}, {ret: FETCH_STATUS_READY, msg: 'standby'});
 
 const ngvBooksTextFilter = (state = null, action) => {
 	switch(action.type){
@@ -70,11 +71,18 @@ const ngvBooksTextFilter = (state = null, action) => {
 	}
 }
 
+const jkefStat = handleActions({
+	'FETCH_JKEF_STAT': (state, action) => action.payload
+}, null)
+
+
 export default combineReducers({
 	navbar,
 	mainContainer,
 	siteProfile,
 	projects,
 	ngvBooks,
-	ngvBooksTextFilter
+	ngvBooksTextFilter,
+	jkefStat,
+	acceptorList
 });

@@ -12,14 +12,15 @@ import Router from 'react-routing/src/Router';
 import {siteProfile} from './config';
 import fetch from './core/fetch';
 import JkefApp from './containers/Jkef/App';
+import App from './components/App';
 import NotFoundPage from './components/NotFoundPage';
 import ErrorPage from './components/ErrorPage';
-import ReadingRoom from './components/Jkef/ReadingRoom';
+import ReadingRoom from './containers/ReadingRoom';
 import JkefIndex from './components/Jkef/Index';
 
-import Stat from './components/Jkef/Stat';
+import Stat from './containers/Jkef/Stat';
 import Projects from './containers/Projects';
-import Acceptors from './components/Jkef/Acceptors';
+import Acceptors from './containers/Acceptors/Index';
 import Detail from './components/Jkef/Acceptors/Detail';
 import Edit from './components/Jkef/Acceptors/Edit';
 import AcceptorRecordEdit from './components/Jkef/Acceptors/Record/Edit';
@@ -27,7 +28,9 @@ import WxSignup from './components/Nagu/WxSignup';
 
 import {store} from './redux/store';
 import reducers from './redux/reducers';
-import {showJkefIndex, showJkefReadingRoom, showJkefProjects, showJkefStat} from './redux/actions';
+import {showIndex, showBookList, fetchNgvBooks, 
+  showNgvReadingRoom, showJkefProjects, showStat,
+  showAcceptors } from './redux/actions';
 
 var fetchJson = async function (url, options) {
     const res = await fetch(url, options);
@@ -46,12 +49,13 @@ const jkefRouter = new Router(on => {
 
   // 首页
   on('/', () => {
-    store.dispatch(showJkefIndex());
+    store.dispatch(showIndex());
+    
     return <JkefApp><JkefIndex /></JkefApp>;
   });
 
   on('/stat', () => {
-    store.dispatch(showJkefStat());
+    store.dispatch(showStat());
     return <JkefApp><Stat /></JkefApp>;
   });
 
@@ -62,8 +66,8 @@ const jkefRouter = new Router(on => {
 
   // 电子阅览室
   on('/reading-room', async () => {
-    store.dispatch(showJkefReadingRoom());
-
+    store.dispatch(showNgvReadingRoom());
+    // store.dispatch(fetchNgvBooks(0));
     return <JkefApp><ReadingRoom /></JkefApp>;
   });
 
@@ -88,7 +92,8 @@ const jkefRouter = new Router(on => {
       enableSideBarShortcuts: true,
       shortcuts: shortcuts
     };
-    return content && <App {...props}><Acceptors  {...props} /></App>;
+    store.dispatch(showAcceptors());
+    return content && <JkefApp {...props}><Acceptors /></JkefApp>;
   });
 
   // 捐赠管理 - 受赠者详情

@@ -308,18 +308,35 @@ class AcceptorManager {
         }, cb);
     }
 
-    async search(text, projections, skip = 0, limit = 20, year = null, project = null) {
-        var reg = new RegExp(text);
-        var condition = {
-            $or: [{ name: reg }, {phone: reg}],
-            isDeleted: {$ne: true}
-        };
+    /*
+    查询受赠人
+    参数：
+    - text 根据姓名／电话查询
+    - projections 返回数据的投影
+    - skip 跳过前面的记录数
+    - limit 最多读取的记录数
+    - project 根据受赠项目检索
+    - year 根据记录时间检索
+    */
+    async search(text, projections, skip = 0, limit = 20, project = null, year = null) {
+        var condition = { isDeleted: {$ne: true} };
+        if(text) {
+          var reg = new RegExp(text);
+          condition['$or'] = [{ name: reg }, {phone: reg}];
+        }
+        if(project) {
+          condition['records.project'] = project;
+        }
         if(year) {
-          condition['$and'] = [{
-            'records.date' : { $gte: new Date(2006, 0, 1)}
-          }, {
-            'records.date' : { $lt: new Date(2006 + 1 , 0, 1)}
-          }];
+          year = parseInt(year);
+          condition['records'] = {
+            $elemMatch: {
+              date: { 
+                $gte: new Date(year, 0, 1),
+                $lt: new Date(year + 1, 0, 1)
+              }
+            }
+          }
         }
         return new Promise((resolve, reject) => {
           Acceptor.find(condition, projections, {
@@ -334,22 +351,27 @@ class AcceptorManager {
         
     }
 
-    async count(text){
+    async count(text, project, year){
         var condition = {
           isDeleted: {$ne: true},
-          // 'records.project': '奖学金'
-          // records: {
-          //   $elemMatch: {
-          //     date: { 
-          //       $gte: new Date(2011, 0, 1),
-          //       $lt: new Date(2011 + 1, 0, 1)
-          //     }
-          //   }
-          // }
         };
         if(text){
             var reg = new RegExp(text);
             condition['$or'] = [{ name: reg }, {phone: reg}];
+        }
+        if(project) {
+          condition['records.project'] = project;
+        }
+        if(year) {
+          year = parseInt(year);
+          condition['records'] = {
+            $elemMatch: {
+              date: { 
+                $gte: new Date(year, 0, 1),
+                $lt: new Date(year + 1, 0, 1)
+              }
+            }
+          }
         }
         return new Promise((resolve, reject) => {
           Acceptor.count(condition, (err, result) => {
