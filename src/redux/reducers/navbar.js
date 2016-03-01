@@ -7,6 +7,7 @@ import { handleActions, handleAction } from 'redux-actions';
 const enableUserInfo = (state = false, action) => {
 	switch(action.type) {
 		case actions.SHOW_ACCEPTORS:
+		case actions.SHOW_ACCEPTOR_DETAIL:
 			return true;
 		default:
 			return state;

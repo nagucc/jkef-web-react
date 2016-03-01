@@ -178,6 +178,12 @@ export const fetchAcceptorList = createAction(FETCH_ACCEPTOR_LIST, async (size =
 export const FETCH_ACCEPTOR_BY_ID = 'FETCH_ACCEPTOR_BY_ID';
 export const fetchAcceptorById = createAction(FETCH_ACCEPTOR_BY_ID, async id => {
 	let payload;
-	const json = await (await fetch(`/api/jkef/acceptors/${id}`)).json();
-	return json.data;
+	const res = await fetch(`/api/jkef/acceptors/${id}`);
+	if(res.status === 500) throw new Error(res.statusText);
+	else return await res.json().data;
 });
+
+export const REMOVE_ACCEPTOR = 'REMOVE_ACCEPTOR';
+export const removeAcceptor = createAction(REMOVE_ACCEPTOR, async id => {
+
+})
