@@ -70,17 +70,6 @@ const jkefRouter = new Router(on => {
     return <JkefApp><ReadingRoom /></JkefApp>;
   });
 
-  // 捐赠管理页面中的侧边小图标
-  var shortcuts = [{
-    btnType: 'btn-primary',
-    icon: 'users',
-    link: '/acceptors'
-  }, {
-    btnType: 'btn-success',
-    icon: 'plus',
-    link: '/acceptors/new'
-  }];
-
   // 受赠者－首页
   on('/acceptors', async () => {
     store.dispatch(showAcceptors());
