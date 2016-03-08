@@ -25,6 +25,7 @@
     "isomorphic-fetch": "^2.2.1",
     "jquery": "^2.1.4",
     "moment": "^2.11.1",
+    "mongodb": "^2.1.7",
     "mongoose": "^4.3.4",
     "morgan": "^1.6.1",
     "nagu-react-components": "0.0.3",
@@ -47,12 +48,14 @@
     "wechat-enterprise": "^0.1.1",
     "whatwg-fetch": "0.10.1",
     "wx-errmsg": "^1.0.1",
-    "wxent-api-redis": "0.0.4"
+    "wxent-api-redis": "0.0.4",
+    "xlsx": "^0.8.0"
   },
   "devDependencies": {
     "assets-webpack-plugin": "^3.2.0",
     "autoprefixer": "^6.1.2",
     "babel": "^5.8.34",
+    "babel-cli": "^6.6.5",
     "babel-eslint": "^4.1.6",
     "babel-loader": "^5.4.0",
     "babel-plugin-react-transform": "^1.1.1",
@@ -105,6 +108,7 @@
     "bundle": "babel-node tools/run bundle",
     "build": "babel-node tools/run build",
     "deploy": "babel-node tools/run deploy",
-    "start": "babel-node tools/run start"
+    "start": "babel-node tools/run start",
+    "mocha": "./node_modules/.bin/mocha --compilers js:babel/register"
   }
 }
