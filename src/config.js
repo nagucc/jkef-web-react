@@ -82,3 +82,12 @@ export const redisConfig = {
 
 // Mongodb 数据库服务器Url
 export const mongoUrl = process.env.MONGO_URL || 'mongodb://localhost/jkef';
+
+// ynu数据库 服务器url
+export const ynu_mongo_url = process.env.YNU_MONGO_URL || 'mongodb://localhost/jkef';
+
+export const GdzcXlsTitles = {
+  Glr: process.env.GDZC_TITLE_GLR || '管理人',
+  Lyr: process.env.GDZC_TITLE_LYR || '领用人',
+  Bqh: process.env.GDZC_TITLE_BQH || '标签号'
+};
