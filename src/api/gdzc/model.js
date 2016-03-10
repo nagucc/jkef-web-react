@@ -1,16 +1,63 @@
 import {MongoClient} from 'mongodb';
 import {ynu_mongo_url as url, GdzcXlsTitles} from '../../config';
 
+/**
+ * 用于保存原始数据的集合的名称
+ * @type {String}
+ */
 const RAW_COLLECTION = 'gdzc_raw';
+const MODEL_COLLECTION = 'gdzc_model';
+const STAT_BY_YEAR_COLLECTION = 'gdzc_statByYear';
 
-const useRaw = async cb => {
+const useCollection = async (collectionName, cb) => {
   let db = await MongoClient.connect(url);
-  let col = db.collection(RAW_COLLECTION);
+  let col = db.collection(collectionName);
   let result = await cb(col, db);
   db.close();
   return result;
-};
+}
+/**
+ * 使用原始数据集合
+ * @type {Function}
+ */
+const useRaw = cb => useCollection(RAW_COLLECTION, cb);
 
+const useModel = cb => useCollection(MODEL_COLLECTION, cb);
+
+const useStatByYear = cb => useCollection(STAT_BY_YEAR_COLLECTION, cb);
+
+const insertIfNotExists = async (col, rowData) => {
+  let zc = await col.findOne({Bqh: rowData[GdzcXlsTitles.Bqh]});
+  if(zc)
+    return col.findOneAndUpdate({Bqh: rowData[GdzcXlsTitles.Bqh]}, {
+      $push: {log: {text: '重新导入数据', date: new Date()}}
+    });
+  else {
+    let doc = Object.assign({},
+      // 插入所有原始值
+      {...rowData},
+
+      // 插入日志
+      {
+        log: [{
+          text: '初始化数据',
+          date: new Date()
+        }]
+      },
+      // 为了便于使用mapReduce进行统计，将需要map的字段使用固定字段进行存放。
+      {
+        // 原值
+        Yz: rowData[GdzcXlsTitles.Yz],
+        // 购置日期的年份字段
+        GzrqYear: rowData[GdzcXlsTitles.Gzrq].getFullYear(),
+        // 使用年限
+        Synx: rowData[GdzcXlsTitles.Synx],
+        // 单价
+        Dj: rowData[GdzcXlsTitles.Dj]
+      });
+    return col.insertOne(doc);
+  }
+}
 /**
  * 管理固定资产数据库的类
  */
@@ -22,26 +69,29 @@ export default class GdzcModel {
    * @return {Promise}
    */
   async merge (xls) {
-    return new Promise(async (resolve, reject) => {
-      if(!xls.sheet) reject('xls have not been loaded yet.');
+    if(!xls.sheet) return Promise.reject('GdzcXls object has not been loaded yet.');
 
-      let db = await MongoClient.connect(url);
-      let col = db.collection(RAW_COLLECTION);
-
-      let range = xls.range();
-      let promises = [];
+    let range = xls.range();
+    return useRaw(colRaw => useModel(colModel => {
       let rowIndex = 0;
+      let promises = [];
       while (++rowIndex <= range.e.r) {
         var rowData = xls.getRowData(rowIndex);
         let filter = {};
         filter[GdzcXlsTitles.Bqh] = rowData[GdzcXlsTitles.Bqh];
-        promises.push(col.updateOne(filter, {$set: rowData}, {upsert: true}));
+        promises.push(
+          // 用xls数据逐条替换raw数据库中的数据
+          colRaw.updateOne(
+            filter,
+            {$set: rowData},
+            {upsert: true}
+          ),
+          // 如果是第一次导入，则初始化model数据
+          insertIfNotExists(colModel, rowData)
+        );
       }
-      Promise.all(promises).then(() => {
-        db.close();
-        resolve();
-      });
-    });
+      return Promise.all(promises);
+    }));
   }
 
   /**
@@ -92,10 +142,60 @@ export default class GdzcModel {
    * 获取现有管理人列表
    * @return {Promise} 管理人名称列表
    */
+
   async getGlrs() {
     let zcs = await useRaw(async col => await col.distinct(GdzcXlsTitles.Glr));
     return zcs.map(zc => {
       return zc[GdzcXlsTitles.Glr];
     });
   }
+
+  async count() {
+    return useModel(col => col.count());
+  }
+
+  async amount() {
+    return new Promise((resolve, reject) => {
+      useModel(async col => {
+        let result = await col.aggregate([{
+          $group: {
+            _id: new Date(),
+            amount: {$sum: '$'+GdzcXlsTitles.Yz}
+          }
+        }]).next();
+        resolve(result.amount);
+      });
+    })
+  }
+
+  async statByYear() {
+    return useStatByYear(col => col.find().toArray());
+  }
+
+  async computeStatByYear() {
+    let map = function() {
+      let year = this.GzrqYear;
+      emit(year, {
+        amount: this.Yz,
+        count: 1
+      });
+    }
+    let reduce = function(key, values) {
+      let amount = 0, count = 0;
+      values.forEach(val => {
+        amount += val.amount;
+        count += val.count;
+      });
+      return {amount, count};
+    }
+    return useModel(col => col.mapReduce(map, reduce, {
+        out: {replace: STAT_BY_YEAR_COLLECTION}
+    }));
+  }
+  // 
+  // async computeScrappingByYear () {
+  //   let map = function () {
+  //     emit(this.GzrqYear + , )
+  //   }
+  // }
 }
