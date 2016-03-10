@@ -40,7 +40,7 @@ server.use(session({
 server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
-})); 
+}));
 server.use(morgan('dev'));
 //
 // Register API middleware
@@ -53,6 +53,10 @@ server.use('/api/auth/wx-ent', require('./api/auth/wx-ent'));
 server.use('/api/jkef/acceptors', require('./api/jkef/acceptors'));
 server.use('/api/jkef/stat', require('./api/jkef/stat'));
 server.use('/api/wx-ent/signup', require('./api/wx-ent/signup'));
+
+// 开始执行后台操作
+require('./api/gdzc/worker');
+server.use('/api/gdzc', require('./api/gdzc/rest'));
 
 //
 // Register server-side rendering middleware
