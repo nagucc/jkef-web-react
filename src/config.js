@@ -11,7 +11,7 @@ export const port = process.env.PORT || 5000;
 export const host = process.env.WEBSITE_HOSTNAME || `localhost:${port}`;
 export const googleAnalyticsId = 'UA-XXXXX-X';
 
-export const siteProfile = process.env.SITE_PROFILE || 'jkef'
+export const siteProfile = process.env.SITE_PROFILE || 'gdzc'
 export const enableBreadcrumbs = false;
 export const enableSettings = false;
 
@@ -39,6 +39,7 @@ var naguConfig = {
 var profiles = [];
 profiles['jkef'] = jkefConfig;
 profiles['nagu'] = naguConfig;
+profiles['gdzc'] = {};
 
 var thisProfile = profiles[siteProfile];
 export const title = thisProfile.siteName;
@@ -84,10 +85,15 @@ export const redisConfig = {
 export const mongoUrl = process.env.MONGO_URL || 'mongodb://localhost/jkef';
 
 // ynu数据库 服务器url
-export const ynu_mongo_url = process.env.YNU_MONGO_URL || 'mongodb://localhost/jkef';
+export const ynu_mongo_url = process.env.YNU_MONGO_URL || 'mongodb://localhost/ynu';
 
 export const GdzcXlsTitles = {
   Glr: process.env.GDZC_TITLE_GLR || '管理人',
   Lyr: process.env.GDZC_TITLE_LYR || '领用人',
-  Bqh: process.env.GDZC_TITLE_BQH || '标签号'
+  Bqh: process.env.GDZC_TITLE_BQH || '标签号',
+  Dj: process.env.GDZC_TITLE_DJ || '单价',
+  Sl: process.env.GDZC_TITLE_SL || '数量',
+  Yz: process.env.GDZC_TITLE_YZ || '原值',
+  Gzrq: process.env.GDZC_TITLE_GZRQ || '购置日期',
+  Synx: process.env.GDZC_TITLE_SYNX || '使用年限'
 };
