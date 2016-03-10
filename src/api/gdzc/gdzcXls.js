@@ -1,5 +1,6 @@
 import xlsx from 'xlsx';
-
+import {GdzcXlsTitles} from '../../config';
+import moment from 'moment';
 /**
  * 用于管理固定资产xls文件
  */
@@ -50,10 +51,33 @@ export default class GdzcXls {
     let range = this.range();
     for (var i = 0; i <= range.e.c; i++) {
       let title = this.getTitle(i);
-      let value = this.sheet[this.getCellAddress(i, rowIndex)].v;
+      let value;
+      switch (title) {
+        case GdzcXlsTitles.Sl:
+        case GdzcXlsTitles.Dj:
+        case GdzcXlsTitles.Yz:
+        case GdzcXlsTitles.Synx:
+          value = this.sheet[this.getCellAddress(i, rowIndex)].v
+          break;
+        case GdzcXlsTitles.Gzrq:
+          value = moment(this.sheet[this.getCellAddress(i, rowIndex)].w, 'M/D/YY').toDate();
+          break;
+        default:
+          value = this.sheet[this.getCellAddress(i, rowIndex)].w;
+      }
       row[title] = value;
     }
     return row;
+  }
+
+  getCellData(cell) {
+    switch (cell.t) {
+      case 'd':
+      case 'n':
+        return cell.w
+      default:
+        return cell.v
+    }
   }
 
   /**
