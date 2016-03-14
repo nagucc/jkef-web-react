@@ -8,12 +8,12 @@
  */
 
 import React, { Component, PropTypes } from 'react';
-import s from './NotFoundPage.scss';
-import withStyles from '../../decorators/withStyles';
+// import s from './NotFoundPage.scss';
+// import withStyles from '../../decorators/withStyles';
 
 const title = 'Page Not Found';
 
-@withStyles(s)
+//@withStyles(s)
 class NotFoundPage extends Component {
 
   static contextTypes = {

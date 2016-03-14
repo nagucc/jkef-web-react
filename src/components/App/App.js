@@ -1,7 +1,7 @@
 
 import React, { Component, PropTypes } from 'react';
 import emptyFunction from 'fbjs/lib/emptyFunction';
-import s from './App.scss';
+// import s from './App.scss';
 
 
 
@@ -46,7 +46,7 @@ class App extends Component {
   }
 
   componentWillMount() {
-    this.removeCss = this.props.context.insertCss(s);
+    this.removeCss = () =>{}//this.props.context.insertCss(s);
   }
 
   componentWillUnmount() {
@@ -55,7 +55,7 @@ class App extends Component {
 
 
   render() {
-    
+
 
     return !this.props.error ? (
       <div>

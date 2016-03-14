@@ -8,12 +8,12 @@
  */
 
 import React, { Component, PropTypes } from 'react';
-import s from './ErrorPage.scss';
+//import s from './ErrorPage.scss';
 import withStyles from '../../decorators/withStyles';
 
 const title = 'Error';
 
-@withStyles(s)
+//@withStyles(s)
 class ErrorPage extends Component {
 
   static contextTypes = {

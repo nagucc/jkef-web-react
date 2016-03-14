@@ -1,5 +1,5 @@
 
-import 'babel-core/polyfill';
+import 'babel-polyfill';
 import path from 'path';
 import express from 'express';
 import React from 'react';
@@ -48,15 +48,15 @@ server.use(morgan('dev'));
 
 // 连接mongoose
 require('./api/mongoose');
-
 server.use('/api/auth/wx-ent', require('./api/auth/wx-ent'));
 server.use('/api/jkef/acceptors', require('./api/jkef/acceptors'));
 server.use('/api/jkef/stat', require('./api/jkef/stat'));
 server.use('/api/wx-ent/signup', require('./api/wx-ent/signup'));
+server.use('/api/gdzc', require('./api/gdzc/rest'));
 
 // 开始执行后台操作
 require('./api/gdzc/worker');
-server.use('/api/gdzc', require('./api/gdzc/rest'));
+
 
 //
 // Register server-side rendering middleware
