@@ -19,8 +19,9 @@ function bundle() {
       if (err) {
         return reject(err);
       }
+
       console.log(stats.toString(webpackConfig[0].stats));
-      resolve();
+      return resolve();
     });
   });
 }
