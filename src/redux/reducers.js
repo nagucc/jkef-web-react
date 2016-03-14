@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { HOME_PAGE, READING_ROOM, 
+import { HOME_PAGE, READING_ROOM,
 	FETCH_BOOK_LIST,
 	FETCH_STATUS_READY, FETCH_STATUS_SUCCESS, FETCH_STATUS_FAILURE,
 	SET_NGV_BOOKS_TEXT_FILTER } from './actions';
@@ -8,6 +8,7 @@ import { handleActions, handleAction } from 'redux-actions';
 import navbar from './reducers/navbar';
 import mainContainer from './reducers/mainContainer';
 import {acceptorList, acceptorDetail} from './reducers/acceptors';
+import gdzcReducers from './reducers/gdzc';
 
 const siteProfile = (state = profile, action) => {
 	return state;
@@ -75,15 +76,30 @@ const jkefStat = handleActions({
 	'FETCH_JKEF_STAT': (state, action) => action.payload
 }, null)
 
+const getFinalReducers = () => {
+	let finalReducers = {
+		navbar,
+		mainContainer,
+		siteProfile
+	};
+	switch (profile) {
+		case 'jkef':
+			finalReducers = Object.assign(finalReducers, {
+				projects,
+				ngvBooks,
+				ngvBooksTextFilter,
+				jkefStat,
+				acceptorList,
+				acceptorDetail
+			});
+			break;
+		case 'gdzc':
+			finalReducers = Object.assign(finalReducers, {
+				...gdzcReducers
+			});
+			break;
+	}
+	return combineReducers(finalReducers);
+}
 
-export default combineReducers({
-	navbar,
-	mainContainer,
-	siteProfile,
-	projects,
-	ngvBooks,
-	ngvBooksTextFilter,
-	jkefStat,
-	acceptorList,
-	acceptorDetail
-});
+export default getFinalReducers();

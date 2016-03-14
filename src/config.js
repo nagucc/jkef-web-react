@@ -87,6 +87,8 @@ export const mongoUrl = process.env.MONGO_URL || 'mongodb://localhost/jkef';
 // ynu数据库 服务器url
 export const ynu_mongo_url = process.env.YNU_MONGO_URL || 'mongodb://localhost/ynu';
 
+// 固定资产大型设备阈值
+export const gdzc_dxsb_yz = 100000;
 export const GdzcXlsTitles = {
   Glr: process.env.GDZC_TITLE_GLR || '管理人',
   Lyr: process.env.GDZC_TITLE_LYR || '领用人',

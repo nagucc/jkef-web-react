@@ -1,5 +1,6 @@
 import {MongoClient} from 'mongodb';
-import {ynu_mongo_url as url, GdzcXlsTitles} from '../../config';
+import {ynu_mongo_url as url, GdzcXlsTitles,
+  gdzc_dxsb_yz} from '../../config';
 
 /**
  * 用于保存原始数据的集合的名称
@@ -8,6 +9,8 @@ import {ynu_mongo_url as url, GdzcXlsTitles} from '../../config';
 const RAW_COLLECTION = 'gdzc_raw';
 const MODEL_COLLECTION = 'gdzc_model';
 const STAT_BY_YEAR_COLLECTION = 'gdzc_statByYear';
+
+
 
 const useCollection = async (collectionName, cb) => {
   let db = await MongoClient.connect(url);
@@ -46,6 +49,8 @@ const insertIfNotExists = async (col, rowData) => {
       },
       // 为了便于使用mapReduce进行统计，将需要map的字段使用固定字段进行存放。
       {
+        // 标签号
+        Bqh: rowData[GdzcXlsTitles.Bqh],
         // 原值
         Yz: rowData[GdzcXlsTitles.Yz],
         // 购置日期的年份字段
@@ -53,7 +58,9 @@ const insertIfNotExists = async (col, rowData) => {
         // 使用年限
         Synx: rowData[GdzcXlsTitles.Synx],
         // 单价
-        Dj: rowData[GdzcXlsTitles.Dj]
+        Dj: rowData[GdzcXlsTitles.Dj],
+        // 状态，默认为使用中
+        Status: GdzcModel.Status.USING
       });
     return col.insertOne(doc);
   }
@@ -62,6 +69,10 @@ const insertIfNotExists = async (col, rowData) => {
  * 管理固定资产数据库的类
  */
 export default class GdzcModel {
+
+  static Status = {
+    USING: 1
+  };
 
   /**
    * 合并xls数据到数据库中
@@ -132,10 +143,7 @@ export default class GdzcModel {
    * @return {Promise} 领用人名称列表
    */
   async getLyrs() {
-    let zcs = await useRaw(async col => await col.distinct(GdzcXlsTitles.Lyr));
-    return zcs.map(zc => {
-      return zc[GdzcXlsTitles.Lyr];
-    });
+    return await useRaw(async col => await col.distinct(GdzcXlsTitles.Lyr));
   }
 
   /**
@@ -144,10 +152,7 @@ export default class GdzcModel {
    */
 
   async getGlrs() {
-    let zcs = await useRaw(async col => await col.distinct(GdzcXlsTitles.Glr));
-    return zcs.map(zc => {
-      return zc[GdzcXlsTitles.Glr];
-    });
+    return await useRaw(async col => await col.distinct(GdzcXlsTitles.Glr));
   }
 
   async count() {
@@ -168,31 +173,71 @@ export default class GdzcModel {
     })
   }
 
+  async dxsbTotalStat() {
+    return new Promise((resolve, reject) => {
+      useStatByYear(async col => {
+        let result = await col.find().toArray();
+        let dxsbAmount = 0, dxsbCount = 0;
+        result.forEach(doc => {
+          dxsbAmount += doc.value.dxsbAmount;
+          dxsbCount += doc.value.dxsbCount;
+        });
+        resolve({ dxsbAmount, dxsbCount});
+      });
+    })
+  }
+
   async statByYear() {
     return useStatByYear(col => col.find().toArray());
+  }
+
+  async scrapingTotalStat() {
+    return new Promise((resolve, reject) => {
+      useStatByYear(async col => {
+        let result = await col.find().toArray();
+        let scrapingAmount = 0, scrapingCount = 0;
+        result.forEach(doc => {
+          scrapingAmount += doc.value.scrapingAmount;
+          scrapingCount += doc.value.scrapingCount;
+        });
+        resolve({ scrapingAmount, scrapingCount});
+      });
+    })
   }
 
   async computeStatByYear() {
     let map = function() {
       let year = this.GzrqYear;
+      var thisYear = (new Date()).getYear() + 1900;
       emit(year, {
         amount: this.Yz,
-        count: 1
+        count: 1,
+        dxsbAmount: this.Yz >= 100000 ? this.Yz : 0,
+        dxsbCount: this.Yz >= 100000 ? 1 : 0,
+        scrapingAmount: this.GzrqYear + this.Synx < thisYear ? this.Yz : 0,
+        scrapingCount: this.GzrqYear + this.Synx < thisYear ? 1 : 0
       });
     }
     let reduce = function(key, values) {
-      let amount = 0, count = 0;
+      let amount = 0, count = 0, dxsbAmount = 0, dxsbCount = 0;
+      let scrapingCount = 0, scrapingAmount = 0;
       values.forEach(val => {
         amount += val.amount;
         count += val.count;
+        dxsbAmount += val.dxsbAmount;
+        dxsbCount += val.dxsbCount;
+        scrapingAmount += val.scrapingAmount;
+        scrapingCount += val.scrapingCount;
       });
-      return {amount, count};
+      return {amount, count, dxsbAmount, dxsbCount,
+        scrapingCount, scrapingAmount
+      };
     }
     return useModel(col => col.mapReduce(map, reduce, {
         out: {replace: STAT_BY_YEAR_COLLECTION}
     }));
   }
-  // 
+  //
   // async computeScrappingByYear () {
   //   let map = function () {
   //     emit(this.GzrqYear + , )

@@ -4,13 +4,13 @@ import GdzcModel from '../src/api/gdzc/model';
 import GdzcXls from '../src/api/gdzc/gdzcXls';
 
 describe('Gdzc Model', function() {
-  this.timeout(15000);
+  this.timeout(90000);
   var gdzc = new GdzcModel();
-  // it('merge xls to model', async ()=>{
-  //   var xls = new GdzcXls();
-  //   xls.load('gdzc.xls');
-  //   await gdzc.merge(xls);
-  // });
+  it('merge xls to model', async ()=>{
+    var xls = new GdzcXls();
+    xls.load('gdzc.xls');
+    await gdzc.merge(xls);
+  });
 
   it('findByBqh', async () => {
     let zc = await gdzc.findByBqh('200100221500');
@@ -37,5 +37,27 @@ describe('Gdzc Model', function() {
   it('getGlrs', async () => {
     let lyrs = await gdzc.getGlrs();
     expect(lyrs.length).to.above(0);
+  });
+
+  it('count', async () => {
+    let count = await gdzc.count();
+    expect(count).to.above(10);
+  });
+
+  it('amount', async () => {
+    let amount = await gdzc.amount();
+    expect(amount).to.above(10);
+  });
+
+  it('statByYear', async () => {
+    await gdzc.computeStatByYear();
+    let result = await gdzc.statByYear();
+    expect(result).to.be.ok;
+  });
+
+  it('dxsbTotalStat', async() => {
+    let result = await gdzc.dxsbTotalStat();
+    expect(result.dxsbCount).to.above(10);
+    expect(result.dxsbAmount).to.above(100000);
   });
 });

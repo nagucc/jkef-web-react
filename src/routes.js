@@ -22,15 +22,16 @@ import Stat from './containers/Jkef/Stat';
 import Projects from './containers/Projects';
 import Acceptors from './containers/Acceptors/Index';
 import Detail from './containers/Acceptors/Detail';
-import Edit from './components/Jkef/Acceptors/Edit';
+import Edit from './containers/Acceptors/Edit';
 import AcceptorRecordEdit from './components/Jkef/Acceptors/Record/Edit';
 import WxSignup from './components/Nagu/WxSignup';
 
 import {store} from './redux/store';
 import reducers from './redux/reducers';
-import {showIndex, showBookList, fetchNgvBooks, 
+import {showIndex, showBookList, fetchNgvBooks,
   showNgvReadingRoom, showJkefProjects, showStat,
-  showAcceptors, showAcceptorDetail } from './redux/actions';
+  showAcceptors, showAcceptorDetail,
+  newAcceptor } from './redux/actions';
 
 var fetchJson = async function (url, options) {
     const res = await fetch(url, options);
@@ -50,7 +51,6 @@ const jkefRouter = new Router(on => {
   // 首页
   on('/', () => {
     store.dispatch(showIndex());
-    
     return <JkefApp><JkefIndex /></JkefApp>;
   });
 
@@ -82,6 +82,11 @@ const jkefRouter = new Router(on => {
     return <JkefApp><Detail /></JkefApp>;
   });
 
+  on('/acceptors/new', async(req) => {
+    store.dispatch(newAcceptor());
+    return <JkefApp><Edit /></JkefApp>;
+  });
+
   on('/acceptors/:id/records/new', async (req) => {
     var acceptor = await fetchJson(`/api/jkef/acceptors/${req.params.id}`);
     var props = {
@@ -93,7 +98,7 @@ const jkefRouter = new Router(on => {
         <AcceptorRecordEdit acceptorId={acceptor.data._id} name={acceptor.data.name} />
       </App>
       );
-  })
+  });
 
   // 以下所有页面都使用默认App组件进行框架包裹
   on('*', async (state, next) => {
@@ -106,9 +111,7 @@ const jkefRouter = new Router(on => {
     return component && <App {...props}>{component}</App>;
   });
 
-  on('/acceptors/new', async(req) => {
-    return <Edit />;
-  });
+
 
   on('/acceptors/edit/:id', async(req) => {
     var acceptor = await fetchJson(`/api/jkef/acceptors/${req.params.id}`);
@@ -122,7 +125,8 @@ const jkefRouter = new Router(on => {
 });
 
 var routers = {
-  'jkef': jkefRouter
+  'jkef': jkefRouter,
+  'gdzc': require('./routers/gdzc')
 };
 
 
