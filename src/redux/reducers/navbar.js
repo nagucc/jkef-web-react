@@ -8,6 +8,7 @@ const enableUserInfo = (state = false, action) => {
 	switch(action.type) {
 		case actions.SHOW_ACCEPTORS:
 		case actions.SHOW_ACCEPTOR_DETAIL:
+		case actions.NEW_ACCEPTOR:
 			return true;
 		default:
 			return state;
@@ -17,6 +18,8 @@ const enableUserInfo = (state = false, action) => {
 const title = (state='家琨教育基金会', action) => {
 	switch(profile) {
 		case 'jkef':
+		case 'gdzc':
+			return '固定资产助手';
 		default:
 			return state;
 	}

@@ -60,4 +60,7 @@ describe('Gdzc Model', function() {
     expect(result.dxsbCount).to.above(10);
     expect(result.dxsbAmount).to.above(100000);
   });
+  it('search', async() =>{
+    gdzc.search('df');
+  })
 });

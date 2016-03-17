@@ -61,7 +61,6 @@ export default class Records extends React.Component {
 						<div className="widget-body">
 							<div className="widget-main">
 								<ul className="list-unstyled spaced2">
-									<FieldItem title="Id" value={record._id} />
 									<FieldItem title="日期" value={moment(record.date).format('YYYY/M/D')} />
 									<FieldItem title="推荐人" value={record.recommander} />
 									<FieldItem title='备注' value={record.remark} />

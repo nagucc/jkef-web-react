@@ -71,7 +71,8 @@ const insertIfNotExists = async (col, rowData) => {
 export default class GdzcModel {
 
   static Status = {
-    USING: 1
+    USING: 1,
+    SCRAPING: 9
   };
 
   /**
@@ -205,6 +206,36 @@ export default class GdzcModel {
     })
   }
 
+  async search(bqh='', year = 0, lyr = '', glr = '', onlyScraping = false, onlyDxsb = false, start = 0) {
+    let query = {};
+    if(bqh.trim().length > 0) {
+      let reg = new RegExp(bqh.trim());
+      Object.assign(query, { Bqh: reg });
+    }
+
+    if(year > 0) Object.assign(query, {GzrqYear: parseInt(year)})
+    if(lyr.trim().length > 0) {
+      let reg = new RegExp(lyr.trim());
+      query[GdzcXlsTitles.Lyr] = reg;
+    }
+    if(glr.trim().length > 0) {
+      let reg = new RegExp(glr.trim());
+      query[GdzcXlsTitles.Glr] = reg;
+    }
+    if(onlyScraping) {
+      Object.assign(query, {
+        Status: GdzcModel.Status.SCRAPING
+      });
+    }
+    if(onlyDxsb) {
+      Object.assign(query, {
+        Yz: {$gte: gdzc_dxsb_yz}
+      })
+    }
+    console.log(query);
+    return useModel(col => (col.find(query).limit(20).toArray()));
+  }
+
   async computeStatByYear() {
     let map = function() {
       let year = this.GzrqYear;
@@ -237,10 +268,31 @@ export default class GdzcModel {
         out: {replace: STAT_BY_YEAR_COLLECTION}
     }));
   }
-  //
-  // async computeScrappingByYear () {
-  //   let map = function () {
-  //     emit(this.GzrqYear + , )
-  //   }
-  // }
+
+
+  async computeScrapping () {
+    return new Promise((resolve, reject) => {
+      useModel(async col => {
+        try{
+          var cursor = col.find({
+            'Status': GdzcModel.Status.USING,
+            $where: function(){
+              var thisYear = (new Date()).getYear() + 1900;
+              return this.GzrqYear + this.Synx < thisYear;
+            }
+          });
+          while (await cursor.hasNext()) {
+            let doc = await cursor.next();
+            await col.findOneAndUpdate({_id: doc._id}, {
+              $set: {Status: GdzcModel.Status.SCRAPING}
+            });
+          }
+          resolve();
+        } catch(e) {
+          console.log('!!!!!', e);
+          reject(e);
+        }
+      });
+    });
+  }
 }

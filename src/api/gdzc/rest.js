@@ -33,4 +33,16 @@ router.get('/stat/total', async(req, res, next) => {
   }
 })
 
+router.get('/items/search', async(req, res, next) => {
+  var {bqh, year, glr, lyr, onlyScraping, onlyDxsb} = req.query;
+  try {
+    res.send({
+      ret: 0,
+      data: await gdzc.search(bqh, year, lyr, glr, onlyScraping, onlyDxsb, 0)
+    });
+  } catch(e) {
+    res.status(500).send(e);
+  }
+});
+
 export default router;

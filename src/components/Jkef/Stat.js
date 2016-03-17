@@ -56,7 +56,7 @@ export default class Stat extends React.Component {
 							</div>
 						</div>
       		</div>
-      		
+
         	<div className="col-sm-6">
         		<div className="widget-box">
 							<div className="widget-header widget-header-flat widget-header-small">

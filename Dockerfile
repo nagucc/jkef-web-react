@@ -1,13 +1,14 @@
 FROM node
 
-ADD *.js /jkef/
-ADD *.json /jkef/
-ADD .babelrc /jkef/
-ADD src /jkef/src
-ADD static /jkef/static
-ADD tools /jkef/tools
-ADD lib /jkef/lib
-WORKDIR /jkef
+ADD *.js /nagu/
+ADD *.json /nagu/
+ADD .babelrc /nagu/
+ADD lib /nagu/lib
+ADD src /nagu/src
+ADD static /nagu/static
+ADD tools /nagu/tools
+
+WORKDIR /nagu
 
 RUN npm install
 RUN npm run build --release

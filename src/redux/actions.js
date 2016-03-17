@@ -183,6 +183,24 @@ export const fetchAcceptorById = createAction(FETCH_ACCEPTOR_BY_ID, async id => 
 	else return await res.json().data;
 });
 
+export const NEW_ACCEPTOR = 'NEW_ACCEPTOR';
+export const newAcceptor = ()=>({type:NEW_ACCEPTOR});
+
+export const PUT_NEW_ACCEPTOR = 'PUT_NEW_ACCEPTOR';
+export const putNewAcceptor = createAction(PUT_NEW_ACCEPTOR, async acceptor => {
+	const res = await fetch('/api/jkef/acceptors', {
+		method: 'put',
+		body: JSON.stringify(acceptor),
+		headers: {
+			'Accept': 'application/json',
+			'Content-Type': 'application/json'
+		},
+		credentials: 'same-origin'
+	});
+	if(res.status === 500) throw new Error(res.statusText);
+	else return await res.json().data;
+})
+
 export const REMOVE_ACCEPTOR = 'REMOVE_ACCEPTOR';
 export const removeAcceptor = createAction(REMOVE_ACCEPTOR, async id => {
 
