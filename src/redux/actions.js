@@ -205,3 +205,10 @@ export const REMOVE_ACCEPTOR = 'REMOVE_ACCEPTOR';
 export const removeAcceptor = createAction(REMOVE_ACCEPTOR, async id => {
 
 })
+
+
+export const SHOW_UPLOAD = 'SHOW_UPLOAD';
+export const showUpload = (options) => ({
+	type: 'SHOW_UPLOAD',
+	options
+});

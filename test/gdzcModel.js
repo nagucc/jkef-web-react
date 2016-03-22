@@ -4,11 +4,11 @@ import GdzcModel from '../src/api/gdzc/model';
 import GdzcXls from '../src/api/gdzc/gdzcXls';
 
 describe('Gdzc Model', function() {
-  this.timeout(90000);
+  this.timeout(900000);
   var gdzc = new GdzcModel();
   it('merge xls to model', async ()=>{
     var xls = new GdzcXls();
-    xls.load('gdzc.xls');
+    xls.load('gdzc-xj.xls');
     await gdzc.merge(xls);
   });
 

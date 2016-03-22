@@ -76,11 +76,19 @@ const jkefStat = handleActions({
 	'FETCH_JKEF_STAT': (state, action) => action.payload
 }, null)
 
+const pageSetting = handleActions({
+	'SHOW_UPLOAD': (state = {
+		title: '上传文件',
+		label: '待上传的文件',
+		help: '请选择待上传的文件'
+	}, action) => action.options
+}, null);
 const getFinalReducers = () => {
 	let finalReducers = {
 		navbar,
 		mainContainer,
-		siteProfile
+		siteProfile,
+		pageSetting
 	};
 	switch (profile) {
 		case 'jkef':

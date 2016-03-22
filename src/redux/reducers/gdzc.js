@@ -12,7 +12,28 @@ const statByYear = handleActions({
 const total = handleActions({
   'FETCH_GDZC_TOTAL_STAT': (state, action) => action.payload
 }, null);
+
+const itemsFilter = (state = {}, action) => {
+  switch (action) {
+    case actions.SHOW_LIST:
+      return action.filter
+    default:
+      return state;
+  }
+}
+
+const items = handleActions({
+  'FETCH_ITEMS': (state, action) => action.payload
+}, null);
+
+const mergeXls = handleActions({
+  'UPLOAD_XLS': (state, action) => action.payload,
+  'START_TO_UPLOAD_XLS': (state, action) => ({status: 'processing', file: action.file})
+}, null);
 export default {
   statByYear,
-  total
+  total,
+  itemsFilter,
+  items,
+  mergeXls
 };

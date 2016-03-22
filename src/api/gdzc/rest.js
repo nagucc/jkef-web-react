@@ -1,8 +1,9 @@
 import { wxentJkefConfig as wxcfg } from '../../config';
 import { Router } from 'express';
+import multer from 'multer';
 import moment from 'moment';
-import xlsx from 'xlsx';
 import GdzcModel from './model';
+import GdzcXls from './gdzcXls';
 
 const router = new Router();
 const gdzc = new GdzcModel();
@@ -33,13 +34,24 @@ router.get('/stat/total', async(req, res, next) => {
   }
 })
 
-router.get('/items/search', async(req, res, next) => {
-  var {bqh, year, glr, lyr, onlyScraping, onlyDxsb} = req.query;
+router.get('/search', async(req, res, next) => {
   try {
     res.send({
       ret: 0,
-      data: await gdzc.search(bqh, year, lyr, glr, onlyScraping, onlyDxsb, 0)
+      data: await gdzc.search(req.query)
     });
+  } catch(e) {
+    res.status(500).send(e);
+  }
+});
+
+let upload = multer({dest: 'uploads/'});
+router.put('/mergeXls', upload.single('xlsFile'), async (req, res, next) => {
+  try {
+    let gdzcXls = new GdzcXls();
+    gdzcXls.load(req.file.path);
+    await gdzc.merge(gdzcXls)
+    res.send({ret:0, data: 'done'});
   } catch(e) {
     res.status(500).send(e);
   }

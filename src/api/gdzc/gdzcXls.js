@@ -23,6 +23,7 @@ export default class GdzcXls {
     this.sheet = workbook.Sheets[workbook.SheetNames[sheetIndex]];
   }
 
+
   /**
    * 获取当前工作表的有值范围。
    * @return {Object} 取值范围对象。参见：https://github.com/SheetJS/js-xlsx#general-structures
