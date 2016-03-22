@@ -41,6 +41,8 @@ profiles['jkef'] = jkefConfig;
 profiles['nagu'] = naguConfig;
 profiles['gdzc'] = {};
 
+console.log('##########siteProfile:', siteProfile)
+console.log('###########thisProfile', thisProfile)
 var thisProfile = profiles[siteProfile];
 export const title = thisProfile.siteName;
 export const jkefProjects = jkefConfig.projects;
