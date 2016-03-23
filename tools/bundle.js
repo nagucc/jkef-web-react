@@ -17,6 +17,7 @@ function bundle() {
   return new Promise((resolve, reject) => {
     webpack(webpackConfig).run((err, stats) => {
       if (err) {
+        console.log('##############', err);
         return reject(err);
       }
 
