@@ -42,6 +42,7 @@ server.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
 }));
 server.use(morgan('dev'));
+server.use('/public',express.static('build/public'));
 //
 // Register API middleware
 // -----------------------------------------------------------------------------

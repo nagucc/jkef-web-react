@@ -206,7 +206,17 @@ export default class GdzcModel {
     })
   }
 
-  async search(bqh='', year = 0, lyr = '', glr = '', onlyScraping = false, onlyDxsb = false, start = 0) {
+  async search(options) {
+    options = Object.assign({
+      bqh: '',
+      year: 0,
+      lyr: '',
+      glr:'',
+      onlyScraping: false,
+      onlyDxsb : false,
+      start: 0
+    },options);
+    let {bqh, year, lyr, glr, onlyScraping, onlyDxsb, start} = options;
     let query = {};
     if(bqh.trim().length > 0) {
       let reg = new RegExp(bqh.trim());
@@ -233,7 +243,9 @@ export default class GdzcModel {
       })
     }
     console.log(query);
-    return useModel(col => (col.find(query).limit(20).toArray()));
+    return useModel(col => (col.find(query).project({
+      
+    }).limit(20).toArray()));
   }
 
   async computeStatByYear() {
