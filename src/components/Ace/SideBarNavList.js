@@ -9,7 +9,6 @@
 
 
 import React, { Component } from 'react';
-import {sidebarItems} from '../../config';
 
 class SideBarNavList extends Component {
   static propTypes = {
