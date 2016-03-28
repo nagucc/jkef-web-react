@@ -2,6 +2,9 @@ import { wxentJkefConfig as wxcfg } from '../../config';
 import { Router } from 'express';
 import multer from 'multer';
 import moment from 'moment';
+import passport from 'passport';
+import {BasicStrategy} from 'passport-http';
+
 import GdzcModel from './model';
 import GdzcXls from './gdzcXls';
 
@@ -45,16 +48,23 @@ router.get('/search', async(req, res, next) => {
   }
 });
 
+passport.use(new BasicStrategy((username, password, cb) => {
+  if(username === 'gdzc' && password === 'gdzc')
+    cb(null, 'gdzc');
+  else cb('err');
+}));
 let upload = multer({dest: 'uploads/'});
-router.put('/mergeXls', upload.single('xlsFile'), async (req, res, next) => {
-  try {
-    let gdzcXls = new GdzcXls();
-    gdzcXls.load(req.file.path);
-    await gdzc.merge(gdzcXls)
-    res.send({ret:0, data: 'done'});
-  } catch(e) {
-    res.status(500).send(e);
-  }
-});
+router.put('/mergeXls',
+  passport.authenticate('basic', {session: false}),
+  upload.single('xlsFile'), async (req, res, next) => {
+    try {
+      let gdzcXls = new GdzcXls();
+      gdzcXls.load(req.file.path);
+      await gdzc.merge(gdzcXls)
+      res.send({ret:0, data: 'done'});
+    } catch(e) {
+      res.status(500).send(e);
+    }
+  });
 
 export default router;
