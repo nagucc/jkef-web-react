@@ -2,7 +2,7 @@
 import React from 'react';
 import accounting from 'accounting';
 import {Bar} from 'react-chartjs'
-import * as actions from '../../redux/actions/gdzc';
+import * as actions from '../../redux/actions';
 
 class Index extends React.Component {
 

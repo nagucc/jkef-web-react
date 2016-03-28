@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react'
 import {Alert, Button} from 'react-bootstrap';
 import {findDOMNode} from 'react-dom';
 
-import * as actions from '../redux/actions/gdzc';
+import * as actions from '../redux/actions';
 
 const Upload = React.createClass({
   upload () {

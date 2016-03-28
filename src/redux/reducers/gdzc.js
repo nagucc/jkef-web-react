@@ -1,8 +1,6 @@
 import { combineReducers } from 'redux';
-import { FETCH_STATUS_READY,
-  FETCH_STATUS_SUCCESS,
-  FETCH_STATUS_FAILURE } from '../actions';
-import * as actions from '../actions/gdzc';
+
+import * as actions from '../actions';
 
 import { handleActions, handleAction } from 'redux-actions';
 

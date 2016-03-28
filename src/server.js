@@ -47,11 +47,8 @@ server.use('/public',express.static('build/public'));
 // Register API middleware
 // -----------------------------------------------------------------------------
 
-// 连接mongoose
-require('./api/mongoose');
+
 server.use('/api/auth/wx-ent', require('./api/auth/wx-ent'));
-server.use('/api/jkef/acceptors', require('./api/jkef/acceptors'));
-server.use('/api/jkef/stat', require('./api/jkef/stat'));
 server.use('/api/wx-ent/signup', require('./api/wx-ent/signup'));
 server.use('/api/gdzc', require('./api/gdzc/rest'));
 

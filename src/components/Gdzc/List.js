@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-import * as actions from '../../redux/actions/gdzc';
+import * as actions from '../../redux/actions';
 
 const List = React.createClass({
   // static propTypes = {

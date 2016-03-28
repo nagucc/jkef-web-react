@@ -1,7 +1,7 @@
 
 export const port = process.env.PORT || 5000;
 export const host = process.env.WEBSITE_HOSTNAME || `localhost:${port}`;
-export const googleAnalyticsId = 'UA-XXXXX-X';
+
 
 export const siteProfile = process.env.SITE_PROFILE || 'gdzc'
 export const enableBreadcrumbs = false;
@@ -14,7 +14,7 @@ var profiles = [];
 
 profiles['gdzc'] = {siteName: '固定资产'};
 
-export const title = process.env.PAGE_TITLE || '标题标题';
+export const title = '固定资产管理';
 
 export const wxentConfig = {
   corpId: process.env.WXE_CORPID,
@@ -50,10 +50,6 @@ export const redisConfig = {
   port: process.env.PORT_REDIS || 6379
 };
 
-
-
-// Mongodb 数据库服务器Url
-export const mongoUrl = process.env.MONGO_URL || 'mongodb://localhost/jkef';
 
 // ynu数据库 服务器url
 export const ynu_mongo_url = process.env.YNU_MONGO_URL || 'mongodb://localhost/ynu';

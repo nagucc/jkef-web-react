@@ -45,47 +45,27 @@ const sidebarNavList = (state, action) => {
 	switch(action.type){
 		case HOME_PAGE:
 		default:
-			switch(profile) {
-				case 'gdzc':
-					return [{
-						title: '仪表盘',
-						target: '/',
-						icon: 'dashboard'
-					}, {
-						title: '统计信息',
-						subItems: [{
-							title: '年度统计',
-							target: '/stat/byYear'
-						},{
-							title: '待报废',
-							target: '/'
-						}]
-					}, {
-						title: '我的资产',
-						subItems: [{
-							title: '我管理的'
-						}, {
-							title: '我领用的'
-						}]
-					}];
-				case 'jkef':
-				default:
-					return list.concat([{
-				    title: '电子阅览室',
-				    target: '/reading-room',
-				    icon: 'book'
-				  }, {
-				    title: '项目',
-				    target: '/projects'
-				  }, {
-				    title: '历年统计',
-				    target: '/stat',
-				    icon: 'tachometer'
-				  }, {
-				    title: '捐赠管理',
-				    target: '/acceptors'
-				  }]);
-			}
+			return [{
+				title: '仪表盘',
+				target: '/',
+				icon: 'dashboard'
+			}, {
+				title: '统计信息',
+				subItems: [{
+					title: '年度统计',
+					target: '/stat/byYear'
+				},{
+					title: '待报废',
+					target: '/'
+				}]
+			}, {
+				title: '我的资产',
+				subItems: [{
+					title: '我管理的'
+				}, {
+					title: '我领用的'
+				}]
+			}];
 	}
 }
 
