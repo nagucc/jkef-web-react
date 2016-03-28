@@ -22,10 +22,7 @@ profiles['jkef'] = jkefConfig;
 profiles['nagu'] = naguConfig;
 profiles['gdzc'] = {siteName: '固定资产'};
 
-console.log('##########siteProfile:', siteProfile)
-console.log('###########thisProfile', thisProfile)
-var thisProfile = profiles[siteProfile];
-export const title = '标题标题';
+export const title = process.env.PAGE_TITLE || '标题标题';
 
 export const wxentConfig = {
   corpId: process.env.WXE_CORPID,
