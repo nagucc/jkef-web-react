@@ -8,18 +8,10 @@ export const enableBreadcrumbs = false;
 export const enableSettings = false;
 
 
-var jkefConfig = {
-  siteName: '家琨教育基金会'
-};
-
-var naguConfig = {
-  siteName: '纳谷社区'
-};
 
 
 var profiles = [];
-profiles['jkef'] = jkefConfig;
-profiles['nagu'] = naguConfig;
+
 profiles['gdzc'] = {siteName: '固定资产'};
 
 export const title = process.env.PAGE_TITLE || '标题标题';
