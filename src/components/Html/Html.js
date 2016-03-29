@@ -31,7 +31,7 @@ class Html extends Component {
   <head>
     <meta httpEquiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta charSet="utf-8" />
-    <title>{this.props.title}</title>
+    <title>固定资产管理</title>
 
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
@@ -39,7 +39,7 @@ class Html extends Component {
     <link rel="stylesheet" href="/assets/css/bootstrap.css" />
     <link rel="stylesheet" href="/assets/css/font-awesome.css" />
 
-    
+
 
     <link rel="stylesheet" href="/assets/css/ace-fonts.css" />
 
@@ -50,7 +50,7 @@ class Html extends Component {
   </head>
   <body className="no-skin">
     <div id="app" dangerouslySetInnerHTML={{ __html: this.props.body }}/>
-    
+
     <script src='/assets/js/jquery.js'></script>
     <script src="/assets/js/bootstrap.js"></script>
 
