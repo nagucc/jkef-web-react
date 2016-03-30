@@ -1,6 +1,5 @@
 import { combineReducers } from 'redux';
 import * as actions from '../actions';
-import { siteProfile as profile } from '../../config';
 import { handleActions, handleAction } from 'redux-actions';
 
 
@@ -35,7 +34,7 @@ export const acceptorDetail = handleActions({
 		},
 		throw(state, action){
 			return {
-				ret: actions.FETCH_STATUS_FAILURE, 
+				ret: actions.FETCH_STATUS_FAILURE,
 				msg: action.payload
 			}
 		}
