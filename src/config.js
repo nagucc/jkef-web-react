@@ -66,3 +66,5 @@ export const GdzcXlsTitles = {
   Gzrq: process.env.GDZC_TITLE_GZRQ || '购置日期',
   Synx: process.env.GDZC_TITLE_SYNX || '使用年限'
 };
+
+export const acl_password = process.env.ACL_PASSWORD || 'password';

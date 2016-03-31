@@ -1,4 +1,4 @@
-import { wxentJkefConfig as wxcfg } from '../../config';
+import { wxentJkefConfig as wxcfg, acl_password } from '../../config';
 import { Router } from 'express';
 import multer from 'multer';
 import moment from 'moment';
@@ -49,7 +49,7 @@ router.get('/search', async(req, res, next) => {
 });
 
 passport.use(new BasicStrategy((username, password, cb) => {
-  if(username === 'gdzc' && password === 'gdzc')
+  if(username === 'gdzc' && password === acl_password)
     cb(null, 'gdzc');
   else cb('err');
 }));

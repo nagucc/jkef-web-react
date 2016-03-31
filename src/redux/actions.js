@@ -63,11 +63,11 @@ export const startToUploadXls = (file) => ({
 });
 
 export const UPLOAD_XLS = 'UPLOAD_XLS';
-export const uploadXls = createAction(UPLOAD_XLS, async (file) => {
+export const uploadXls = createAction(UPLOAD_XLS, async (file, pwd) => {
   var data = new FormData();
   data.append('xlsFile', file);
 
-  var token = (new Buffer('gdzc:gdzc')).toString('base64');
+  var token = (new Buffer(`gdzc:${pwd}`)).toString('base64');
   var res = await fetch('/api/gdzc/mergeXls', {
     method: 'PUT',
     headers: {
