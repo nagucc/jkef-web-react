@@ -27,9 +27,9 @@ const total = handleActions({
 }, null);
 
 const itemsFilter = (state = {}, action) => {
-  switch (action) {
+  switch (action.type) {
     case actions.SHOW_LIST:
-      return action.filter
+      return Object.assign({}, state, action.filter);
     default:
       return state;
   }

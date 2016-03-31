@@ -31,12 +31,19 @@ export default new Router(on => {
     return <Index />;
   });
 
+  /*
+  按年统计数据
+   */
   on('/stat/byYear', async() =>{
     store.dispatch(showStat());
     return <StatByYear />;
   });
 
+  /*
+  根据查询条件显示固定资产条目
+   */
   on('/items', async (req) => {
+
     store.dispatch(showList(req.query));
     return <List />;
   });

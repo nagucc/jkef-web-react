@@ -208,7 +208,7 @@ export default class GdzcModel {
 
   async search(options) {
     options = Object.assign({
-      bqh: '',
+      text: '',
       year: 0,
       lyr: '',
       glr:'',
@@ -216,10 +216,10 @@ export default class GdzcModel {
       onlyDxsb : false,
       start: 0
     },options);
-    let {bqh, year, lyr, glr, onlyScraping, onlyDxsb, start} = options;
+    let {year, lyr, glr, onlyScraping, onlyDxsb, start, text} = options;
     let query = {};
-    if(bqh.trim().length > 0) {
-      let reg = new RegExp(bqh.trim());
+    if(text.trim().length > 0) {
+      let reg = new RegExp(text.trim());
       Object.assign(query, { Bqh: reg });
     }
 
@@ -244,7 +244,7 @@ export default class GdzcModel {
     }
     console.log(query);
     return useModel(col => (col.find(query).project({
-      
+
     }).limit(20).toArray()));
   }
 

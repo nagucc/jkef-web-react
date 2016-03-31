@@ -10,30 +10,51 @@ class StatByYear extends React.Component {
 
 		// 历年购入资产金额表
 		let ctx = document.getElementById("yearAmountStat").getContext("2d");
-		new Chart(ctx).Bar(nextProps.yearAmountByYearBarData);
-    // document.getElementById("yearAmountStat").onclick = function(evt) {
-    //   // console.log('active::::', barAmount.getBarsAtEvent(evt));
-    // }
+		var barYearAmount = new Chart(ctx).Bar(nextProps.yearAmountByYearBarData);
+    document.getElementById("yearAmountStat").onclick = function(evt) {
+      var data = barYearAmount.getBarsAtEvent(evt)[0];
+      window.location = '/items?year=' + data.label;
+    }
 
 		// 历年购入资产数量统计
 		let ctxYearCount = document.getElementById("yearCountStat").getContext("2d");
-		new Chart(ctxYearCount).Bar(nextProps.yearCountBarData);
+		var barYearCount = new Chart(ctxYearCount).Bar(nextProps.yearCountBarData);
+    document.getElementById("yearCountStat").onclick = function(evt) {
+      var data = barYearCount.getBarsAtEvent(evt)[0];
+      window.location = '/items?year=' + data.label;
+    }
 
     // 历年购入大型设备金额统计
 		ctx = document.getElementById("dxsbAmount").getContext("2d");
-		new Chart(ctx).Bar(nextProps.dxsbAmountBarData);
+		var barDxsbAmount = new Chart(ctx).Bar(nextProps.dxsbAmountBarData);
+    document.getElementById("dxsbAmount").onclick = function(evt) {
+      var data = barDxsbAmount.getBarsAtEvent(evt)[0];
+      window.location = '/items?onlyDxsb=true&year=' + data.label;
+    }
 
     // 历年购入大型设备数量统计
 		ctx = document.getElementById("dxsbCount").getContext("2d");
-		new Chart(ctx).Bar(nextProps.dxsbCountBarData);
+		var barDxsbCount = new Chart(ctx).Bar(nextProps.dxsbCountBarData);
+    document.getElementById("dxsbCount").onclick = function(evt) {
+      var data = barDxsbCount.getBarsAtEvent(evt)[0];
+      window.location = '/items?onlyDxsb=true&year=' + data.label;
+    }
 
     // 历年待报废资产金额统计
 		ctx = document.getElementById("scrapingAmount").getContext("2d");
-		new Chart(ctx).Bar(nextProps.scrapingAmountBarData);
+		var barScrapingAmount = new Chart(ctx).Bar(nextProps.scrapingAmountBarData);
+    document.getElementById("scrapingAmount").onclick = function(evt) {
+      var data = barScrapingAmount.getBarsAtEvent(evt)[0];
+      window.location = '/items?onlyScraping=true&year=' + data.label;
+    }
 
     // 历年待报废资产数量统计
 		ctx = document.getElementById("scrapingCount").getContext("2d");
-		new Chart(ctx).Bar(nextProps.scrapingCountBarData);
+		var barScrapingCount = new Chart(ctx).Bar(nextProps.scrapingCountBarData);
+    document.getElementById("scrapingCount").onclick = function(evt) {
+      var data = barScrapingCount.getBarsAtEvent(evt)[0];
+      window.location = '/items?onlyScraping=true&year=' + data.label;
+    }
 	}
 
   componentDidMount() {

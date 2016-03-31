@@ -21,7 +21,7 @@ class Index extends React.Component {
 						</div>
 						<div className="infobox-data">
 							<span className="infobox-data-number">{accounting.formatMoney(this.props.amount, '¥')}元</span>
-							<div className="infobox-content"><a href="#">资产总原值</a></div>
+							<div className="infobox-content"><a href="/items">资产总原值</a></div>
 						</div>
 					</div>
           <div className="infobox infobox-blue" style={{width:'270px'}}>
@@ -31,7 +31,7 @@ class Index extends React.Component {
 
 						<div className="infobox-data">
 							<span className="infobox-data-number">{accounting.formatNumber(this.props.count)}项</span>
-							<div className="infobox-content"><a href="#">资产数量</a></div>
+							<div className="infobox-content"><a href="/items">资产数量</a></div>
 						</div>
 					</div>
           <div className="infobox infobox-pink" style={{width:'270px'}}>
@@ -41,7 +41,7 @@ class Index extends React.Component {
 
 						<div className="infobox-data">
 							<span className="infobox-data-number">{this.props.lyrs.length}名</span>
-							<div className="infobox-content"><a href="#">领用人</a></div>
+							<div className="infobox-content"><a href="/items">领用人</a></div>
 						</div>
 					</div>
           <div className="infobox infobox-red" style={{width:'270px'}}>
@@ -51,7 +51,7 @@ class Index extends React.Component {
 
 						<div className="infobox-data">
 							<span className="infobox-data-number">{this.props.glrs.length}名</span>
-							<div className="infobox-content"><a href="#">管理人</a></div>
+							<div className="infobox-content"><a href="/items">管理人</a></div>
 						</div>
 					</div>
           <div className="infobox infobox-orange2" style={{width:'270px'}}>
@@ -61,7 +61,7 @@ class Index extends React.Component {
 
 						<div className="infobox-data">
 							<span className="infobox-data-number">{accounting.formatNumber(this.props.dxsbCount)}项</span>
-							<div className="infobox-content"><a href="#">大型设备</a></div>
+							<div className="infobox-content"><a href="/items?onlyDxsb=true">大型设备</a></div>
 						</div>
 					</div>
           <div className="infobox infobox-blue2" style={{width:'270px'}}>
@@ -71,7 +71,7 @@ class Index extends React.Component {
 
 						<div className="infobox-data">
 							<span className="infobox-data-number">{accounting.formatNumber(this.props.scrapingCount)}项</span>
-							<div className="infobox-content"><a href="#">待报废资产</a></div>
+							<div className="infobox-content"><a href="/items?onlyScraping=true">待报废资产</a></div>
 						</div>
 					</div>
         </div>
