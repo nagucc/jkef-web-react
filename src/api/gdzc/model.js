@@ -162,15 +162,15 @@ export default class GdzcModel {
 
   async amount() {
     return new Promise((resolve, reject) => {
-      useModel(async col => {
+      useStatByYear(async col => {
         let result = await col.aggregate([{
           $group: {
             _id: new Date(),
-            amount: {$sum: '$'+GdzcXlsTitles.Yz}
+            amount: {$sum: '$value.amount'}
           }
         }]).next();
         resolve(result.amount);
-      });
+      })
     })
   }
 
