@@ -26,8 +26,10 @@ router.get('/stat/total', async(req, res, next) => {
       data: {
         amount: await gdzc.amount(),
         count: await gdzc.count(),
-        lyrs: await gdzc.getLyrs(),
-        glrs: await gdzc.getGlrs(),
+        lyrs: [],
+        glrs: [],
+        // lyrs: await gdzc.getLyrs(),
+        // glrs: await gdzc.getGlrs(),
         ... await gdzc.dxsbTotalStat(),
         ... await gdzc.scrapingTotalStat()
       }
