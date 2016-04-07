@@ -12,8 +12,30 @@ class List extends Component {
   static defaultProps = {
     items: []
   }
+
   componentDidMount() {
     this.props.dispatch(actions.fetchItems(this.props.filter));
+  }
+
+  getMore() {
+    var nextFilter = Object.assign({}, this.props.filter, {
+      start: this.props.filter.start + 20
+    });
+    this.props.dispatch(actions.setItemsFilter(nextFilter));
+    this.fetchItems();
+  }
+
+  fetchItems () {
+    this.props.dispatch(actions.fetchItems(this.props.filter));
+  }
+
+  search () {
+    var nextFilter = Object.assign({}, this.props.filter, {
+      text: this.refs.filter.value,
+      start: 0
+    });
+    this.props.dispatch(actions.setItemsFilter(nextFilter));
+    this.props.dispatch(actions.fetchItems(nextFilter, true));
   }
 
   render () {
@@ -31,7 +53,7 @@ class List extends Component {
       		<div className="nav-search" id="nav-search">
       	    <form className="form-search">
               <span className="input-icon">
-                  <input type="text" style={{width:'250px'}} placeholder="搜索资产名称／标签号" className="nav-search-input" id="nav-search-input" ref="filter"/>
+                  <input type="text" style={{width:'250px'}} placeholder="搜索资产名称" className="nav-search-input" ref="filter" onChange={this.search.bind(this)}/>
                   <i className="ace-icon fa fa-search nav-search-icon"></i>
               </span>
       		  </form>
@@ -86,7 +108,7 @@ class List extends Component {
                 </div>
               )) : null
             }
-            <Button bsStyle="primary" block>加载更多</Button>
+            <Button bsStyle="primary" block onClick={this.getMore.bind(this)}>加载更多</Button>
           </div>
       	</div>
       </div>

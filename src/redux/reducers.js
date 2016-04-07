@@ -26,9 +26,11 @@ const total = handleActions({
   'FETCH_GDZC_TOTAL_STAT': (state, action) => action.payload
 }, null);
 
-const itemsFilter = (state = {}, action) => {
+const itemsFilter = (state = {
+	start: 0
+}, action) => {
   switch (action.type) {
-    case actions.SHOW_LIST:
+    case actions.SET_ITEMS_FILTER:
       return Object.assign({}, state, action.filter);
     default:
       return state;
@@ -36,8 +38,11 @@ const itemsFilter = (state = {}, action) => {
 }
 
 const items = handleActions({
-  'FETCH_ITEMS': (state, action) => action.payload
-}, null);
+  'FETCH_ITEMS': (state = [], action) => {
+		if(action.payload.clearBefore) return action.payload.data;
+		else return state.concat(action.payload.data);
+	}
+}, []);
 
 const mergeXls = handleActions({
   'UPLOAD_XLS': (state, action) => action.payload,

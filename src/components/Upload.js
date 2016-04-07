@@ -6,7 +6,6 @@ import * as actions from '../redux/actions';
 
 const Upload = React.createClass({
   upload () {
-    console.log('###########', this.refs.pwd.value);
     var files = findDOMNode(this.refs.xls).files;
     if(files.length){
       this.props.dispatch(actions.startToUploadXls(files[0].name));

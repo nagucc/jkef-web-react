@@ -14,7 +14,7 @@ import List from './containers/Gdzc/List';
 import {store} from './redux/store';
 import reducers from './redux/reducers';
 import {showIndex, showStat, showUpload} from './redux/actions';
-import {showList} from './redux/actions';
+import {showList, setItemsFilter} from './redux/actions';
 
 export default new Router(on => {
 
@@ -43,8 +43,8 @@ export default new Router(on => {
   根据查询条件显示固定资产条目
    */
   on('/items', async (req) => {
-
-    store.dispatch(showList(req.query));
+    store.dispatch(setItemsFilter(req.query))
+    store.dispatch(showList());
     return <List />;
   });
 

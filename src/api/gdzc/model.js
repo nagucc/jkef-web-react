@@ -220,7 +220,13 @@ export default class GdzcModel {
     let query = {};
     if(text.trim().length > 0) {
       let reg = new RegExp(text.trim());
-      Object.assign(query, { Bqh: reg });
+      Object.assign(query, {
+        $or: [{
+          '设备名称': reg
+        }, {
+          Bqh: reg
+        }]
+      });
     }
 
     if(year > 0) Object.assign(query, {GzrqYear: parseInt(year)})
@@ -242,10 +248,9 @@ export default class GdzcModel {
         Yz: {$gte: gdzc_dxsb_yz}
       })
     }
-    console.log(query);
     return useModel(col => (col.find(query).project({
 
-    }).limit(20).toArray()));
+    }).skip(parseInt(start)).limit(20).toArray()));
   }
 
   async computeStatByYear() {

@@ -11,6 +11,7 @@ import path from 'path';
 import webpack from 'webpack';
 import extend from 'extend';
 import AssetsPlugin from 'assets-webpack-plugin';
+var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 const DEBUG = !process.argv.includes('--release');
 const VERBOSE = process.argv.includes('--verbose');
@@ -178,6 +179,7 @@ const clientConfig = extend(true, {}, config, {
     // Consistent ordering of modules required if using any hashing ([hash] or [chunkhash])
     // https://webpack.github.io/docs/list-of-plugins.html#occurrenceorderplugin
     new webpack.optimize.OccurenceOrderPlugin(true),
+
 
     ...(DEBUG ? [] : [
 

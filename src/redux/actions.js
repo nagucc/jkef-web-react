@@ -42,24 +42,32 @@ export const fetchTotalStat = createAction(FETCH_TOTAL_STAT, async () => {
 });
 
 export const SHOW_LIST = 'SHOW_LIST';
-export const showList = filter => ({
-  type: SHOW_LIST,
-  filter
+export const showList = () => ({
+  type: SHOW_LIST
 })
 
 export const FETCH_ITEMS = 'FETCH_ITEMS';
-export const fetchItems = createAction(FETCH_ITEMS, async (filter) => {
+export const fetchItems = createAction(FETCH_ITEMS, async (filter, clearBefore = false) => {
   let query = '';
   for (var key in filter) {
     query += `${encodeURIComponent(key)}=${encodeURIComponent(filter[key])}&`;
   }
   let result = await(await fetch(`/api/gdzc/search?${query}`)).json();
-  return result.data;
+  return {
+		data: result.data,
+		clearBefore
+	};
 });
 export const START_TO_UPLOAD_XLS = 'START_TO_UPLOAD_XLS';
 export const startToUploadXls = (file) => ({
-  type: 'START_TO_UPLOAD_XLS',
+  type: START_TO_UPLOAD_XLS,
   file
+})
+
+export const SET_ITEMS_FILTER = 'SET_ITEMS_FILTER';
+export const setItemsFilter = (filter) => ({
+	type: SET_ITEMS_FILTER,
+	filter
 });
 
 export const UPLOAD_XLS = 'UPLOAD_XLS';
