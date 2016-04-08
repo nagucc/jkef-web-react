@@ -15,11 +15,8 @@ const enableUserInfo = (state = false, action) => {
 	}
 }
 
-const title = (state='家琨教育基金会', action) => {
+const title = (state='固定资产助手', action) => {
 	switch(profile) {
-		case 'jkef':
-		case 'gdzc':
-			return '固定资产助手';
 		default:
 			return state;
 	}

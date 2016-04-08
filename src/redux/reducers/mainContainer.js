@@ -54,16 +54,6 @@ const sidebarNavList = (state, action) => {
 				subItems: [{
 					title: '年度统计',
 					target: '/stat/byYear'
-				},{
-					title: '待报废',
-					target: '/'
-				}]
-			}, {
-				title: '我的资产',
-				subItems: [{
-					title: '我管理的'
-				}, {
-					title: '我领用的'
 				}]
 			}];
 	}
