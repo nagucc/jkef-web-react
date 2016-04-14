@@ -36,7 +36,7 @@ class Html extends Component {
     <title>react-weui</title>
   </head>
   <body className="no-skin">
-    <div id="app" dangerouslySetInnerHTML={{ __html: this.props.body }}/>
+    <div id="app" className="container" dangerouslySetInnerHTML={{ __html: this.props.body }}/>
 
     <script src={this.props.entry}></script>
   </body>

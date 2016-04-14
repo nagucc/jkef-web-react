@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import Index from '../../components/Gdzc/Index';
+import Index from '../components/Index';
 
 const mapStateToProps = (state, ownProps) => {
   let total = {

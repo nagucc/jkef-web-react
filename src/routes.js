@@ -1,13 +1,13 @@
 
 import React from 'react';
 import Router from 'react-routing/src/Router';
-import App from './containers/App';
+import App from './components/App';
 import NotFoundPage from './components/NotFoundPage';
 import ErrorPage from './components/ErrorPage';
 
 import Upload from './containers/Upload';
 
-import Index from './containers/Gdzc/Index';
+import Index from './containers/Index';
 import StatByYear from './containers/Gdzc/StatByYear';
 import List from './containers/Gdzc/List';
 
