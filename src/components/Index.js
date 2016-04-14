@@ -44,7 +44,7 @@ class Index extends React.Component {
                   原值
                 </p>
               </div>
-              <div className="weui_cell_ft">说明文字</div>
+              <div className="weui_cell_ft">{accounting.formatMoney(this.props.dxsbAmount, '¥')}元</div>
             </a>
             <a className="weui_cell" href="javascript:;">
               <div className="weui_cell_bd weui_cell_primary">
@@ -64,7 +64,7 @@ class Index extends React.Component {
                   原值
                 </p>
               </div>
-              <div className="weui_cell_ft">说明文字</div>
+              <div className="weui_cell_ft">{accounting.formatMoney(this.props.scrapingAmount, '¥')}元</div>
             </a>
             <a className="weui_cell" href="javascript:;">
               <div className="weui_cell_bd weui_cell_primary">
