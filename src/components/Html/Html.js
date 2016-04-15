@@ -32,7 +32,7 @@ class Html extends Component {
     <meta charSet="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0" />
     <link rel="stylesheet" href="	//res.wx.qq.com/open/libs/weui/0.4.1/weui.css"/>
-    <link rel="stylesheet" href="	./public/site.css"/>
+    <link rel="stylesheet" href="	/public/site.css"/>
     <title>react-weui</title>
   </head>
   <body className="no-skin">

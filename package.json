@@ -33,6 +33,7 @@
     "normalize.css": "3.0.3",
     "passport": "^0.3.2",
     "passport-http": "^0.3.0",
+    "percentage": "^0.1.0",
     "react": "0.14.3",
     "react-bootstrap": "^0.28.3",
     "react-chartjs": "^0.7.3",

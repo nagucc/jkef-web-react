@@ -8,7 +8,7 @@ import ErrorPage from './components/ErrorPage';
 import Upload from './containers/Upload';
 
 import Index from './containers/Index';
-import StatByYear from './containers/Gdzc/StatByYear';
+import StatByYear from './containers/StatByYear';
 import List from './containers/Gdzc/List';
 
 import {store} from './redux/store';
