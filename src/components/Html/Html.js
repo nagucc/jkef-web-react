@@ -35,7 +35,7 @@ class Html extends Component {
     <link rel="stylesheet" href="/public/font-awesome-4.6.1/css/font-awesome.min.css"/>
     <link rel="stylesheet" href="	/public/site.css"/>
     <link rel="stylesheet" href={this.props.css} />
-    <title>react-weui</title>
+    <title>固定资产系统</title>
   </head>
   <body className="no-skin">
     <div id="app" className="container" dangerouslySetInnerHTML={{ __html: this.props.body }}/>

@@ -1,6 +1,5 @@
 'use strict';
 import React from 'react';
-import accounting from 'accounting';
 import * as actions from '../redux/actions';
 import YearStatInfo from './YearStatInfo';
 // import Icon from 'react-fa';
