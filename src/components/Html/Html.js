@@ -32,6 +32,7 @@ class Html extends Component {
     <meta charSet="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0" />
     <link rel="stylesheet" href="/public/weui.min.css"/>
+    {/*<link rel="stylesheet" href="/public/font-awesome-4.6.1/css/font-awesome.min.css"/>*/}
     <link rel="stylesheet" href="	/public/site.css"/>
     <link rel="stylesheet" href={this.props.css} />
     <title>react-weui</title>

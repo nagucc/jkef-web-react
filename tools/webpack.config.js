@@ -96,7 +96,7 @@ const config = {
         loader: 'raw-loader',
       },
       {
-        test: /\.(png|jpg|jpeg|gif|svg|woff|woff2)$/,
+        test: /\.(png|jpg|jpeg|gif|svg|woff|woff2)(\?)?/,
         loader: 'url-loader',
         query: {
           name: DEBUG ? '[path][name].[ext]?[hash]' : '[hash].[ext]',
@@ -104,7 +104,11 @@ const config = {
         },
       },
       {
-        test: /\.(eot|ttf|wav|mp3)$/,
+        test: /\.css$/,
+        loader: ExtractTextPlugin.extract('isomorphic-style-loader', 'css')
+      },
+      {
+        test: /\.(eot|ttf|wav|mp3)(\?)?/,
         loader: 'file-loader',
         query: {
           name: DEBUG ? '[path][name].[ext]?[hash]' : '[hash].[ext]',
@@ -180,6 +184,7 @@ const clientConfig = extend(true, {}, config, {
     // https://webpack.github.io/docs/list-of-plugins.html#occurrenceorderplugin
     new webpack.optimize.OccurenceOrderPlugin(true),
 
+    new ExtractTextPlugin('bundle.css'),
 
     ...(DEBUG ? [] : [
 

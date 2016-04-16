@@ -61,8 +61,9 @@ require('./api/gdzc/worker');
 // -----------------------------------------------------------------------------
 server.get('*', async (req, res, next) => {
   try {
+    console.log('################', assets);
     let statusCode = 200;
-    const data = { title: title, description: '', css: '', body: '', entry: assets.main.js };
+    const data = { title: title, description: '', css: assets.main.css, body: '', entry: assets.main.js };
     const css = [];
     const context = {
       insertCss: styles => css.push(styles._getCss()),
