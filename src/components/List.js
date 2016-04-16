@@ -121,7 +121,7 @@ class List extends Component {
               href="javascript:void(0);" onClick={this.getMore.bind(this)}>查看更多</a>
           </div>
         </div>
-        <div ref="loadingToast" className="weui_loading_toast" style = {this.props.loadingToastStyle}>
+        <div className="weui_loading_toast" style = {this.props.loadingToastStyle}>
           <div className="weui_mask_transparent"></div>
           <div className="weui_toast">
             <div className="weui_loading">

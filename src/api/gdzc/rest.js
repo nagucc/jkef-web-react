@@ -19,6 +19,14 @@ router.get('/stat/byYear', async (req, res, next) => {
   }
 });
 
+router.get('/stat/byLyr', async (req, res, next) => {
+  try {
+    res.send({ret:0, data: await gdzc.statByLyr()});
+  } catch(e) {
+    res.status(500).send(e);
+  }
+});
+
 router.get('/stat/total', async(req, res, next) => {
   try{
     res.send({

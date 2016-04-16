@@ -15,11 +15,13 @@ import ScrapingStatByYear from './containers/ScrapingStatByYear';
 import List from './containers/List';
 import Detail from './containers/Detail';
 
+import StatByLyr from './containers/StatByLyr';
+
 import {store} from './redux/store';
 import reducers from './redux/reducers';
 import {showIndex, showStat, showUpload} from './redux/actions';
 import {showList, setItemsFilter, showDetail, fetchItem} from './redux/actions';
-
+import * as actions from './redux/actions';
 export default new Router(on => {
 
   // 以下所有页面都使用默认App组件进行框架包裹
@@ -42,6 +44,10 @@ export default new Router(on => {
     store.dispatch(showStat());
     return <StatByYear />;
   });
+
+  on('/stat/byLyr', async () => {
+    return <StatByLyr />;
+  })
 
   /*
   大型设备按年统计数据

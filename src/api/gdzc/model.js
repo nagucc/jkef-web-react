@@ -9,6 +9,7 @@ import {ynu_mongo_url as url, GdzcXlsTitles,
 const RAW_COLLECTION = 'gdzc_raw';
 const MODEL_COLLECTION = 'gdzc_model';
 const STAT_BY_YEAR_COLLECTION = 'gdzc_statByYear';
+const STAT_BY_LYR_COLLECTION = 'gdzc_statByLyr';
 
 
 
@@ -28,6 +29,8 @@ const useRaw = cb => useCollection(RAW_COLLECTION, cb);
 const useModel = cb => useCollection(MODEL_COLLECTION, cb);
 
 const useStatByYear = cb => useCollection(STAT_BY_YEAR_COLLECTION, cb);
+
+const useStatByLyr = cb => useCollection(STAT_BY_LYR_COLLECTION, cb);
 
 const insertIfNotExists = async (col, rowData) => {
   let zc = await col.findOne({Bqh: rowData[GdzcXlsTitles.Bqh]});
@@ -192,6 +195,10 @@ export default class GdzcModel {
     return useStatByYear(col => col.find().toArray());
   }
 
+  async statByLyr() {
+    return useStatByLyr(col => col.find().toArray());
+  }
+
   async scrapingTotalStat() {
     return new Promise((resolve, reject) => {
       useStatByYear(async col => {
@@ -253,6 +260,9 @@ export default class GdzcModel {
     }).skip(parseInt(start)).limit(20).toArray()));
   }
 
+  /*
+  按年统计固定资产的数量和金额
+   */
   async computeStatByYear() {
     let map = function() {
       let year = this.GzrqYear;
@@ -306,10 +316,42 @@ export default class GdzcModel {
           }
           resolve();
         } catch(e) {
-          console.log('!!!!!', e);
           reject(e);
         }
       });
     });
+  }
+
+  async computeStatByLyr() {
+    let map = function() {
+      let year = this.GzrqYear;
+      var thisYear = (new Date()).getYear() + 1900;
+      emit(this['领用人'], {
+        amount: this.Yz,
+        count: 1,
+        dxsbAmount: this.Yz >= 100000 ? this.Yz : 0,
+        dxsbCount: this.Yz >= 100000 ? 1 : 0,
+        scrapingAmount: this.GzrqYear + this.Synx < thisYear ? this.Yz : 0,
+        scrapingCount: this.GzrqYear + this.Synx < thisYear ? 1 : 0
+      });
+    }
+    let reduce = function(key, values) {
+      let amount = 0, count = 0, dxsbAmount = 0, dxsbCount = 0;
+      let scrapingCount = 0, scrapingAmount = 0;
+      values.forEach(val => {
+        amount += val.amount;
+        count += val.count;
+        dxsbAmount += val.dxsbAmount;
+        dxsbCount += val.dxsbCount;
+        scrapingAmount += val.scrapingAmount;
+        scrapingCount += val.scrapingCount;
+      });
+      return {amount, count, dxsbAmount, dxsbCount,
+        scrapingCount, scrapingAmount
+      };
+    }
+    return useModel(col => col.mapReduce(map, reduce, {
+        out: {replace: STAT_BY_LYR_COLLECTION}
+    }));
   }
 }

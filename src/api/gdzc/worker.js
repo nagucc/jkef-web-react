@@ -10,6 +10,11 @@ const computeStatByYear = async () => {
   setTimeout(computeStatByYear, 60000);
 }
 
+const computeStatByLyr = async () => {
+  await gdzc.computeStatByLyr();
+  setTimeout(computeStatByLyr, 60000);
+}
+
 const computeScrapping = async () =>{
   await gdzc.computeScrapping();
   setTimeout(computeScrapping, 60000);
@@ -19,3 +24,5 @@ const computeScrapping = async () =>{
 computeStatByYear();
 
 computeScrapping();
+
+computeStatByLyr();

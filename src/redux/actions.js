@@ -33,7 +33,13 @@ export const FETCH_STAT_BY_YEAR = 'FETCH_GDZC_STAT_BY_YEAR';
 export const fetchStatByYear = createAction(FETCH_STAT_BY_YEAR, async () => {
   const yearStat = await(await fetch('/api/gdzc/stat/byYear')).json();
   return yearStat.data;
-})
+});
+
+export const FETCH_STAT_BY_LYR = 'FETCH_STAT_BY_LYR';
+export const fetchStatByLyr = createAction(FETCH_STAT_BY_LYR, async () => {
+	const lyrStat = await(await fetch('/api/gdzc/stat/byLyr')).json();
+  return lyrStat.data;
+});
 
 export const FETCH_TOTAL_STAT = 'FETCH_GDZC_TOTAL_STAT';
 export const fetchTotalStat = createAction(FETCH_TOTAL_STAT, async () => {

@@ -1,14 +1,6 @@
 import { combineReducers } from 'redux';
 import * as actions from './actions';
-import { siteProfile as profile } from '../config';
 import { handleActions, handleAction } from 'redux-actions';
-import navbar from './reducers/navbar';
-import mainContainer from './reducers/mainContainer';
-import {acceptorList, acceptorDetail} from './reducers/acceptors';
-
-const siteProfile = (state = profile, action) => {
-	return state;
-}
 
 const pageSetting = handleActions({
 	'SHOW_UPLOAD': (state = {
@@ -62,11 +54,12 @@ const mergeXls = handleActions({
   'START_TO_UPLOAD_XLS': (state, action) => ({status: 'processing', file: action.file})
 }, null);
 
+const statByLyr = handleActions({
+	'FETCH_STAT_BY_LYR': (state, action) => action.payload
+}, null);
+
 
 export default combineReducers({
-	navbar,
-	mainContainer,
-	siteProfile,
 	pageSetting,
 	statByYear,
 	total,
@@ -74,5 +67,6 @@ export default combineReducers({
 	itemsFilter,
 	loadingStatus,
 	mergeXls,
-	detail
+	detail,
+	statByLyr
 });
