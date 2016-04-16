@@ -44,6 +44,15 @@ const items = handleActions({
 	}
 }, []);
 
+const loadingStatus = handleActions({
+	'FETCH_ITEMS': (state = 'standby', action) => {
+		return 'end';
+	},
+	'START_LOADING': (state, action) => {
+		return 'loading';
+	}
+}, 'standby');
+
 const mergeXls = handleActions({
   'UPLOAD_XLS': (state, action) => action.payload,
   'START_TO_UPLOAD_XLS': (state, action) => ({status: 'processing', file: action.file})
@@ -58,5 +67,6 @@ export default combineReducers({
 	total,
 	items,
 	itemsFilter,
+	loadingStatus,
 	mergeXls
 });

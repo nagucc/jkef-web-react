@@ -18,7 +18,7 @@ class YearStatInfo extends React.Component {
           <a
             href={this.props.link}
             className="weui_progress_opr">
-            <i className="weui_icon_cancel" />
+            <i className="weui_icon_search" />
           </a>
         </div>
       </div>

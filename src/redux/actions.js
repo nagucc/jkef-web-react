@@ -86,3 +86,8 @@ export const uploadXls = createAction(UPLOAD_XLS, async (file, pwd) => {
   var result = await res.json();
   return result.data;
 })
+
+export const START_LOADING = 'START_LOADING';
+export const startLoading = () => ({
+	type: START_LOADING
+});

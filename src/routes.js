@@ -12,7 +12,7 @@ import StatByYear from './containers/StatByYear';
 import DxsbStatByYear from './containers/DxsbStatByYear';
 import ScrapingStatByYear from './containers/ScrapingStatByYear';
 
-import List from './containers/Gdzc/List';
+import List from './containers/List';
 
 import {store} from './redux/store';
 import reducers from './redux/reducers';
