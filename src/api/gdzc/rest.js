@@ -37,7 +37,18 @@ router.get('/stat/total', async(req, res, next) => {
   } catch(e) {
     res.status(500).send(e);
   }
-})
+});
+
+router.get('/item/:bqh', async(req, res, next) => {
+  try {
+    res.send({
+      ret: 0,
+      data: await gdzc.findByBqh(req.params.bqh)
+    });
+  } catch(e) {
+    res.status(500).send(e.stack);
+  }
+});
 
 router.get('/search', async(req, res, next) => {
   try {

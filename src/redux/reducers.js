@@ -53,10 +53,15 @@ const loadingStatus = handleActions({
 	}
 }, 'standby');
 
+const detail = handleActions({
+	'FETCH_ITEM': (state, action) => action.payload
+}, null);
+
 const mergeXls = handleActions({
   'UPLOAD_XLS': (state, action) => action.payload,
   'START_TO_UPLOAD_XLS': (state, action) => ({status: 'processing', file: action.file})
 }, null);
+
 
 export default combineReducers({
 	navbar,
@@ -68,5 +73,6 @@ export default combineReducers({
 	items,
 	itemsFilter,
 	loadingStatus,
-	mergeXls
+	mergeXls,
+	detail
 });

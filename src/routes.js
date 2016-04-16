@@ -13,11 +13,12 @@ import DxsbStatByYear from './containers/DxsbStatByYear';
 import ScrapingStatByYear from './containers/ScrapingStatByYear';
 
 import List from './containers/List';
+import Detail from './containers/Detail';
 
 import {store} from './redux/store';
 import reducers from './redux/reducers';
 import {showIndex, showStat, showUpload} from './redux/actions';
-import {showList, setItemsFilter} from './redux/actions';
+import {showList, setItemsFilter, showDetail, fetchItem} from './redux/actions';
 
 export default new Router(on => {
 
@@ -66,6 +67,14 @@ export default new Router(on => {
     store.dispatch(showList());
     return <List />;
   });
+
+  /*
+  显示固定资产详细信息
+  */
+  on('/item/:bqh', async (req) => {
+    store.dispatch(fetchItem(req.params.bqh));
+    return <Detail />;
+  })
 
   on('/merge-xls', async () => {
     store.dispatch(showUpload({

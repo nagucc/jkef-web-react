@@ -91,3 +91,9 @@ export const START_LOADING = 'START_LOADING';
 export const startLoading = () => ({
 	type: START_LOADING
 });
+
+export const FETCH_ITEM = 'FETCH_ITEM';
+export const fetchItem = createAction(FETCH_ITEM, async bqh => {
+	let result = await(await fetch(`/api/gdzc/item/${bqh}`)).json();
+	return result.data;
+});
