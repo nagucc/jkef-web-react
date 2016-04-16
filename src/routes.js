@@ -9,6 +9,9 @@ import Upload from './containers/Upload';
 
 import Index from './containers/Index';
 import StatByYear from './containers/StatByYear';
+import DxsbStatByYear from './containers/DxsbStatByYear';
+import ScrapingStatByYear from './containers/ScrapingStatByYear';
+
 import List from './containers/Gdzc/List';
 
 import {store} from './redux/store';
@@ -37,6 +40,22 @@ export default new Router(on => {
   on('/stat/byYear', async() =>{
     store.dispatch(showStat());
     return <StatByYear />;
+  });
+
+  /*
+  大型设备按年统计数据
+   */
+  on('/statDxsb/byYear', async() =>{
+    store.dispatch(showStat());
+    return <DxsbStatByYear />;
+  });
+
+  /*
+  大型设备按年统计数据
+   */
+  on('/statScraping/byYear', async() =>{
+    store.dispatch(showStat());
+    return <ScrapingStatByYear />;
   });
 
   /*

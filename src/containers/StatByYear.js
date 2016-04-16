@@ -19,8 +19,10 @@ const mapStateToProps = (state, ownProps) => {
       amount: item.value.amount,
       count: item.value.amount,
       pamount: percentage(item.value.amount/maxAmount),
-      pcount: percentage(item.value.count/maxCount)
-    }))
+      pcount: percentage(item.value.count/maxCount),
+      link: `/item?year=${item._id}`
+    })),
+    title: '全部资产统计'
   }
 }
 export default connect(mapStateToProps)(StatByYear);
