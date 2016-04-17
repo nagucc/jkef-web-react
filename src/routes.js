@@ -16,6 +16,8 @@ import List from './containers/List';
 import Detail from './containers/Detail';
 
 import StatByLyr from './containers/StatByLyr';
+import DxsbStatByLyr from './containers/DxsbStatByLyr';
+import ScrapingStatByLyr from './containers/ScrapingStatByLyr';
 
 import {store} from './redux/store';
 import reducers from './redux/reducers';
@@ -58,13 +60,16 @@ export default new Router(on => {
   });
 
   /*
-  大型设备按年统计数据
+  待报废资产设备按年统计数据
    */
   on('/statScraping/byYear', async() =>{
     store.dispatch(showStat());
     return <ScrapingStatByYear />;
   });
 
+  on('/statDxsb/byLyr', async () => <DxsbStatByLyr />);
+
+  on('/statScraping/byLyr', async () => <ScrapingStatByLyr />);
   /*
   根据查询条件显示固定资产条目
    */
