@@ -38,7 +38,7 @@ class Index extends React.Component {
 
           <div className="weui_cells_title">大型设备</div>
           <div className="weui_cells weui_cells_access">
-            <a className="weui_cell" href="javascript:;">
+            <a className="weui_cell" href="/items?onlyDxsb=true">
               <div className="weui_cell_bd weui_cell_primary">
                 <p>
                   原值
@@ -46,7 +46,7 @@ class Index extends React.Component {
               </div>
               <div className="weui_cell_ft">{accounting.formatMoney(this.props.dxsbAmount, '¥')}元</div>
             </a>
-            <a className="weui_cell" href="javascript:;">
+            <a className="weui_cell" href="/items?onlyDxsb=true">
               <div className="weui_cell_bd weui_cell_primary">
                 <p>
                   数量
@@ -58,7 +58,7 @@ class Index extends React.Component {
 
           <div className="weui_cells_title">待报废资产</div>
           <div className="weui_cells weui_cells_access">
-            <a className="weui_cell" href="javascript:;">
+            <a className="weui_cell" href="/items?onlyScraping=true">
               <div className="weui_cell_bd weui_cell_primary">
                 <p>
                   原值
@@ -66,7 +66,7 @@ class Index extends React.Component {
               </div>
               <div className="weui_cell_ft">{accounting.formatMoney(this.props.scrapingAmount, '¥')}元</div>
             </a>
-            <a className="weui_cell" href="javascript:;">
+            <a className="weui_cell" href="/items?onlyScraping=true">
               <div className="weui_cell_bd weui_cell_primary">
                 <p>
                   数量
@@ -76,7 +76,7 @@ class Index extends React.Component {
             </a>
           </div>
 
-          <div className="weui_cells_title">管理人及领用人</div>
+          {/*<div className="weui_cells_title">管理人及领用人</div>
           <div className="weui_cells weui_cells_access">
             <a className="weui_cell" href="javascript:;">
               <div className="weui_cell_bd weui_cell_primary">
@@ -94,7 +94,7 @@ class Index extends React.Component {
               </div>
               <div className="weui_cell_ft">{this.props.lyrs.length}名</div>
             </a>
-          </div>
+          </div>*/}
         </div>
       </div>
 
