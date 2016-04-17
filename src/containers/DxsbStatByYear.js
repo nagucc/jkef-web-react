@@ -17,7 +17,7 @@ const mapStateToProps = (state, ownProps) => {
     stat: state.statByYear.map(item => ({
       year: item._id,
       amount: item.value.dxsbAmount,
-      count: item.value.dxsbAmount,
+      count: item.value.dxsbCount,
       pamount: percentage(item.value.dxsbAmount/maxAmount),
       pcount: percentage(item.value.dxsbCount/maxCount),
       link: `/items?year=${item._id}&onlyDxsb=true`
