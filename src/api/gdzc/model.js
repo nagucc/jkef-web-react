@@ -354,4 +354,60 @@ export default class GdzcModel {
         out: {replace: STAT_BY_LYR_COLLECTION}
     }));
   }
+
+  async createIndexes() {
+
+    // 为Raw集合创建索引
+    var indexesForRaw = useRaw(col => col.createIndexes([
+      // Bqh 字段的索引
+      {
+        key: { Bqh: 1 },
+        name: 'Index for Bqh'
+      },
+      // '设备名称'字段的索引
+      {
+        key: {'设备名称': 1},
+        name: 'Index for sbmc'
+      },
+      // '领用人'字段索引
+      {
+        key: {'领用人': 1},
+        name: 'Index for lyr'
+      }
+    ]));
+
+    // 为Model集合创建索引
+    var indexesForModel = useModel(col => col.createIndexes([
+      // Bqh 字段的索引
+      {
+        key: { Bqh: 1 },
+        name: 'Index for Bqh'
+      },
+      // '设备名称'字段的索引
+      {
+        key: {'设备名称': 1},
+        name: 'Index for sbmc'
+      },
+      // '领用人'字段索引
+      {
+        key: {'领用人': 1},
+        name: 'Index for lyr'
+      },
+      // search所用字段的索引
+      {
+        key: {
+          Bqh: 1,
+          '设备名称': 1,
+          '领用人': 1,
+          '管理人': 1,
+          Status: 1,
+          Yz: 1,
+          _id: 1
+        },
+        name: 'Index for search'
+      }
+    ]));
+
+    return Promise.all(indexesForRaw, indexesForModel);
+  }
 }

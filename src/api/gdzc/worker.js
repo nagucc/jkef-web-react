@@ -26,3 +26,6 @@ computeStatByYear();
 computeScrapping();
 
 computeStatByLyr();
+
+// 创建数据库索引
+gdzc.createIndexes();
