@@ -2,6 +2,7 @@
 import React from 'react';
 import accounting from 'accounting';
 import * as actions from '../redux/actions';
+import LoadingToast from './LoadingToast';
 
 class Index extends React.Component {
 
@@ -76,7 +77,7 @@ class Index extends React.Component {
             </a>
           </div>
 
-          {/*<div className="weui_cells_title">管理人及领用人</div>
+          <div className="weui_cells_title">管理人及领用人</div>
           <div className="weui_cells weui_cells_access">
             <a className="weui_cell" href="javascript:;">
               <div className="weui_cell_bd weui_cell_primary">
@@ -94,8 +95,9 @@ class Index extends React.Component {
               </div>
               <div className="weui_cell_ft">{this.props.lyrs.length}名</div>
             </a>
-          </div>*/}
+          </div>
         </div>
+        <LoadingToast show={this.props.loading} />
       </div>
 
     );

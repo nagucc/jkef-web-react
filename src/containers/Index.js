@@ -8,8 +8,8 @@ const mapStateToProps = (state, ownProps) => {
     lyrs: [], glrs: [],
     scrapingAmount: 0, scrapingCount: 0
   };
-  if(!state.total) return total;
+  if(!state.total) return Object.assign({}, total, {loading: true});
 
-  return state.total;
+  return Object.assign({}, state.total, {loading: false});
 }
 export default connect(mapStateToProps)(Index);
