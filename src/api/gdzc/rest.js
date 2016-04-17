@@ -28,18 +28,29 @@ router.get('/stat/byLyr', async (req, res, next) => {
 });
 
 router.get('/stat/total', async(req, res, next) => {
-  try{
+  let amountPromise = gdzc.amount();
+  let countPromise = gdzc.count();
+  let lyrPromise = gdzc.getLyrs();
+  let glrPromise = gdzc.getGlrs();
+  let dxsbTotalStatPromise = gdzc.dxsbTotalStat();
+  let scrapingTotalStatPromise = gdzc.scrapingTotalStat();
+
+  try {
+    var result = await Promise.all([amountPromise,
+      countPromise,
+      lyrPromise,
+      glrPromise,
+      dxsbTotalStatPromise,
+      scrapingTotalStatPromise]);
     res.send({
       ret: 0,
       data: {
-        amount: await gdzc.amount(),
-        count: await gdzc.count(),
-        lyrs: [],
-        glrs: [],
-        // lyrs: await gdzc.getLyrs(),
-        // glrs: await gdzc.getGlrs(),
-        ... await gdzc.dxsbTotalStat(),
-        ... await gdzc.scrapingTotalStat()
+        amount: result[0],
+        count: result[1],
+        lyrs: result[2],
+        glrs: result[3],
+        ...result[4],
+        ...result[5]
       }
     });
   } catch(e) {

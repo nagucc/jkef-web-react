@@ -147,7 +147,7 @@ export default class GdzcModel {
    * @return {Promise} 领用人名称列表
    */
   async getLyrs() {
-    return await useRaw(async col => await col.distinct(GdzcXlsTitles.Lyr));
+    return await useStatByLyr(async col => await col.distinct('_id'));
   }
 
   /**
