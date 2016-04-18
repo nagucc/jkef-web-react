@@ -257,7 +257,7 @@ export default class GdzcModel {
     }
     return useModel(col => (col.find(query).project({
 
-    }).skip(parseInt(start)).limit(20).toArray()));
+    }).sort({Bqh:1}).skip(parseInt(start)).limit(20).toArray()));
   }
 
   /*
