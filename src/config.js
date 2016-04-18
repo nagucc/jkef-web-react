@@ -19,7 +19,7 @@ export const title = '固定资产管理';
 export const wxentConfig = {
   corpId: process.env.WXE_CORPID,
   secret: process.env.WXE_SECRET,
-  angetId: process.env.WXE_AGENTID,
+  angetId: process.env.WXE_AGENTID || 5,
   adminRoleId: process.env.ADMIN_ROLE_ID
 };
 
@@ -44,6 +44,7 @@ export const wxentAuthConfig = {
 export const wxentJkefConfig = {
   acceptorsDeptId: process.env.JKEF_ACCEPTORS_DEPT_ID || 1
 };
+
 
 export const redisConfig = {
   host: process.env.HOST_REDIS || 'localhost',

@@ -51,7 +51,7 @@ server.use('/public',express.static('build/public'));
 server.use('/api/auth/wx-ent', require('./api/auth/wx-ent'));
 server.use('/api/wx-ent/signup', require('./api/wx-ent/signup'));
 server.use('/api/gdzc', require('./api/gdzc/rest'));
-
+server.use('/api/gdzc-wx-ent', require('./api/gdzc/wx-ent'));
 // 开始执行后台操作
 require('./api/gdzc/worker');
 
