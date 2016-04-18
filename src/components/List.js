@@ -52,11 +52,7 @@ class List extends Component {
     });
     this.props.dispatch(actions.startLoading());
     this.props.dispatch(actions.setItemsFilter(nextFilter));
-    this.fetchItems();
-  }
-
-  fetchItems () {
-    this.props.dispatch(actions.fetchItems(this.props.filter));
+    this.props.dispatch(actions.fetchItems(nextFilter));
   }
 
   search () {
