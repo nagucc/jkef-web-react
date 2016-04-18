@@ -22,7 +22,7 @@ class ErrorPage extends Component {
   };
 
   componentWillMount() {
-    this.context.onSetTitle(title);
+    // this.context.onSetTitle(title);
   }
 
   render() {

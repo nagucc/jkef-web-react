@@ -20,7 +20,7 @@ const mapStateToProps = (state, ownProps) => {
       count: item.value.count,
       pamount: percentage(item.value.amount/maxAmount),
       pcount: percentage(item.value.count/maxCount),
-      link: `/item?year=${item._id}`
+      link: `/items?year=${item._id}`
     })),
     title: '全部资产统计'
   }
