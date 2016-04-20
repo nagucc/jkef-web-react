@@ -2,8 +2,8 @@ import React, { PropTypes, Component } from 'react'
 import {findDOMNode} from 'react-dom';
 import * as actions from '../redux/actions';
 import ListItem from './ListItem';
+import {SearchBar, Button} from 'react-weui';
 
-import {ButtonGroup, Button, DropdownButton, MenuItem, Input, ButtonToolbar} from 'react-bootstrap';
 
 class List extends Component {
   static propTypes = {
@@ -15,33 +15,6 @@ class List extends Component {
   }
 
   componentDidMount() {
-
-    var searchBar = findDOMNode(this.refs.search_bar);
-    var searchInput = findDOMNode(this.refs.search_input);
-    var searchText = findDOMNode(this.refs.search_text);
-    var searchCancel = findDOMNode(this.refs.search_cancel);
-    var searchClear = findDOMNode(this.refs.search_clear);
-    // 为搜索输入框添加事件
-    searchInput.addEventListener('focus', () => {
-      searchBar.classList.add('weui_search_focusing');
-      if(searchInput.value) searchText.style.setProperty('display', 'none');
-      else searchText.style.removeProperty('display');
-    });
-    searchInput.addEventListener('blur', () => {
-      searchBar.classList.remove('weui_search_focusing');
-    });
-
-    // 为‘取消’按钮添加事件
-    searchCancel.addEventListener('touchend', () => {
-      searchBar.classList.remove('weui_search_focusing');
-      searchInput.value = '';
-    });
-
-    // 为‘clear’图标添加事件
-    searchClear.addEventListener('touchend', () => {
-      searchInput.value = '';
-    });
-
     this.props.dispatch(actions.startLoading());
     this.props.dispatch(actions.fetchItems(this.props.filter));
   }
@@ -55,9 +28,9 @@ class List extends Component {
     this.props.dispatch(actions.fetchItems(nextFilter));
   }
 
-  search () {
+  search (text) {
     var nextFilter = Object.assign({}, this.props.filter, {
-      text: this.refs.search_input.value,
+      text,
       start: 0
     });
     this.props.dispatch(actions.startLoading());
@@ -67,42 +40,13 @@ class List extends Component {
 
 
   render () {
-
     return (
       <div className="searchbar">
         <div className="hd">
           <h1 className="page_title">{this.props.title}</h1>
         </div>
         <div className="bd">
-          <div className="weui_search_bar " ref="search_bar">
-            <form className="weui_search_outer">
-              <div className="weui_search_inner">
-                <i className="weui_icon_search" />
-                <input
-                  type="search"
-                  className="weui_search_input"
-                  id="search_input"
-                  placeholder="名称 / 标签号"
-                  onChange = {this.search.bind(this)}
-                  required ref="search_input"/>
-                <a
-                  href="javascript:"
-                  className="weui_icon_clear"
-                  ref="search_clear" />
-              </div>
-              <label
-                htmlFor="search_input"
-                className="weui_search_text"
-                id="search_text" ref="search_text">
-                <i className="weui_icon_search" />
-                <span>搜索名称 / 标签号</span>
-              </label>
-            </form>
-            <a
-              href="javascript:"
-              className="weui_search_cancel"
-              ref="search_cancel">取消</a>
-          </div>
+          <SearchBar placeholder="搜索名称/标签号" onChange={this.search.bind(this)}/>
           <div className="weui_panel weui_panel_access">
             <div className="weui_panel_bd">
               {
