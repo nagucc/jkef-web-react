@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react'
 import * as actions from '../redux/actions';
 import LyrStatInfo from './LyrStatInfo';
-import LoadingToast from './LoadingToast';
+import {Toast} from 'react-weui';
 
 class StatByLyr extends React.Component {
   componentDidMount() {
@@ -23,7 +23,9 @@ class StatByLyr extends React.Component {
             })
           }
         </div>
-        <LoadingToast show = {this.props.loading} />
+        <Toast show={this.props.loading} icon="loading">
+                数据加载中...
+        </Toast>
       </div>
     );
   }

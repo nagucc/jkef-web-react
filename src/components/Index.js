@@ -2,7 +2,7 @@
 import React from 'react';
 import accounting from 'accounting';
 import * as actions from '../redux/actions';
-import LoadingToast from './LoadingToast';
+import {Toast, CellsTitle, CellBody,Cell, CellFooter, Cells} from 'react-weui';
 
 class Index extends React.Component {
 
@@ -11,93 +11,65 @@ class Index extends React.Component {
 	}
 
   render() {
+    let {amount, count, dxsbAmount, dxsbCount, scrapingAmount, scrapingCount, lyrs, glrs} = this.props;
     return (
       <div className="cell">
         <div className="hd">
           <h1 className="page_title">概览</h1>
         </div>
         <div className="bd">
-          <div className="weui_cells_title">全部资产</div>
-          <div className="weui_cells weui_cells_access">
-            <a className="weui_cell" href="/items">
-              <div className="weui_cell_bd weui_cell_primary">
-                <p>
-                  原值
-                </p>
-              </div>
-              <div className="weui_cell_ft">{accounting.formatMoney(this.props.amount, '¥')}元</div>
-            </a>
-            <a className="weui_cell" href="/items">
-              <div className="weui_cell_bd weui_cell_primary">
-                <p>
-                  数量
-                </p>
-              </div>
-              <div className="weui_cell_ft">{accounting.formatNumber(this.props.count)}项</div>
-            </a>
-          </div>
+          <CellsTitle>全部资产</CellsTitle>
 
-          <div className="weui_cells_title">大型设备</div>
-          <div className="weui_cells weui_cells_access">
-            <a className="weui_cell" href="/items?onlyDxsb=true">
-              <div className="weui_cell_bd weui_cell_primary">
-                <p>
-                  原值
-                </p>
-              </div>
-              <div className="weui_cell_ft">{accounting.formatMoney(this.props.dxsbAmount, '¥')}元</div>
-            </a>
-            <a className="weui_cell" href="/items?onlyDxsb=true">
-              <div className="weui_cell_bd weui_cell_primary">
-                <p>
-                  数量
-                </p>
-              </div>
-              <div className="weui_cell_ft">{accounting.formatNumber(this.props.dxsbCount)}项</div>
-            </a>
-          </div>
+          <Cells access>
+            <Cell href="/items">
+              <CellBody>原值</CellBody>
+              <CellFooter>{accounting.formatMoney(amount, '¥')}元</CellFooter>
+            </Cell>
+            <Cell href="/items">
+              <CellBody>数量</CellBody>
+              <CellFooter>{accounting.formatNumber(count)}项</CellFooter>
+            </Cell>
+          </Cells>
 
-          <div className="weui_cells_title">待报废资产</div>
-          <div className="weui_cells weui_cells_access">
-            <a className="weui_cell" href="/items?onlyScraping=true">
-              <div className="weui_cell_bd weui_cell_primary">
-                <p>
-                  原值
-                </p>
-              </div>
-              <div className="weui_cell_ft">{accounting.formatMoney(this.props.scrapingAmount, '¥')}元</div>
-            </a>
-            <a className="weui_cell" href="/items?onlyScraping=true">
-              <div className="weui_cell_bd weui_cell_primary">
-                <p>
-                  数量
-                </p>
-              </div>
-              <div className="weui_cell_ft">{accounting.formatNumber(this.props.scrapingCount)}项</div>
-            </a>
-          </div>
+          <CellsTitle>大型设备</CellsTitle>
+          <Cells access>
+            <Cell href="/items?onlyDxsb=true">
+              <CellBody>原值</CellBody>
+              <CellFooter>{accounting.formatMoney(dxsbAmount, '¥')}元</CellFooter>
+            </Cell>
+            <Cell>
+              <CellBody>数量</CellBody>
+              <CellFooter>{accounting.formatNumber(dxsbCount)}项</CellFooter>
+            </Cell>
+          </Cells>
 
-          <div className="weui_cells_title">管理人及领用人</div>
-          <div className="weui_cells weui_cells_access">
-            <a className="weui_cell" href="javascript:;">
-              <div className="weui_cell_bd weui_cell_primary">
-                <p>
-                  管理人
-                </p>
-              </div>
-              <div className="weui_cell_ft">{this.props.glrs.length}名</div>
-            </a>
-            <a className="weui_cell" href="javascript:;">
-              <div className="weui_cell_bd weui_cell_primary">
-                <p>
-                  领用人
-                </p>
-              </div>
-              <div className="weui_cell_ft">{this.props.lyrs.length}名</div>
-            </a>
-          </div>
+          <CellsTitle>待报废资产</CellsTitle>
+          <Cells access>
+            <Cell href="/items?onlyScraping=true">
+              <CellBody>原值</CellBody>
+              <CellFooter>{accounting.formatMoney(scrapingAmount, '¥')}元</CellFooter>
+            </Cell>
+            <Cell>
+              <CellBody>数量</CellBody>
+              <CellFooter>{accounting.formatNumber(scrapingCount)}项</CellFooter>
+            </Cell>
+          </Cells>
+
+          <CellsTitle>管理人及领用人</CellsTitle>
+          <Cells access>
+            <Cell href="javascript:;">
+              <CellBody>管理人</CellBody>
+              <CellFooter>{glrs.length}名</CellFooter>
+            </Cell>
+            <Cell href="/stat/ByLyr">
+              <CellBody>领用人</CellBody>
+              <CellFooter>{lyrs.length}名</CellFooter>
+            </Cell>
+          </Cells>
         </div>
-        <LoadingToast show={this.props.loading} />
+        <Toast show={this.props.loading} icon="loading">
+                数据加载中...
+        </Toast>
       </div>
 
     );
