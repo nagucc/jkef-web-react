@@ -1,28 +1,28 @@
 import React, { PropTypes } from 'react'
+import {CellsTitle, Cells, Cell, CellBody, CellFooter} from 'react-weui';
 
 class Detail extends React.Component {
   render () {
+    let {title, items} = this.props;
     return (
       <div className="cell">
         <div className="hd">
-          <h1 className="page_title">{this.props.title}</h1>
+          <h1 className="page_title">{title}</h1>
         </div>
         <div className="bd">
-          <div className="weui_cells_title">{this.props['设备名称']}</div>
-          <div className="weui_cells">
+          <CellsTitle>{this.props['设备名称']}</CellsTitle>
+          <Cells>
             {
-              this.props.items.map((item, i) => {
+              items.map((item, i) => {
                 return (
-                  <div className="weui_cell" key={i}>
-                    <div className="weui_cell_bd weui_cell_primary">
-                      <p>{item.name}</p>
-                    </div>
-                    <div className="weui_cell_ft">{item.value}</div>
-                  </div>
+                  <Cell key={i}>
+                    <CellBody>{item.name}</CellBody>
+                    <CellFooter>{item.value}</CellFooter>
+                  </Cell>
                 );
               })
             }
-          </div>
+          </Cells>
         </div>
       </div>
     )
