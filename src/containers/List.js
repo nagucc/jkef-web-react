@@ -17,14 +17,9 @@ const mapStateToProps = (state, ownProps) => {
     items: state.items,
     title: (state.itemsFilter && state.itemsFilter.year)
             ? `${title}[${state.itemsFilter.year}]`
-            : title
+            : title,
+    showToast: state.loadingStatus === 'loading'
   };
-  if(state.loadingStatus !== 'loading')
-    Object.assign(result, {
-      loadingToastStyle: {
-        display: 'none'
-      }
-    });
   return result;
 };
 
